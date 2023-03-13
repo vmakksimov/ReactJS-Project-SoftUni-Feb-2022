@@ -12,7 +12,6 @@ export const Logout = () => {
         AuthService.logout(user.accessToken)
             .then(() => {
                 userLogout()
-                console.log('works logout')
                 navigate('/')
             })
             .catch(() => {

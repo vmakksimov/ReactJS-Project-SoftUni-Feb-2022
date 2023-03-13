@@ -16,8 +16,6 @@ export const Login = () => {
 
         login(email, password)
             .then(authData => {
-                console.log('haha')
-                console.log(authData)
                  userLogin(authData)
                 navigate('/')
             })
