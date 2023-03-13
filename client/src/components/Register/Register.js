@@ -15,20 +15,24 @@ export const Register = () => {
         e.preventDefault()
 
         const formData = new FormData(e.target)
-        const username = formData.get('username')
+        const email = formData.get('email')
         const password = formData.get('password')
+        const username = formData.get('user_imageUrl')
+        const image = formData.get('username')
         const confirmPassword = formData.get('re_password')
 
         
         console.log(password)
         console.log(confirmPassword)
+        console.log(formData)
+        console.log(e.target)
         
         if (password !== confirmPassword){
             return;
         }
         console.log('works')
 
-        AuthService.register(username, password)
+        AuthService.register(email, password, username, image)
             .then(res => {
                 console.log(res)
                 navigate('/')
