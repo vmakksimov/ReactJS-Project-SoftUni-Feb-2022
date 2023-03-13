@@ -12,8 +12,7 @@ export const Login = () => {
     const onLogin = (e) => {
         e.preventDefault()
         const {email, password } = Object.fromEntries(new FormData(e.target))
-        console.log(email)
-        console.log(password)
+      
 
         login(email, password)
             .then(authData => {

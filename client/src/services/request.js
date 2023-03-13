@@ -14,6 +14,7 @@ export const request = async (method, url, data) => {
                 body: JSON.stringify(data)
             });
         }
+        
         const response = await buildRequest;
         const result = await response.json()
 

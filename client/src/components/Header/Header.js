@@ -7,8 +7,6 @@ export const Header = () => {
 
     const { user } = useContext(AuthContext)
 
-    console.log(user)
-
     return (
         <div id="header-wrap">
 
@@ -28,24 +26,24 @@ export const Header = () => {
                                 <div className="main-menu stellarnav">
                                     <ul className="menu-list">
                                         <li className="menu-item active">
-                                            <a href="/" data-effect="Home">
+                                            <Link to="/" data-effect="Home">
                                                 Home
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li className="menu-item">
-                                            <a href="#about" className="nav-link" data-effect="About">
+                                            <Link to="#about" className="nav-link" data-effect="About">
                                                 About
-                                            </a>
+                                            </Link>
                                         </li>
 
                                         <li className="menu-item">
-                                            <a
-                                                href="#latest-blog"
+                                            <Link
+                                                to="#latest-blog"
                                                 className="nav-link"
                                                 data-effect="Articles"
                                             >
                                                 Books
-                                            </a>
+                                            </Link>
                                         </li>
                                         {user.accessToken
                                             ? <li className="menu-item">
@@ -80,13 +78,13 @@ export const Header = () => {
 
 
                                         <li className="menu-item">
-                                            <a
-                                                href="#contact"
+                                            <Link
+                                                to="#contact"
                                                 className="nav-link"
                                                 data-effect="Contact"
                                             >
                                                 Contact
-                                            </a>
+                                            </Link>
                                         </li>
                                     </ul>
                                     <div className="hamburger">
