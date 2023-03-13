@@ -19,7 +19,7 @@ export const Login = () => {
             .then(authData => {
                 console.log('haha')
                 console.log(authData)
-                // userLogin(authData)
+                 userLogin(authData)
                 navigate('/')
             })
             .catch(() => {

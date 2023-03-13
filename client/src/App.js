@@ -24,7 +24,7 @@ function App() {
     }
 
     return (
-        <AuthContext.Provider value={{user, userLogin}}>
+        <AuthContext.Provider value={{user, userLogin, userLogout}}>
 
             <div className="App">
                 <Header />
