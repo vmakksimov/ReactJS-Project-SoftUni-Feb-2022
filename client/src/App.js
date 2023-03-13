@@ -9,11 +9,12 @@ import { Login } from './components/Login/Login';
 import { useState } from 'react'
 import { AuthContext } from './context/AuthContext';
 import { Logout } from './components/Logout/Logout';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 
 function App() {
 
-    const [user, setAuth] = useState({})
+    const [user, setAuth] = useLocalStorage('auth' ,{})
 
     const userLogin = (authData) => {
         setAuth(authData)
