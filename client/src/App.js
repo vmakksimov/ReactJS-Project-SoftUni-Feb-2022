@@ -6,28 +6,44 @@ import { Footer } from './components/Footer/Footer';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Register } from './components/Register/Register';
 import { Login } from './components/Login/Login';
+import { useState } from 'react'
+import { AuthContext } from './context/AuthContext';
+import { Logout } from './components/Logout/Logout';
 
 
 function App() {
+
+    const [user, setAuth] = useState({})
+
+    const userLogin = (authData) => {
+        setAuth(authData)
+    }
+
+    const userLogout = () => {
+        setAuth({})
+    }
+
     return (
+        <AuthContext.Provider value={{user, userLogin}}>
 
-        <div className="App">
-            <Header />
-            {/*header-wrap*/}
+            <div className="App">
+                <Header />
+                {/*header-wrap*/}
 
-            <main id='main'>
-                <Routes>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/register' element={<Register />} />
-                    <Route path='/login' element={<Login />} />
+                <main id='main'>
+                    <Routes>
+                        <Route path='/' element={<Home />} />
+                        <Route path='/register' element={<Register />} />
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/logout' element={<Logout />} />
 
-                </Routes>
+                    </Routes>
 
-                <Footer />
-            </main>
-        </div>
+                    <Footer />
+                </main>
+            </div>
 
-
+        </AuthContext.Provider>
     );
 }
 

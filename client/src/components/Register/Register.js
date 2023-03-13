@@ -1,13 +1,15 @@
 import "./Register.css"
 
-import { useState } from "react"
+import { useState, useContext } from "react"
 import * as AuthService from '../../services/authService'
 import { Navigate, useNavigate } from "react-router-dom"
+import { AuthContext } from "../../context/AuthContext"
 
 export const Register = () => {
 
     const [user, setState] = useState([]);
     const navigate = useNavigate();
+    const { userLogin } = useContext(AuthContext);
 
 
 
@@ -17,26 +19,29 @@ export const Register = () => {
         const formData = new FormData(e.target)
         const email = formData.get('email')
         const password = formData.get('password')
-        const username = formData.get('user_imageUrl')
-        const image = formData.get('username')
+        const username = formData.get('username')
+        const image = formData.get('user_imageUrl')
+        const usertype = formData.get('user_type')
+        const first_name = formData.get('first_name')
+        const last_name = formData.get('last_name')
         const confirmPassword = formData.get('re_password')
 
-        
-        console.log(password)
-        console.log(confirmPassword)
-        console.log(formData)
-        console.log(e.target)
-        
+
+
         if (password !== confirmPassword){
             return;
         }
         console.log('works')
 
-        AuthService.register(email, password, username, image)
+        AuthService.register(email, password, username, image, first_name, last_name, usertype)
             .then(res => {
                 console.log(res)
+                userLogin(res)
                 navigate('/')
                 
+            })
+            .catch(() => {
+                navigate('/404')
             })
 
     }

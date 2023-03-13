@@ -60,13 +60,13 @@ export const Header = () => {
                                             </li>
 
                                             <li className="menu-item">
-                                                <a
-                                                    href="#latest-blog"
+                                                <Link
+                                                    to="/logout"
                                                     className="nav-link"
                                                     data-effect="Articles"
                                                 >
                                                     Logout
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li className="menu-item">
                                                 <a

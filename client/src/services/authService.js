@@ -2,5 +2,19 @@ import * as request from './request'
 
 const baseUrl = 'http://localhost:3030/users'
 
-export const login = (username, password) => request.post(`${baseUrl}/login`, { username, password })
-export const register = (email, password, username, image) => request.post(`${baseUrl}/register`, { email, password, username, image })
+export const login = (email, password) => request.post(`${baseUrl}/login`, { email, password })
+export const register = (email, password, username, image, first_name, last_name, usertype) => request.post(`${baseUrl}/register`, { email, password, username, image, first_name, last_name, usertype })
+export const logout = async (accessToken) => {
+    try {
+        const response = await fetch(`${baseUrl}/logout`, {
+            headers: {
+                'X-Authorization': accessToken
+            }
+        })
+
+        return response;
+
+    } catch (error) {
+
+    }
+}
