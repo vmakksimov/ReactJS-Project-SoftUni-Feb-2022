@@ -1,0 +1,42 @@
+[
+    {
+        "_id": 1,
+        "title": "It",
+        "author": "Stephen King",
+        "image": "images/it.jpg",
+        "year": 1986,
+        "reviews": {}
+    },
+    {
+        "_id": 2,
+        "title": "The Institute",
+        "author": "Stephen King",
+        "image": "images/institute.jpg",
+        "year": 2019,
+        "reviews": {}
+    },
+    {
+        "_id": 3,
+        "title": "Anna Karenina",
+        "author": "Tolstoy, Leo",
+        "image": "images/anna.jpg",
+        "year": 1875,
+        "reviews": {}
+    },
+    {
+        "_id": 4,
+        "title": "Harry Potter",
+        "author": "Rowling, J.K.",
+        "image": "images/harry.jpg",
+        "year": 2000,
+        "reviews": {}
+    },
+    {
+        "_id": 5,
+        "title": "One Hundred Years of Solitude",
+        "author": "Marquez",
+        "image": "images/solitude.jpg",
+        "year": 1967,
+        "reviews": {}
+    }
+]

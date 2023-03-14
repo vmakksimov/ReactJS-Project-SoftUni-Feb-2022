@@ -6,15 +6,17 @@ import { Footer } from './components/Footer/Footer';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Register } from './components/Register/Register';
 import { Login } from './components/Login/Login';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AuthContext } from './context/AuthContext';
 import { Logout } from './components/Logout/Logout';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import * as bookService from './services/bookService'
 
 
 function App() {
 
     const [user, setAuth] = useLocalStorage('auth' ,{})
+    const [books, setBook] = useState([])
 
     const userLogin = (authData) => {
         setAuth(authData)
@@ -23,6 +25,11 @@ function App() {
     const userLogout = () => {
         setAuth({})
     }
+
+    useEffect(() => {
+        bookService.getBooks()
+            .then(result => setBook(Object.values(result)))
+    })
 
     return (
         <AuthContext.Provider value={{user, userLogin, userLogout}}>
@@ -33,7 +40,7 @@ function App() {
 
                 <main id='main'>
                     <Routes>
-                        <Route path='/' element={<Home />} />
+                        <Route path='/' element={<Home books={books} />} />
                         <Route path='/register' element={<Register />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/logout' element={<Logout />} />
