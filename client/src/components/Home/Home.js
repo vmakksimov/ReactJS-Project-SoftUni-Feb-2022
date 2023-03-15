@@ -21,7 +21,7 @@ export const Home = ({ books }) => {
                                             alt="book"
                                             className="single-image"
                                         />
-                                        <a href=""><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                        <a href=""><i className="fa fa-heart-o" aria-hidden="true"></i></a>
                                     </figure>
                                 </div>
                                 <div className="col-md-6">
