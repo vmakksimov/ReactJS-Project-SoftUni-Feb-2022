@@ -3,6 +3,16 @@ export const Home = ({ books }) => {
 
     // const firstOne = books.find(x => x._id == 1)
 
+    const onLike = (e) => {
+        e.preventDefault()
+
+    }
+
+
+    const initialGames = []
+    for (let i = 0; i <= 3; i++) {
+        initialGames.push(books[i])
+    }
 
 
     return (
@@ -17,11 +27,11 @@ export const Home = ({ books }) => {
                                     <figure className="products-thumb">
                                         <img
                                             src='images/it.jpg'
-                                           
+
                                             alt="book"
                                             className="single-image"
                                         />
-                                        <a href=""><i className="fa fa-heart-o" aria-hidden="true"></i></a>
+                                        <a href=""><i className="fa fa-heart-o" aria-hidden="true" onClick={onLike}></i></a>
                                     </figure>
                                 </div>
                                 <div className="col-md-6">
@@ -82,7 +92,7 @@ export const Home = ({ books }) => {
                             <div className="tab-content">
                                 <div id="all-genre" data-tab-content="" className="active">
                                     <div className="row">
-                                        {books.slice(1).map(x => <BookItem key={x._id} book={x} />)}
+                                        {books.slice(1, 5).map(x => <BookItem key={x._id} book={x} />)}
 
                                     </div>
                                 </div>

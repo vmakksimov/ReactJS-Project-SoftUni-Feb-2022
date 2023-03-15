@@ -1,4 +1,14 @@
+import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+
 export const BookItem = ({book}) => {
+
+    const navigate = useNavigate();
+
+    const onClick = (e) => {
+        e.preventDefault()
+        navigate('/book-store')
+    }
     return (
         <div className="col-md-3">
             <figure className="product-style">
@@ -11,8 +21,9 @@ export const BookItem = ({book}) => {
                     type="button"
                     className="add-to-cart"
                     data-product-tile="add-to-cart"
+                    onClick={onClick}
                 >
-                    Add to Cart
+                    Details
                 </button>
                 <figcaption>
                     <h3>{book.title}</h3>
