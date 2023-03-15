@@ -2,9 +2,9 @@ import { BookItem } from "./BookItem/BookItem"
 export const Home = ({ books }) => {
 
     // const firstOne = books.find(x => x._id == 1)
-   
-    
-    
+
+
+
     return (
         <>
             <section id="best-selling" className="leaf-pattern-overlay">
@@ -17,9 +17,11 @@ export const Home = ({ books }) => {
                                     <figure className="products-thumb">
                                         <img
                                             src='images/it.jpg'
+                                           
                                             alt="book"
                                             className="single-image"
                                         />
+                                        <a href=""><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                     </figure>
                                 </div>
                                 <div className="col-md-6">
@@ -81,7 +83,7 @@ export const Home = ({ books }) => {
                                 <div id="all-genre" data-tab-content="" className="active">
                                     <div className="row">
                                         {books.slice(1).map(x => <BookItem key={x._id} book={x} />)}
-                                        
+
                                     </div>
                                 </div>
 

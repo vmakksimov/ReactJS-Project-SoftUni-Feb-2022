@@ -11,6 +11,8 @@ import { AuthContext } from './context/AuthContext';
 import { Logout } from './components/Logout/Logout';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import * as bookService from './services/bookService'
+import { CreateBook } from './components/CreateBook/CreateBook';
+import { BookStore } from './components/Store/BookStore';
 
 
 function App() {
@@ -26,10 +28,17 @@ function App() {
         setAuth({})
     }
 
+    const addBookHandler = (newBook) => {
+        setBook(state => [
+            ...state,
+            newBook,
+        ])
+    }
+
     useEffect(() => {
         bookService.getBooks()
             .then(result => setBook(Object.values(result)))
-    })
+    }, [])
 
     return (
         <AuthContext.Provider value={{user, userLogin, userLogout}}>
@@ -44,6 +53,8 @@ function App() {
                         <Route path='/register' element={<Register />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/logout' element={<Logout />} />
+                        <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
+                        <Route path='/book-store' element={<BookStore books={books} />} />
 
                     </Routes>
 

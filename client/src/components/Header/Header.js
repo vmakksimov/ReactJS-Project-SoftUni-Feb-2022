@@ -38,7 +38,7 @@ export const Header = () => {
 
                                         <li className="menu-item">
                                             <Link
-                                                to="#latest-blog"
+                                                to="/book-store"
                                                 className="nav-link"
                                                 data-effect="Articles"
                                             >
@@ -46,7 +46,9 @@ export const Header = () => {
                                             </Link>
                                         </li>
                                         {user.accessToken
-                                            ? <li className="menu-item">
+
+                                            ?
+                                            <> <li className="menu-item">
                                                 <Link
                                                     to="/logout"
                                                     className="nav-link"
@@ -55,6 +57,16 @@ export const Header = () => {
                                                     Logout
                                                 </Link>
                                             </li>
+                                                <li className="menu-item">
+                                                    <Link
+                                                        to="/addbook"
+                                                        className="nav-link"
+                                                        data-effect="Articles"
+                                                    >
+                                                        Add Book
+                                                    </Link>
+                                                </li>
+                                            </>
                                             : <> <li className="menu-item">
                                                 <Link
                                                     to="/login"
