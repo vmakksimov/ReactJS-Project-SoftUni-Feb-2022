@@ -1,41 +1,46 @@
 [
     {
         "_id": 1,
+        "_ownerId": 1,
         "title": "It",
         "author": "Stephen King",
-        "image": "images/it.jpg",
+        "image": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1334416842i/830502.jpg",
         "year": 1986,
         "reviews": {}
     },
     {
         "_id": 2,
+        "_ownerId": 2,
         "title": "The Institute",
         "author": "Stephen King",
-        "image": "images/institute.jpg",
+        "image": "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81pA6-hv+2L._AC_UF1000,1000_QL80_.jpg",
         "year": 2019,
         "reviews": {}
     },
     {
         "_id": 3,
+        "_ownerId": 3,
         "title": "Anna Karenina",
         "author": "Tolstoy, Leo",
-        "image": "images/anna.jpg",
+        "image": "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51NqNCGTGaL.jpg",
         "year": 1875,
         "reviews": {}
     },
     {
         "_id": 4,
+        "_ownerId": 4,
         "title": "Harry Potter",
         "author": "Rowling, J.K.",
-        "image": "images/harry.jpg",
+        "image": "https://www.therowlinglibrary.com/wp-content/uploads/2022/05/English_Harry_Potter_1-683x1024.jpg",
         "year": 2000,
         "reviews": {}
     },
     {
         "_id": 5,
+        "_ownerId": 5,
         "title": "One Hundred Years of Solitude",
         "author": "Marquez",
-        "image": "images/solitude.jpg",
+        "image": "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71IWwBoDNsL.jpg",
         "year": 1967,
         "reviews": {}
     }

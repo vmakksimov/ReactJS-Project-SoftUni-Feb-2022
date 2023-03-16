@@ -7,7 +7,7 @@ export const BookItem = ({book}) => {
 
     const onClick = (e) => {
         e.preventDefault()
-        navigate('/book-store')
+        navigate(`/book-details/${book._id}`)
     }
     return (
         <div className="col-md-3">

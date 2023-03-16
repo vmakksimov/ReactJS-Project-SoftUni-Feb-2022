@@ -13,6 +13,8 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 import * as bookService from './services/bookService'
 import { CreateBook } from './components/CreateBook/CreateBook';
 import { BookStore } from './components/Store/BookStore';
+import { BookDetails } from './components/BookDetails/BookDetails';
+
 
 
 function App() {
@@ -37,8 +39,10 @@ function App() {
         ])
     }
 
+    
+
     useEffect(() => {
-        bookService.getBooks()
+        bookService.getInitialBooks()
             .then(result => setBook(Object.values(result)))
     }, [])
 
@@ -57,6 +61,7 @@ function App() {
                         <Route path='/logout' element={<Logout />} />
                         <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
                         <Route path='/book-store' element={<BookStore books={books} />} />
+                        <Route path='/book-details/:bookId' element={<BookDetails books={books} />} />
 
                     </Routes>
 

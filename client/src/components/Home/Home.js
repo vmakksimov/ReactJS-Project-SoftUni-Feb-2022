@@ -9,12 +9,6 @@ export const Home = ({ books }) => {
     }
 
 
-    const initialGames = []
-    for (let i = 0; i <= 3; i++) {
-        initialGames.push(books[i])
-    }
-
-
     return (
         <>
             <section id="best-selling" className="leaf-pattern-overlay">
@@ -92,7 +86,11 @@ export const Home = ({ books }) => {
                             <div className="tab-content">
                                 <div id="all-genre" data-tab-content="" className="active">
                                     <div className="row">
-                                        {books.slice(1, 5).map(x => <BookItem key={x._id} book={x} />)}
+                                        {books.length > 0 
+                                        ?books.slice(1, 5).map(x => <BookItem key={x._id} book={x} />)
+                                        
+                                        : <span>No current books added.</span>
+                                        }
 
                                     </div>
                                 </div>
