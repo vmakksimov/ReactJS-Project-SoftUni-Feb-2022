@@ -25,13 +25,19 @@ export const Header = () => {
                             <nav id="navbar">
                                 <div className="main-menu stellarnav">
                                     <ul className="menu-list">
+                                        {user.accessToken
+                                         && <span>Hello, {user.first_name}</span>}
+                                    
                                         <li className="menu-item active">
                                             <Link to="/" data-effect="Home">
                                                 Home
                                             </Link>
                                         </li>
+                                        
                                         <li className="menu-item">
+                                        
                                             <Link to="#about" className="nav-link" data-effect="About">
+                                                
                                                 About
                                             </Link>
                                         </li>
