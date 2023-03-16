@@ -39,8 +39,6 @@ function App() {
         ])
     }
 
-    
-
     useEffect(() => {
         bookService.getInitialBooks()
             .then(result => setBook(Object.values(result)))

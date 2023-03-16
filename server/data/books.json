@@ -2,6 +2,8 @@
     {
         "_id": 1,
         "_ownerId": 1,
+        "_ownerEmail": "vmakksimov@gmail.com",
+        "liked": "false",
         "title": "It",
         "author": "Stephen King",
         "image": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1334416842i/830502.jpg",
@@ -10,7 +12,9 @@
     },
     {
         "_id": 2,
-        "_ownerId": 2,
+        "_ownerId": 1,
+        "_ownerEmail": "vmakksimov@gmail.com",
+        "liked": "false",
         "title": "The Institute",
         "author": "Stephen King",
         "image": "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81pA6-hv+2L._AC_UF1000,1000_QL80_.jpg",
@@ -19,7 +23,9 @@
     },
     {
         "_id": 3,
-        "_ownerId": 3,
+        "_ownerId": 1,
+        "_ownerEmail": "vmakksimov@gmail.com",
+        "liked": "false",
         "title": "Anna Karenina",
         "author": "Tolstoy, Leo",
         "image": "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51NqNCGTGaL.jpg",
@@ -28,7 +34,9 @@
     },
     {
         "_id": 4,
-        "_ownerId": 4,
+        "_ownerId": 1,
+        "_ownerEmail": "vmakksimov@gmail.com",
+        "liked": "false",
         "title": "Harry Potter",
         "author": "Rowling, J.K.",
         "image": "https://www.therowlinglibrary.com/wp-content/uploads/2022/05/English_Harry_Potter_1-683x1024.jpg",
@@ -37,7 +45,9 @@
     },
     {
         "_id": 5,
-        "_ownerId": 5,
+        "_ownerId": 1,
+        "_ownerEmail": "vmakksimov@gmail.com",
+        "liked": "false",
         "title": "One Hundred Years of Solitude",
         "author": "Marquez",
         "image": "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71IWwBoDNsL.jpg",

@@ -6,6 +6,7 @@ export const BookList = ({book}) => {
 
     const onClick = (e) => {
         e.preventDefault()
+        console.log(book)
         navigate(`/book-details/${book._id}`)
     }
     return (

@@ -58,6 +58,10 @@ export const CreateBook = ({addBookHandler}) => {
                         <span className="details">Image</span>
                         <input type="text" name="image" placeholder="Enter Image Url" value={values.image} onChange={onChange} required />
                     </div>
+                    <div className="input-box">
+                        <span className="details">Likes</span>
+                        <input type="hidden" name="liked" defaultValue={false} />
+                    </div>
                 </div>
 
                 <div className="button-book">

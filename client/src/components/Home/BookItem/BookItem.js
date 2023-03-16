@@ -9,6 +9,7 @@ export const BookItem = ({book}) => {
         e.preventDefault()
         navigate(`/book-details/${book._id}`)
     }
+    
     return (
         <div className="col-md-3">
             <figure className="product-style">
