@@ -14,15 +14,16 @@ import * as bookService from './services/bookService'
 import { CreateBook } from './components/CreateBook/CreateBook';
 import { BookStore } from './components/Store/BookStore';
 import { BookDetails } from './components/BookDetails/BookDetails';
+import { EditBook } from './components/EditBook/EditBook';
 
 
 
 function App() {
 
-    const [user, setAuth] = useLocalStorage('auth' ,{})
+    const [user, setAuth] = useLocalStorage('auth', {})
     const [books, setBook] = useState([])
 
-   
+
 
     const userLogin = (authData) => {
         setAuth(authData)
@@ -39,13 +40,17 @@ function App() {
         ])
     }
 
+    const editBookHandler = (bookId, booksData) => {
+        setBook(state => state.map(x => x._id == bookId ? booksData : x))
+    }
+
     useEffect(() => {
         bookService.getInitialBooks()
             .then(result => setBook(Object.values(result)))
     }, [])
 
     return (
-        <AuthContext.Provider value={{user, userLogin, userLogout}}>
+        <AuthContext.Provider value={{ user, books, userLogin, userLogout }}>
 
             <div className="App">
                 <Header />
@@ -53,13 +58,14 @@ function App() {
 
                 <main id='main'>
                     <Routes>
-                        <Route path='/' element={<Home books={books} />} />
+                        <Route path='/' element={<Home />} />
                         <Route path='/register' element={<Register />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/logout' element={<Logout />} />
                         <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
                         <Route path='/book-store' element={<BookStore books={books} />} />
                         <Route path='/book-details/:bookId' element={<BookDetails books={books} />} />
+                        <Route path='/book-details/edit/:bookId' element={<EditBook books={books} editBookHandler={editBookHandler} />} />
 
                     </Routes>
 

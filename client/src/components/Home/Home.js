@@ -1,6 +1,12 @@
 import { BookItem } from "./BookItem/BookItem"
-export const Home = ({ books }) => {
+import { AuthContext } from "../../context/AuthContext"
+import { useContext } from "react"
 
+    
+export const Home = () => {
+
+
+    const { books } = useContext(AuthContext)
     // const firstOne = books.find(x => x._id == 1)
 
     const onLike = (e) => {
@@ -86,7 +92,11 @@ export const Home = ({ books }) => {
                             <div className="tab-content">
                                 <div id="all-genre" data-tab-content="" className="active">
                                     <div className="row">
+                                        {console.log('books from Home below that line')}
+                                    {console.log(books)}
                                         {books.length > 0 
+
+                                        
                                         ?books.slice(1, 5).map(x => <BookItem key={x._id} book={x} />)
                                         
                                         : <span>No current books added.</span>

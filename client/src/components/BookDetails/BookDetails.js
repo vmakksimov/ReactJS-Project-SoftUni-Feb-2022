@@ -37,13 +37,8 @@ export const BookDetails = ({ books }) => {
         }else{
             e.target.className = nonFilledHeart
         }
-
-        
-        
         
     }
-
-    
 
     const firstId = Number(bookId) + 1
     const finalStr = firstId.toString()
@@ -128,8 +123,8 @@ export const BookDetails = ({ books }) => {
                     </div>
                     <div>
                         {bookId.length <= 1
-                            ? user.email == current._ownerEmail ? <div> <button>Edit</button> <button>Leave a Review</button> </div> : <button>Leave a Review</button>
-                            : user._id == currentBook._ownerId ? <div> <button>Edit</button> <button>Leave a Review</button> </div> : <button>Leave a Review</button>
+                            ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} type="button">Edit</Link> <button>Leave a Review</button> </div> : <button>Leave a Review</button>
+                            : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="button">Edit</Link> <button>Leave a Review</button> </div> : <button>Leave a Review</button>
                         }
 
                     </div>
