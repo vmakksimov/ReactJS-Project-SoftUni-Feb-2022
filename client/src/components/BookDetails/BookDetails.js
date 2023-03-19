@@ -23,8 +23,7 @@ export const BookDetails = ({ books, editBookHandler }) => {
     const current = books.find(x => x._id === Number(bookId))
     const newBook = books.find(x => x._id == bookId)
     const likedByUser = newBook.liked_by.includes(user._id)
-    console.log(likedByUser)
-    console.log(newBook)
+ 
 
 
     const style = {
@@ -68,22 +67,46 @@ export const BookDetails = ({ books, editBookHandler }) => {
 
 
         if (e.target.className == nonFilledHeart) {
-            console.log('not liked')
+           
            
             if (!likedByUser){
                 e.target.className = filledHeart
-                newBook.total_likes += 1
+
+                if (bookId.length <= 1){
+                    newBook.total_likes += 1
+                    newBook.liked_by.push(user._id)
+                }else{
+                    newBook.total_likes = Number(0)
+                   
+                    newBook.total_likes += 1
+                    newBook.liked_by = []
+
+                    newBook.liked_by.push(user._id)
+                    
+                }
+
                 newBook.liked = "true"
-                newBook.liked_by.push(user._id)
+               
             }
 
         } else if (e.target.className == filledHeart) {
             e.target.className = nonFilledHeart
-            console.log('liked')
+         
             if (newBook.total_likes >= 1){
-                newBook.total_likes -= 1
+
+                if (bookId.length <= 1){
+                    newBook.total_likes -= 1
+                    
+                    newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
+                }else{
+                    newBook.total_likes = Number(-1)
+                   
+                    newBook.liked_by = []
+                    newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
+                }
+
                 newBook.liked = "false"
-                newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
+                
             }
            
             
@@ -97,6 +120,7 @@ export const BookDetails = ({ books, editBookHandler }) => {
         const likedBook = { 'liked': newBook['liked'], 'total_likes': newBook['total_likes'], 'liked_by': newBook['liked_by'] }
         
 
+        console.log(likedBook)
 
 
         if (bookId.length <= 1) {
@@ -108,6 +132,8 @@ export const BookDetails = ({ books, editBookHandler }) => {
         } else {
             bookService.editBooks(bookId, likedBook)
                 .then(res => {
+                    console.log('below response from just edit')
+                    console.log(res)
                     editBookHandler(bookId, res)
 
                 })

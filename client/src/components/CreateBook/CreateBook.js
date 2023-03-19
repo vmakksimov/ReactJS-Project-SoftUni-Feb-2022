@@ -16,6 +16,9 @@ export const CreateBook = ({addBookHandler}) => {
 
     })
 
+    const array = new Array()
+    const number = Number(0)
+
     const onChange = (e) => {
       
         setValues(e.target.value)
@@ -64,11 +67,11 @@ export const CreateBook = ({addBookHandler}) => {
                     </div>
                     <div className="input-box">
                         <span className="details"></span>
-                        <input type="hidden" name="total_likes" defaultValue='0'/>
+                        <input type="hidden" name="total_likes" value={0}/>
                     </div>
                     <div className="input-box">
                         <span className="details"></span>
-                        <input type="hidden" name="liked_by" defaultValue=''/>
+                        <input type="hidden" name="liked_by" defaultValue={['default', 'default']}/>
                     </div>
                 </div>
 
