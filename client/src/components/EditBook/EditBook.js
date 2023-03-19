@@ -54,6 +54,7 @@ export const EditBook = ({ books, editBookHandler }) => {
         } else {
             bookService.editBooks(bookId, booksData)
                 .then(res => {
+                    console.log('below booksData and response')
                     console.log(booksData)
                     console.log(res)
                     editBookHandler(bookId, res)

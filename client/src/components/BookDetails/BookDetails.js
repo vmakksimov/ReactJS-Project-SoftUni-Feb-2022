@@ -23,7 +23,7 @@ export const BookDetails = ({ books, editBookHandler }) => {
     const current = books.find(x => x._id === Number(bookId))
     const newBook = books.find(x => x._id == bookId)
     const likedByUser = newBook.liked_by.includes(user._id)
- 
+
 
 
     const style = {
@@ -36,89 +36,63 @@ export const BookDetails = ({ books, editBookHandler }) => {
 
 
     const onLike = (e) => {
-        // setActive(!active)
-        // if (newBook.liked === false) {
-        //     setActive(!active)
-        //     newBook.liked = true
-        //     newBook.total_likes += 1
-
-        //     console.log('liked')
-        //     console.log(newBook)
-
-        // } else if (newBook.liked === true) {
-        //     setActive(active)
-        //     newBook.liked = false
-        //     if (newBook.total_likes >= 1) {
-        //         newBook.total_likes -= 1
-        //     }
-        //     console.log('not liked')
-        //     console.log(newBook)
-
-        // }
-
-
-
-
 
         const filledHeart = "fa fa-heart"
         const nonFilledHeart = "fa fa-heart-o"
 
-
-
-
         if (e.target.className == nonFilledHeart) {
-           
-           
-            if (!likedByUser){
+
+
+            if (!likedByUser) {
                 e.target.className = filledHeart
 
-                if (bookId.length <= 1){
+                if (bookId.length <= 1) {
                     newBook.total_likes += 1
                     newBook.liked_by.push(user._id)
-                }else{
+                } else {
                     newBook.total_likes = Number(0)
-                   
+
                     newBook.total_likes += 1
                     newBook.liked_by = []
 
                     newBook.liked_by.push(user._id)
-                    
+
                 }
 
                 newBook.liked = "true"
-               
+
             }
 
         } else if (e.target.className == filledHeart) {
             e.target.className = nonFilledHeart
-         
-            if (newBook.total_likes >= 1){
 
-                if (bookId.length <= 1){
+            if (newBook.total_likes >= 1) {
+
+                if (bookId.length <= 1) {
                     newBook.total_likes -= 1
-                    
+
                     newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
-                }else{
-                    newBook.total_likes = Number(-1)
-                   
+                } else {
+                    newBook.total_likes = Number(newBook.total_likes)
+                    newBook.total_likes -= 1
+
                     newBook.liked_by = []
                     newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
                 }
 
                 newBook.liked = "false"
-                
+
             }
-           
-            
+
 
         }
 
-        
+
 
         const objectId = Number(bookId) - 1
 
-        const likedBook = { 'liked': newBook['liked'], 'total_likes': newBook['total_likes'], 'liked_by': newBook['liked_by'] }
-        
+        const likedBook = { ...newBook, 'liked': newBook['liked'], 'total_likes': newBook['total_likes'], 'liked_by': newBook['liked_by'] }
+
 
         console.log(likedBook)
 
@@ -134,6 +108,7 @@ export const BookDetails = ({ books, editBookHandler }) => {
                 .then(res => {
                     console.log('below response from just edit')
                     console.log(res)
+                    setBook(res)
                     editBookHandler(bookId, res)
 
                 })
@@ -212,12 +187,12 @@ export const BookDetails = ({ books, editBookHandler }) => {
                                 anim id est laborum.
 
                             </p>
-                           
-                             <Link to=""><i className={likedByUser ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>
 
-                             {/* <Link to=""><i className="fa fa-heart-o" id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link> */}
-                        
-                            
+                            <Link to=""><i className={likedByUser ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>
+
+                            {/* <Link to=""><i className="fa fa-heart-o" id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link> */}
+
+
 
                             {bookId.length <= 1
                                 ? <div><span>Total Likes:{current.total_likes}</span></div>
