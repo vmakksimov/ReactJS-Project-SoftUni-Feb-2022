@@ -47,6 +47,7 @@ export const BookDetails = ({ books, editBookHandler }) => {
                 e.target.className = filledHeart
 
                 if (bookId.length <= 1) {
+                    console.log(newBook)
                     newBook.total_likes += 1
                     newBook.liked_by.push(user._id)
                 } else {
@@ -190,16 +191,10 @@ export const BookDetails = ({ books, editBookHandler }) => {
 
                             <Link to=""><i className={likedByUser ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>
 
-                            {/* <Link to=""><i className="fa fa-heart-o" id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link> */}
-
-
-
                             {bookId.length <= 1
-                                ? <div><span>Total Likes:{current.total_likes}</span></div>
-                                : <div><span>Total Likes:{currentBook.total_likes}</span></div>
+                                ? <div><span>Total Likes: {current.total_likes}</span></div>
+                                : <div><span>Total Likes: {currentBook.total_likes}</span></div>
                             }
-
-
 
                         </div>
                     </div>

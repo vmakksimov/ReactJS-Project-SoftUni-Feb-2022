@@ -14,6 +14,7 @@ export const EditBook = ({ books, editBookHandler }) => {
     const current = books.find(x => x._id === Number(bookId))
 
 
+
     const firstId = Number(bookId) + 1
     const finalStr = firstId.toString()
 
@@ -37,26 +38,41 @@ export const EditBook = ({ books, editBookHandler }) => {
        
 
         const booksData = Object.fromEntries(new FormData(e.target))
+
+        let likedBook;
+        let likedBook1;
+
+        if (bookId.length <= 1){
+            likedBook1 = { ...booksData, 'liked': current['liked'], 'total_likes': current['total_likes'], 'liked_by': current['liked_by'] }
+        }else{
+            likedBook = { ...booksData, 'liked': currentBook['liked'], 'total_likes': currentBook['total_likes'], 'liked_by': currentBook['liked_by'] }
+        }
+
+         
+       
        
         
         const newBook = books.find(x => x._id == bookId)
-        const final = {...newBook, ...booksData}
+        const final = {...newBook, ...likedBook1}
         
        const objectId = Number(bookId) - 1
+
+       console.log(final)
        
         if (bookId.length <= 1) {
             bookService.editInitial(objectId, final)
                 .then(res => {
+                    console.log('below booksData and response')
+                
+                    console.log(res)
                     editBookHandler(bookId, res)
                     navigate('/')
 
                 })
         } else {
-            bookService.editBooks(bookId, booksData)
+            bookService.editBooks(bookId, likedBook)
                 .then(res => {
-                    console.log('below booksData and response')
-                    console.log(booksData)
-                    console.log(res)
+                    
                     editBookHandler(bookId, res)
                     navigate('/book-store')
                 })
@@ -89,18 +105,18 @@ export const EditBook = ({ books, editBookHandler }) => {
                             <span className="details">Image</span>
                             <input type="text" name="image" placeholder="Enter Image Url" defaultValue={bookId.length <= 1 ? current.image : currentBook.image} />
                         </div>
-                        <div className="input-box">
+                        {/* <div className="input-box">
                             <span className="details"></span>
-                            <input type="hidden" name="liked" defaultValue={false} />
+                            <input type="hidden" name="liked" defaultValue={current.liked ? true : false} />
                         </div>
                         <div className="input-box">
                             <span className="details"></span>
-                            <input type="hidden" name="total_likes" defaultValue='0' />
+                            <input type="hidden" name="total_likes" defaultValue={current.total_likes > 0 ? current.total_likes : 0} />
                         </div>
                         <div className="input-box">
                             <span className="details"></span>
-                            <input type="hidden" name="liked_by" defaultValue={[]}/>
-                        </div>
+                            <input type="hidden" name="liked_by" defaultValue={!current.liked_by.length ? [] : [current.liked_by]}/>
+                        </div> */}
                     </div>
 
                     <div className="button-book">
