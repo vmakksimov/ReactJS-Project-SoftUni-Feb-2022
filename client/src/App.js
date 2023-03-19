@@ -64,7 +64,7 @@ function App() {
                         <Route path='/logout' element={<Logout />} />
                         <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
                         <Route path='/book-store' element={<BookStore books={books} />} />
-                        <Route path='/book-details/:bookId' element={<BookDetails books={books} />} />
+                        <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} />} />
                         <Route path='/book-details/edit/:bookId' element={<EditBook books={books} editBookHandler={editBookHandler} />} />
 
                     </Routes>

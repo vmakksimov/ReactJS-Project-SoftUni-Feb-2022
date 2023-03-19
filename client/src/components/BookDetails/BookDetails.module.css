@@ -1,5 +1,13 @@
-.fa fa-heart-o {
+.heart {
     padding: 10px;
     font-size: 40px;
+    fill: black
 }
 
+.fa-heart:before{
+    content: "\f004";
+}
+.fa-heart-o:before{
+    content: "\f08a";
+}
+   

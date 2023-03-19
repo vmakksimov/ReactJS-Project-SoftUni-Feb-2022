@@ -92,8 +92,7 @@ export const Home = () => {
                             <div className="tab-content">
                                 <div id="all-genre" data-tab-content="" className="active">
                                     <div className="row">
-                                        {console.log('books from Home below that line')}
-                                    {console.log(books)}
+                                       
                                         {books.length > 0 
 
                                         

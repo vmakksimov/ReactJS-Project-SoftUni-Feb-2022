@@ -1,21 +1,29 @@
 import { useEffect, useState } from "react"
 import * as bookService from '../../services/bookService'
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 import styles from './BookDetails.module.css'
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
+import Heart from 'react-heart'
 
 
-export const BookDetails = ({ books }) => {
+export const BookDetails = ({ books, editBookHandler }) => {
 
     const { user } = useContext(AuthContext)
 
+    const navigate = useNavigate();
+
+
     const [currentBook, setBook] = useState({});
+    const [active, setActive] = useState(false)
 
     const { bookId } = useParams();
 
     const current = books.find(x => x._id === Number(bookId))
+    const newBook = books.find(x => x._id == bookId)
+
+    console.log(newBook)
 
 
     const style = {
@@ -24,20 +32,79 @@ export const BookDetails = ({ books }) => {
 
     style.fontSize = '30px'
     style.padding = '10px'
+    style.content = "\f08a";
 
-    
+
     const onLike = (e) => {
-        e.preventDefault()
-     
-       const filledHeart = "fa fa-heart"
-       const nonFilledHeart = "fa fa-heart-o"
+        // setActive(!active)
+        // if (newBook.liked === false) {
+        //     setActive(!active)
+        //     newBook.liked = true
+        //     newBook.total_likes += 1
+         
+        //     console.log('liked')
+        //     console.log(newBook)
+          
+        // } else if (newBook.liked === true) {
+        //     setActive(active)
+        //     newBook.liked = false
+        //     if (newBook.total_likes >= 1) {
+        //         newBook.total_likes -= 1
+        //     }
+        //     console.log('not liked')
+        //     console.log(newBook)
+            
+        // }
 
-        if (e.target.className !== filledHeart){
+       
+
+
+
+        const filledHeart = "fa fa-heart"
+        const nonFilledHeart = "fa fa-heart-o"
+
+
+
+
+        if (e.target.className == nonFilledHeart) {
+            console.log('not liked')
             e.target.className = filledHeart
-        }else{
+            newBook.total_likes += 1
+            newBook.liked = true
+         
+        } else if (e.target.className = filledHeart) {
             e.target.className = nonFilledHeart
+            console.log('liked')
+            newBook.total_likes -= 1
+            newBook.liked = false
+          
         }
-        
+
+
+
+
+        console.log(newBook)
+        const objectId = Number(bookId) - 1
+
+        const likedBook = { 'liked': newBook['liked'], 'total_likes': newBook['total_likes'] }
+        console.log(likedBook)
+
+
+
+        if (bookId.length <= 1) {
+            bookService.editInitial(objectId, newBook)
+                .then(res => {
+                    editBookHandler(bookId, res)
+                    
+                })
+        } else {
+            bookService.editBooks(bookId, likedBook)
+                .then(res => {
+                    editBookHandler(bookId, res)
+
+                })
+        }
+
     }
 
     const firstId = Number(bookId) + 1
@@ -88,14 +155,14 @@ export const BookDetails = ({ books }) => {
 
                             {bookId.length <= 1
                                 ? <div><h1>{current.title}</h1>
-                                <p>{current.author}</p></div>
+                                    <p>{current.author}</p></div>
 
 
                                 : <div><h1>{currentBook.title}</h1>
-                                <p>{currentBook.author}</p></div>
+                                    <p>{currentBook.author}</p></div>
 
                             }
-                           
+
 
 
                             <p>
@@ -109,15 +176,17 @@ export const BookDetails = ({ books }) => {
                                 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
                                 cupidatat non proident, sunt in culpa qui officia deserunt mollit
                                 anim id est laborum.
-                                
-                            </p>
-                            <span style={style}>Like
-                                <Link to=""><i className="fa fa-heart-o" id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>
-                            </span>
 
-                            <div>
-                                <span>Total Likes:</span>
-                            </div>
+                            </p>
+                         
+                                <Link to=""><i className={newBook.liked ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>
+
+                            {bookId.length <= 1
+                                ? <div><span>Total Likes:{current.total_likes}</span></div>
+                                : <div><span>Total Likes:{currentBook.total_likes}</span></div>
+                            }
+
+
 
                         </div>
                     </div>

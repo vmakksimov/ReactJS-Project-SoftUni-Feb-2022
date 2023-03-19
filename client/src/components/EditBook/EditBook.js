@@ -37,6 +37,8 @@ export const EditBook = ({ books, editBookHandler }) => {
        
 
         const booksData = Object.fromEntries(new FormData(e.target))
+        console.log('books data below')
+        console.log(booksData)
         
         const newBook = books.find(x => x._id == bookId)
         const final = {...newBook, ...booksData}
@@ -88,6 +90,10 @@ export const EditBook = ({ books, editBookHandler }) => {
                         <div className="input-box">
                             <span className="details"></span>
                             <input type="hidden" name="liked" defaultValue={false} />
+                        </div>
+                        <div className="input-box">
+                            <span className="details"></span>
+                            <input type="hidden" name="total_likes" defaultValue='0' />
                         </div>
                     </div>
 
