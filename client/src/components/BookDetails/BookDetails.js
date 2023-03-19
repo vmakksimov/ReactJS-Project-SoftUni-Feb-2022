@@ -23,7 +23,6 @@ export const BookDetails = ({ books, editBookHandler }) => {
     const current = books.find(x => x._id === Number(bookId))
     const newBook = books.find(x => x._id == bookId)
 
-    console.log(newBook)
 
 
     const style = {
@@ -41,10 +40,10 @@ export const BookDetails = ({ books, editBookHandler }) => {
         //     setActive(!active)
         //     newBook.liked = true
         //     newBook.total_likes += 1
-         
+
         //     console.log('liked')
         //     console.log(newBook)
-          
+
         // } else if (newBook.liked === true) {
         //     setActive(active)
         //     newBook.liked = false
@@ -53,10 +52,10 @@ export const BookDetails = ({ books, editBookHandler }) => {
         //     }
         //     console.log('not liked')
         //     console.log(newBook)
-            
+
         // }
 
-       
+
 
 
 
@@ -68,26 +67,32 @@ export const BookDetails = ({ books, editBookHandler }) => {
 
         if (e.target.className == nonFilledHeart) {
             console.log('not liked')
-            e.target.className = filledHeart
-            newBook.total_likes += 1
-            newBook.liked = true
-         
+           
+            // if (!newBook.liked_by.includes(user._id)){
+                e.target.className = filledHeart
+                newBook.total_likes += 1
+                newBook.liked = "true"
+                // newBook.liked_by.push(user._id)
+            
+
         } else if (e.target.className = filledHeart) {
             e.target.className = nonFilledHeart
             console.log('liked')
-            newBook.total_likes -= 1
-            newBook.liked = false
-          
+            if (newBook.total_likes >= 1){
+                newBook.total_likes -= 1
+                newBook.liked = "false"
+            }
+           
+            
+
         }
 
+        
 
-
-
-        console.log(newBook)
         const objectId = Number(bookId) - 1
 
-        const likedBook = { 'liked': newBook['liked'], 'total_likes': newBook['total_likes'] }
-        console.log(likedBook)
+        const likedBook = { 'liked': newBook['liked'], 'total_likes': newBook['total_likes'], 'liked_by': newBook['liked_by'] }
+        
 
 
 
@@ -95,7 +100,7 @@ export const BookDetails = ({ books, editBookHandler }) => {
             bookService.editInitial(objectId, newBook)
                 .then(res => {
                     editBookHandler(bookId, res)
-                    
+
                 })
         } else {
             bookService.editBooks(bookId, likedBook)
@@ -178,8 +183,12 @@ export const BookDetails = ({ books, editBookHandler }) => {
                                 anim id est laborum.
 
                             </p>
-                         
-                                <Link to=""><i className={newBook.liked ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>
+                           
+                             <Link to=""><i className={!newBook.liked ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>
+
+                             {/* <Link to=""><i className="fa fa-heart-o" id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link> */}
+                        
+                            
 
                             {bookId.length <= 1
                                 ? <div><span>Total Likes:{current.total_likes}</span></div>

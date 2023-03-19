@@ -66,6 +66,10 @@ export const CreateBook = ({addBookHandler}) => {
                         <span className="details"></span>
                         <input type="hidden" name="total_likes" defaultValue='0'/>
                     </div>
+                    <div className="input-box">
+                        <span className="details"></span>
+                        <input type="hidden" name="liked_by" defaultValue=''/>
+                    </div>
                 </div>
 
                 <div className="button-book">
