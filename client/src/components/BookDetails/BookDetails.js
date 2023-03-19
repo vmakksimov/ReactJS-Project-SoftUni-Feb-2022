@@ -22,7 +22,9 @@ export const BookDetails = ({ books, editBookHandler }) => {
 
     const current = books.find(x => x._id === Number(bookId))
     const newBook = books.find(x => x._id == bookId)
-
+    const likedByUser = newBook.liked_by.includes(user._id)
+    console.log(likedByUser)
+    console.log(newBook)
 
 
     const style = {
@@ -68,19 +70,20 @@ export const BookDetails = ({ books, editBookHandler }) => {
         if (e.target.className == nonFilledHeart) {
             console.log('not liked')
            
-            // if (!newBook.liked_by.includes(user._id)){
+            if (!likedByUser){
                 e.target.className = filledHeart
                 newBook.total_likes += 1
                 newBook.liked = "true"
-                // newBook.liked_by.push(user._id)
-            
+                newBook.liked_by.push(user._id)
+            }
 
-        } else if (e.target.className = filledHeart) {
+        } else if (e.target.className == filledHeart) {
             e.target.className = nonFilledHeart
             console.log('liked')
             if (newBook.total_likes >= 1){
                 newBook.total_likes -= 1
                 newBook.liked = "false"
+                newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
             }
            
             
@@ -184,7 +187,7 @@ export const BookDetails = ({ books, editBookHandler }) => {
 
                             </p>
                            
-                             <Link to=""><i className={!newBook.liked ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>
+                             <Link to=""><i className={likedByUser ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>
 
                              {/* <Link to=""><i className="fa fa-heart-o" id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link> */}
                         
