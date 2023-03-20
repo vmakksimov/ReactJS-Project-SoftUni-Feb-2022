@@ -15,6 +15,7 @@ import { CreateBook } from './components/CreateBook/CreateBook';
 import { BookStore } from './components/Store/BookStore';
 import { BookDetails } from './components/BookDetails/BookDetails';
 import { EditBook } from './components/EditBook/EditBook';
+import { Profile } from './components/Profile/Profile';
 
 
 
@@ -72,6 +73,7 @@ function App() {
                         <Route path='/register' element={<Register />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/logout' element={<Logout />} />
+                        <Route path='/profile' element={<Profile />} />
                         <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
                         <Route path='/book-store' element={<BookStore />} />
                         <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} deleteHandler={deleteHandler} />} />

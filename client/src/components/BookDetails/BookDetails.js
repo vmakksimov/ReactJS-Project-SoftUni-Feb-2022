@@ -37,7 +37,6 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
         if (bookId.length <= 1) {
             bookService.getFromStore(finalStr)
                 .then(res => {
-                    console.log(res)
                     setBook(res)
                 })
         } else {
@@ -111,14 +110,12 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
             bookService.editInitial(objectId, newBook)
                 .then(res => {
                     editBookHandler(bookId, res)
-
                 })
         } else {
             bookService.editBooks(bookId, likedBook)
                 .then(res => {
                     setBook(res)
                     editBookHandler(bookId, res)
-
                 })
         }
 
@@ -134,7 +131,6 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
             if (bookId.length <= 1 ){
                 bookService.removeInitialBook(objectId)
             }else{
-               
                 bookService.removeBook(bookId)
             }
             

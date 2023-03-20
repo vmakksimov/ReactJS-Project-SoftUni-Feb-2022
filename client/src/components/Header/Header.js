@@ -25,8 +25,6 @@ export const Header = () => {
                             <nav id="navbar">
                                 <div className="main-menu stellarnav">
                                     <ul className="menu-list">
-                                        {user.accessToken
-                                         && <span>Hello, {user.first_name}</span>}
                                     
                                         <li className="menu-item active">
                                             <Link to="/" data-effect="Home">
@@ -104,6 +102,8 @@ export const Header = () => {
                                                 Contact
                                             </Link>
                                         </li>
+                                        {user.accessToken
+                                         && <span>Hello, {user.first_name} <Link to='/profile'><i class="fa fa-user" aria-hidden="true"></i></Link></span>}
                                     </ul>
                                     <div className="hamburger">
                                         <span className="bar" />

@@ -1,0 +1,32 @@
+.no-classes-found {
+	text-align: center;
+    background-color: #f7c9c9;
+    width: 30%;
+    margin: 0 auto;
+}
+
+.booked-taught-classes {
+	margin: 0 auto;
+	text-align:center;
+}
+
+.inf-content{
+    border:1px solid #DDDDDD;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+    box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
+	margin-bottom: 80px;
+}
+
+.user-info {
+	margin: 3em auto;
+}
+
+.text-primary {
+	color:#512423!important;
+}
+
+.team-img {
+	height:200px;
+}
