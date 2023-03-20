@@ -115,59 +115,24 @@ export const BookReview = () => {
                     </div>
                 </div>
             </section>
+            <section>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <h1 className="page-title">
+                                Leave A Review Below
+                            </h1>
 
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-12">
-                        <h1 className="page-title">
-                            Leave A Review Below
-                        </h1>
-
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            </section>
             <section className="padding-large">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <section className="comments-wrap mb-4">
-                                <h3>Comments</h3>
-                                <div className="comment-list mt-4">
-                                    <article className="flex-container d-flex mb-3">
-                                        <img
-                                            src="images/default.png"
-                                            alt="default"
-                                            className="commentorImg"
-                                        />
-                                        <div className="author-post">
-                                            <div className="comment-meta d-flex">
-                                                <h4>Michael Watson</h4>
-                                                <span className="meta-date">Dec 2,2020</span>
-                                                <small className="comments-reply">
-                                                    <a href="#">
-                                                        <i className="icon icon-mail-reply" />
-                                                        Reply
-                                                    </a>
-                                                </small>
-                                            </div>
-                                            {/*meta-tags*/}
-                                            <p>
-                                                Tristique tempis condimentum diam done ullancomroer sit
-                                                element henddg sit he consequert.Tristique tempis
-                                                condimentum diam done ullancomroer sit element henddg sit he
-                                                consequert.
-                                            </p>
-                                        </div>
-                                    </article>
-                                    {/*flex-container*/}
-
-                                    {/*child-comments*/}
-                                </div>
-                                {/*comment-list*/}
-                            </section>
                             <section className="comment-respond  mb-5">
-                                <h3>Leave a Comment</h3>
+                                <h3>Leave a Review</h3>
                                 <form method="post" className="form-group mt-3">
                                     <div className="row">
                                         <div className="col-md-6">
@@ -195,7 +160,7 @@ export const BookReview = () => {
                                                 className="u-full-width"
                                                 id="comment"
                                                 name="comment"
-                                                placeholder="Write your comment here"
+                                                placeholder="Write your review here"
                                                 rows={20}
                                                 defaultValue={""}
                                             />

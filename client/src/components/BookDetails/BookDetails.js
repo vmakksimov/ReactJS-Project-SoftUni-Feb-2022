@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import styles from './BookDetails.module.css'
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
+import { BookStore } from "../Store/BookStore"
 
 export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
 
@@ -19,8 +20,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
     const current = books.find(x => x._id === Number(bookId))
     const newBook = books.find(x => x._id == bookId)
     const likedByUser = newBook.liked_by.includes(user._id)
-
-
+    
 
     const style = {
 
@@ -29,6 +29,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
     style.fontSize = '30px'
     style.padding = '10px'
     style.content = "\f08a";
+    
 
     const firstId = Number(bookId) - 1
     const finalStr = firstId.toString()
@@ -161,12 +162,14 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
 
                                     alt="book"
                                     className="single-image"
+                                    style={{width : '56%'}}
                                 />
                                 : <img
                                     src={currentBook.image}
 
                                     alt="book"
                                     className="single-image"
+                                    style={{width : '56%'}}
                                 />
                             }
 
@@ -220,6 +223,42 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
                     </div>
                 </div>
             </div>
+            <section className="comments-wrap mb-4">
+                                <h3>Comments</h3>
+                                <div className="comment-list mt-4">
+                                    <article className="flex-container d-flex mb-3">
+                                        <img
+                                            src="images/default.png"
+                                            alt="default"
+                                            className="commentorImg"
+                                        />
+                                        <div className="author-post">
+                                            <div className="comment-meta d-flex">
+                                                <h4>Michael Watson</h4>
+                                                <span className="meta-date">Dec 2,2020</span>
+                                                <small className="comments-reply">
+                                                    <a href="#">
+                                                        <i className="icon icon-mail-reply" />
+                                                        Reply
+                                                    </a>
+                                                </small>
+                                            </div>
+                                            {/*meta-tags*/}
+                                            <p>
+                                                Tristique tempis condimentum diam done ullancomroer sit
+                                                element henddg sit he consequert.Tristique tempis
+                                                condimentum diam done ullancomroer sit element henddg sit he
+                                                consequert.
+                                            </p>
+                                        </div>
+                                    </article>
+                                    {/*flex-container*/}
+                                   
+                                    {/*child-comments*/}
+                                </div>
+                                {/*comment-list*/}
+                            </section>
         </section>
+        
     )
 }
