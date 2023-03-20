@@ -1,6 +1,11 @@
 import "./Profile.css"
+import { AuthContext } from "../../context/AuthContext"
+import { useContext } from "react"
 
 export const Profile = () => {
+
+    const {user} = useContext(AuthContext)
+
     return (
         <div className="team">
             <div className="container">
@@ -8,7 +13,7 @@ export const Profile = () => {
                     <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.0s" >
                         <div className="team-item">
                             <div className="team-img">
-                                <img src={"./img/team-1.jpg"} alt="Person Image" />
+                                <img src={user.image} alt="Person Image" />
                             </div>
                             <div className="team-text">
                                 <h2>{"Default User"}</h2>
@@ -30,7 +35,7 @@ export const Profile = () => {
                                                 Username
                                             </strong>
                                         </td>
-                                        <td className="text-primary">{"Yoga User"}</td>
+                                        <td className="text-primary">{user.username}</td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -39,7 +44,7 @@ export const Profile = () => {
                                                 Full Name
                                             </strong>
                                         </td>
-                                        <td className="text-primary">{"Default User"}</td>
+                                        <td className="text-primary">{user.first_name} {user.last_name}</td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -48,7 +53,7 @@ export const Profile = () => {
                                                 Role
                                             </strong>
                                         </td>
-                                        <td className="text-primary">Yoga {"User"}</td>
+                                        <td className="text-primary">User</td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -57,7 +62,7 @@ export const Profile = () => {
                                                 Email
                                             </strong>
                                         </td>
-                                        <td className="text-primary">{"No email provided"}</td>
+                                        <td className="text-primary">{user.email}</td>
                                     </tr>
 
                                 </tbody>
