@@ -103,7 +103,7 @@ export const Header = () => {
                                             </Link>
                                         </li>
                                         {user.accessToken
-                                         && <span>Hello, {user.first_name} <Link to='/profile'><i class="fa fa-user" aria-hidden="true"></i></Link></span>}
+                                         && <span>Hello, {user.first_name} <Link to='/profile'><i className="fa fa-user" aria-hidden="true"></i></Link></span>}
                                     </ul>
                                     <div className="hamburger">
                                         <span className="bar" />

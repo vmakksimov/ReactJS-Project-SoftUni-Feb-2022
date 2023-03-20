@@ -142,6 +142,10 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
 
     }
 
+    const onReview = () => {
+        navigate(`/book/review/${bookId}`)
+    }
+
 
 
     return (
@@ -209,8 +213,8 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
                     </div>
                     <div>
                         {bookId.length <= 1
-                            ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} type="button">Edit</Link> <button onClick={onDeleteHandler}>Delete</button> <button>Leave a Review</button> </div> : <button>Leave a Review</button>
-                            : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="button">Edit</Link> <button onClick={onDeleteHandler}>Delete</button> <button>Leave a Review</button> </div> : <button>Leave a Review</button>
+                            ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} type="button">Edit</Link> <button onClick={onDeleteHandler}>Delete</button> <button onClick={onReview}>Leave a Review</button> </div> : <button onClick={onReview}>Leave a Review</button>
+                            : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="button">Edit</Link> <button onClick={onDeleteHandler}>Delete</button> <button onClick={onReview}>Leave a Review</button> </div> : <button onClick={onReview}>Leave a Review</button>
                         }
 
                     </div>

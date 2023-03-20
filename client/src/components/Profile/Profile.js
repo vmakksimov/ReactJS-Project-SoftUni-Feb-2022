@@ -1,10 +1,15 @@
 import "./Profile.css"
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
+import { ProfileBooks } from "./ProfileBooks/ProfileBooks"
 
 export const Profile = () => {
 
-    const {user} = useContext(AuthContext)
+    const { user, books } = useContext(AuthContext)
+
+    const likedBooks = [];
+    const likedByUser = books.map(x => x.liked_by.includes(user._id) ? likedBooks.push(x) : 'No likes from this user.')
+    console.log(likedBooks)
 
     return (
         <div className="team">
@@ -71,16 +76,22 @@ export const Profile = () => {
                     className="section-header text-center wow zoomIn"
                     data-wow-delay="0.1s"
                 >
-                    <p> 's Classes </p>
+                  
 
-                    <h2>{"Classes you teach"}</h2>
+                    <h2>{"Books you liked"}</h2>
                 </div>
             </div>
 
             <div className="class">
                 <div className="container">
                     <div className="row class-container">
-                        {'user clasess'}
+                        {likedBooks.length > 0
+
+
+                            ? likedBooks.map(x => <ProfileBooks key={x._id} book={x} />)
+
+                            : <span>No current books liked.</span>
+                        }
                     </div>
                 </div>
             </div>
