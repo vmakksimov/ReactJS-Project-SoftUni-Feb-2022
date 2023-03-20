@@ -134,6 +134,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
             if (bookId.length <= 1 ){
                 bookService.removeInitialBook(objectId)
             }else{
+               
                 bookService.removeBook(bookId)
             }
             

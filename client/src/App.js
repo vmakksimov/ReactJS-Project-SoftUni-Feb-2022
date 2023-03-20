@@ -29,9 +29,13 @@ function App() {
     }, [])
 
     const deleteHandler = (bookId) => {
-        const deleted = books.filter(x => console.log(x._id !== bookId))
-        console.log(bookId)
-        setBook(books => books.filter(x => x._id !== bookId))
+        if (bookId.length <= 1) {
+            books.splice(Number(bookId) - 1, 1)
+            setBook(books)
+        }else{
+            setBook(books.filter(x => x._id !== bookId))
+        }
+        
     }
 
     const userLogin = (authData) => {
@@ -53,7 +57,7 @@ function App() {
         setBook(state => state.map(x => x._id == bookId ? booksData : x))
     }
 
-  
+
 
     return (
         <AuthContext.Provider value={{ user, books, userLogin, userLogout }}>
@@ -69,7 +73,7 @@ function App() {
                         <Route path='/login' element={<Login />} />
                         <Route path='/logout' element={<Logout />} />
                         <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
-                        <Route path='/book-store' element={<BookStore books={books} />} />
+                        <Route path='/book-store' element={<BookStore />} />
                         <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} deleteHandler={deleteHandler} />} />
                         <Route path='/book-details/edit/:bookId' element={<EditBook books={books} editBookHandler={editBookHandler} />} />
 
