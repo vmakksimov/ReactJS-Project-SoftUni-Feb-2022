@@ -15,10 +15,6 @@ export const Profile = () => {
                             <div className="team-img">
                                 <img src={user.image} alt="Person Image" />
                             </div>
-                            <div className="team-text">
-                                <h2>{"Default User"}</h2>
-                                <p>Yoga {"User"}</p>
-                            </div>
                         </div>
                     </div>
 
