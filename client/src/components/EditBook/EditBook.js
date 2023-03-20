@@ -47,32 +47,23 @@ export const EditBook = ({ books, editBookHandler }) => {
         }else{
             likedBook = { ...booksData, 'liked': currentBook['liked'], 'total_likes': currentBook['total_likes'], 'liked_by': currentBook['liked_by'] }
         }
-
-         
-       
-       
         
         const newBook = books.find(x => x._id == bookId)
         const final = {...newBook, ...likedBook1}
         
        const objectId = Number(bookId) - 1
 
-       console.log(final)
        
         if (bookId.length <= 1) {
             bookService.editInitial(objectId, final)
                 .then(res => {
-                    console.log('below booksData and response')
-                
-                    console.log(res)
                     editBookHandler(bookId, res)
-                    navigate('/')
+                    navigate('/book-store')
 
                 })
         } else {
             bookService.editBooks(bookId, likedBook)
                 .then(res => {
-                    
                     editBookHandler(bookId, res)
                     navigate('/book-store')
                 })
@@ -105,18 +96,6 @@ export const EditBook = ({ books, editBookHandler }) => {
                             <span className="details">Image</span>
                             <input type="text" name="image" placeholder="Enter Image Url" defaultValue={bookId.length <= 1 ? current.image : currentBook.image} />
                         </div>
-                        {/* <div className="input-box">
-                            <span className="details"></span>
-                            <input type="hidden" name="liked" defaultValue={current.liked ? true : false} />
-                        </div>
-                        <div className="input-box">
-                            <span className="details"></span>
-                            <input type="hidden" name="total_likes" defaultValue={current.total_likes > 0 ? current.total_likes : 0} />
-                        </div>
-                        <div className="input-box">
-                            <span className="details"></span>
-                            <input type="hidden" name="liked_by" defaultValue={!current.liked_by.length ? [] : [current.liked_by]}/>
-                        </div> */}
                     </div>
 
                     <div className="button-book">

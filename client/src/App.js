@@ -23,7 +23,16 @@ function App() {
     const [user, setAuth] = useLocalStorage('auth', {})
     const [books, setBook] = useState([])
 
+    useEffect(() => {
+        bookService.getInitialBooks()
+            .then(result => setBook(Object.values(result)))
+    }, [])
 
+    const deleteHandler = (bookId) => {
+        const deleted = books.filter(x => console.log(x._id !== bookId))
+        console.log(bookId)
+        setBook(books => books.filter(x => x._id !== bookId))
+    }
 
     const userLogin = (authData) => {
         setAuth(authData)
@@ -44,10 +53,7 @@ function App() {
         setBook(state => state.map(x => x._id == bookId ? booksData : x))
     }
 
-    useEffect(() => {
-        bookService.getInitialBooks()
-            .then(result => setBook(Object.values(result)))
-    }, [])
+  
 
     return (
         <AuthContext.Provider value={{ user, books, userLogin, userLogout }}>
@@ -64,7 +70,7 @@ function App() {
                         <Route path='/logout' element={<Logout />} />
                         <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
                         <Route path='/book-store' element={<BookStore books={books} />} />
-                        <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} />} />
+                        <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} deleteHandler={deleteHandler} />} />
                         <Route path='/book-details/edit/:bookId' element={<EditBook books={books} editBookHandler={editBookHandler} />} />
 
                     </Routes>

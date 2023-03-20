@@ -25,8 +25,10 @@ export const BookStore = ({ books }) => {
                 <div className="container">
                     <div className="row">
                         <div className="products-grid grid">
-                            {books.length > 0 &&
 
+                            {console.log(books)}
+                            {books.length > 0 &&
+                                
                                  books.map(x => <BookList key={x._id} book={x} />)
                                
                             }

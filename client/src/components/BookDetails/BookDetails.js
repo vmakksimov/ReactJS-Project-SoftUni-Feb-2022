@@ -5,18 +5,14 @@ import { Link } from "react-router-dom"
 import styles from './BookDetails.module.css'
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
-import Heart from 'react-heart'
 
-
-export const BookDetails = ({ books, editBookHandler }) => {
+export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
 
     const { user } = useContext(AuthContext)
 
-    const navigate = useNavigate();
-
+    const navigate = useNavigate()
 
     const [currentBook, setBook] = useState({});
-    const [active, setActive] = useState(false)
 
     const { bookId } = useParams();
 
@@ -33,6 +29,25 @@ export const BookDetails = ({ books, editBookHandler }) => {
     style.fontSize = '30px'
     style.padding = '10px'
     style.content = "\f08a";
+
+    const firstId = Number(bookId) - 1
+    const finalStr = firstId.toString()
+
+    useEffect(() => {
+        if (bookId.length <= 1) {
+            bookService.getFromStore(finalStr)
+                .then(res => {
+                    console.log(res)
+                    setBook(res)
+                })
+        } else {
+            bookService.getFromData(bookId)
+                .then(res => {
+                    setBook(res)
+                })
+        }
+
+    }, [])
 
 
     const onLike = (e) => {
@@ -82,20 +97,14 @@ export const BookDetails = ({ books, editBookHandler }) => {
                 }
 
                 newBook.liked = "false"
-
             }
 
-
         }
-
 
 
         const objectId = Number(bookId) - 1
 
         const likedBook = { ...newBook, 'liked': newBook['liked'], 'total_likes': newBook['total_likes'], 'liked_by': newBook['liked_by'] }
-
-
-        console.log(likedBook)
 
 
         if (bookId.length <= 1) {
@@ -107,8 +116,6 @@ export const BookDetails = ({ books, editBookHandler }) => {
         } else {
             bookService.editBooks(bookId, likedBook)
                 .then(res => {
-                    console.log('below response from just edit')
-                    console.log(res)
                     setBook(res)
                     editBookHandler(bookId, res)
 
@@ -117,23 +124,28 @@ export const BookDetails = ({ books, editBookHandler }) => {
 
     }
 
-    const firstId = Number(bookId) + 1
-    const finalStr = firstId.toString()
 
-    useEffect(() => {
-        if (bookId.length <= 1) {
-            bookService.getFromStore(finalStr)
-                .then(res => {
-                    setBook(res)
-                })
-        } else {
-            bookService.getFromData(bookId)
-                .then(res => {
-                    setBook(res)
-                })
+    const onDeleteHandler = () => {
+
+        const objectId = Number(bookId) - 1
+        const confirmation = window.confirm('Are you sure you want to delete this book?')
+
+        if (confirmation) {
+            if (bookId.length <= 1 ){
+                bookService.removeInitialBook(objectId)
+            }else{
+                bookService.removeBook(bookId)
+            }
+            
+            deleteHandler(bookId)
+            navigate('/')
         }
 
-    }, [])
+
+
+    }
+
+
 
     return (
         <section className="bg-sand padding-large">
@@ -200,8 +212,8 @@ export const BookDetails = ({ books, editBookHandler }) => {
                     </div>
                     <div>
                         {bookId.length <= 1
-                            ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} type="button">Edit</Link> <button>Leave a Review</button> </div> : <button>Leave a Review</button>
-                            : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="button">Edit</Link> <button>Leave a Review</button> </div> : <button>Leave a Review</button>
+                            ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} type="button">Edit</Link> <button onClick={onDeleteHandler}>Delete</button> <button>Leave a Review</button> </div> : <button>Leave a Review</button>
+                            : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="button">Edit</Link> <button onClick={onDeleteHandler}>Delete</button> <button>Leave a Review</button> </div> : <button>Leave a Review</button>
                         }
 
                     </div>
