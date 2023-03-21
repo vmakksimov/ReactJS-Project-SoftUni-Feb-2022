@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import { AuthContext } from "../../../context/AuthContext"
 import { useContext } from "react"
 
-export const BookReview = () => {
+export const BookReview = ({editBookHandler}) => {
 
 
     const { user, books } = useContext(AuthContext)
@@ -49,99 +49,83 @@ export const BookReview = () => {
 
     }, [])
 
+    const onSubmitReview = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target)
+        const email = formData.get('email')
+        const username = formData.get('username')
+        const review = formData.get('review')
+       
+        const reviewedBookData = {}
+
+        if (!(reviewedBookData.hasOwnProperty(username))){
+            reviewedBookData[username] = [review,]
+        }else{
+            reviewedBookData[username].push(review)
+        }
+
+        newBook.reviews.push(reviewedBookData)
+    
+
+        const reviewedBook = {...newBook, 'reviews': {...reviewedBookData}}
+
+       
+        const objectId = Number(bookId) - 1
+       
+        if (bookId.length <= 1) {
+            bookService.editInitial(objectId, newBook)
+                .then(res => {
+                    console.log(res)
+                    editBookHandler(bookId, res)
+                    navigate('/book-store')
+
+                })
+        } else {
+            bookService.editBooks(bookId, newBook)
+                .then(res => {
+                    editBookHandler(bookId, res)
+                    navigate('/book-store')
+                })
+        }
+    
+    }
+
     return (
         <>
-            <section className="bg-sand padding-large">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-6">
-                            <figure className="products-thumb">
-
-                                {bookId.length <= 1
-                                    ? <img
-                                        src={current.image}
-
-                                        alt="book"
-                                        className="single-image"
-                                    />
-                                    : <img
-                                        src={currentBook.image}
-
-                                        alt="book"
-                                        className="single-image"
-                                    />
-                                }
-
-                            </figure>
-
-                        </div>
-                        <div className="col-md-6 pl-5">
-                            <div className="product-detail">
-
-                                {bookId.length <= 1
-                                    ? <div><h1>{current.title}</h1>
-                                        <p>{current.author}</p></div>
-
-
-                                    : <div><h1>{currentBook.title}</h1>
-                                        <p>{currentBook.author}</p></div>
-
-                                }
-
-
-
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                    aliquip ex ea commodo consequat.
-                                </p>
-                                <p>
-                                    Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                                    anim id est laborum.
-
-                                </p>
-
-                                {bookId.length <= 1
-                                    ? <div><span>Total Likes: {current.total_likes}</span></div>
-                                    : <div><span>Total Likes: {currentBook.total_likes}</span></div>
-                                }
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
             <section>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <h1 className="page-title">
-                                Leave A Review Below
-                            </h1>
+                            <h1 className="page-title" style={{fontSize: '26px'}}>
+                            {bookId.length <= 1
+                                    ? <div><h1>{current.author}</h1>
+                                        <p>{current.title}</p></div>
 
+
+                                    : <div><h1>{currentBook.author}</h1>
+                                        <p>{currentBook.title}</p></div>
+                                }
+                            </h1>
                         </div>
                     </div>
                 </div>
             </section>
             <section className="padding-large">
-                <div className="container">
+                <div className="container" style={{width: '50%'}}>
                     <div className="row">
                         <div className="col-md-12">
                             <section className="comment-respond  mb-5">
                                 <h3>Leave a Review</h3>
-                                <form method="post" className="form-group mt-3">
+                                <form className="form-group mt-3" onSubmit={onSubmitReview}>
                                     <div className="row">
                                         <div className="col-md-6">
                                             <input
                                                 className="u-full-width"
                                                 type="text"
-                                                name="author"
+                                                name="username"
                                                 id="author"
-                                                placeholder="Your full name"
+                                                placeholder="Your username"
                                             />
                                         </div>
                                         <div className="col-md-6">
@@ -159,21 +143,21 @@ export const BookReview = () => {
                                             <textarea
                                                 className="u-full-width"
                                                 id="comment"
-                                                name="comment"
+                                                name="review"
                                                 placeholder="Write your review here"
                                                 rows={20}
                                                 defaultValue={""}
                                             />
                                         </div>
-                                        <div className="col-md-12">
+                                        {/* <div className="col-md-12">
                                             <label className="example-send-yourself-copy">
                                                 <input type="checkbox" />
                                                 <span className="label-body">
                                                     Save my name, email, and website in this browser for the
-                                                    next time I comment.
+                                                    next time I leave a review.
                                                 </span>
                                             </label>
-                                        </div>
+                                        </div> */}
                                         <div className="col-md-12">
                                             <input
                                                 className="btn btn-rounded btn-large btn-full"

@@ -77,7 +77,7 @@ function App() {
                         <Route path='/profile' element={<Profile />} />
                         <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
                         <Route path='/book-store' element={<BookStore />} />
-                        <Route path='/book/review/:bookId' element={<BookReview />} />
+                        <Route path='/book/review/:bookId' element={<BookReview editBookHandler={editBookHandler}/>} />
                         <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} deleteHandler={deleteHandler} />} />
                         <Route path='/book-details/edit/:bookId' element={<EditBook books={books} editBookHandler={editBookHandler} />} />
 
