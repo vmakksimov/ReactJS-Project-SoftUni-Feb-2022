@@ -229,7 +229,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
                 <h3>Reviews</h3>
                 <div className="comment-list mt-4">
                     {console.log('new book reviews below')}
-                    
+                    {/* todo key={Object.keys(x)} */}
              
                     {newBook.reviews.length > 0
                         ? newBook.reviews.map(x => <Reviews  book={x} />)
