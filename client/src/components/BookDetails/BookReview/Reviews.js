@@ -9,7 +9,7 @@ export const Reviews = ({book}) => {
 
             <div className="author-post">
                 <div className="comment-meta d-flex">
-                    <h4>{Object.keys(book)}</h4>
+                    <h4>{Object.keys(book)[0]}</h4>
                     <span className="meta-date">Dec 2,2020</span>
                     <small className="comments-reply">
                         <a href="#">
@@ -20,7 +20,7 @@ export const Reviews = ({book}) => {
                 </div>
                 {/*meta-tags*/}
                 <p>
-                    {Object.values(book)}
+                    {Object.values(book)[0]}
                 </p>
             </div>
         </article>

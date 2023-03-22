@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 
 import { AuthContext } from "../../../context/AuthContext"
 import { useContext } from "react"
+import uniqid from 'uniqid';
 
 export const BookReview = ({ editBookHandler }) => {
 
@@ -67,50 +68,46 @@ export const BookReview = ({ editBookHandler }) => {
         e.preventDefault();
 
         const formData = new FormData(e.target)
-        const email = formData.get('email')
-        const username = formData.get('username')
         const review = formData.get('review')
+        const userInReview = newBook.reviews.map(x => Object.keys(x).toString() == user.username)
 
-        // TODO chek if the username already in the system
 
-        if (newBook.reviews.map(x => Object.keys(x).toString() == user.username)) {
-            return userExists()
+        const reviewedBookData = {}
+
+        if (!(reviewedBookData.hasOwnProperty(user.username))) {
+            reviewedBookData[user.username] = [review,]
+            reviewedBookData['_id'] = uniqid()
         } else {
-            const reviewedBookData = {}
-
-            if (!(reviewedBookData.hasOwnProperty(user.username))) {
-                reviewedBookData[user.username] = [review,]
-            } else {
-                reviewedBookData[user.username].push(review)
-            }
-
-            if (newBook.reviews.length > 0) {
-                newBook.reviews.push(reviewedBookData)
-            } else {
-                newBook.reviews = []
-                newBook.reviews.push(reviewedBookData)
-            }
-
-            console.log('liked book below')
-
-
-            const objectId = Number(bookId) - 1
-
-            if (bookId.length <= 1) {
-                bookService.editInitial(objectId, newBook)
-                    .then(res => {
-                        editBookHandler(bookId, res)
-                        navigate(`/book-details/${bookId}`)
-
-                    })
-            } else {
-                bookService.editBooks(bookId, newBook)
-                    .then(res => {
-                        editBookHandler(bookId, res)
-                        navigate(`/book-details/${bookId}`)
-                    })
-            }
+            reviewedBookData[user.username].push(review)
         }
+
+        if (newBook.reviews.length > 0) {
+            newBook.reviews.push(reviewedBookData)
+        } else {
+            newBook.reviews = []
+            newBook.reviews.push(reviewedBookData)
+        }
+
+        console.log('liked book below')
+
+
+        const objectId = Number(bookId) - 1
+
+        if (bookId.length <= 1) {
+            bookService.editInitial(objectId, newBook)
+                .then(res => {
+                    editBookHandler(bookId, res)
+                    navigate(`/book-details/${bookId}`)
+
+                })
+        } else {
+            bookService.editBooks(bookId, newBook)
+                .then(res => {
+                    editBookHandler(bookId, res)
+                    navigate(`/book-details/${bookId}`)
+                })
+        }
+
 
 
 
@@ -144,24 +141,7 @@ export const BookReview = ({ editBookHandler }) => {
                                 <h3>Leave a Review</h3>
                                 <form className="form-group mt-3" onSubmit={onSubmitReview}>
                                     <div className="row">
-                                        <div className="col-md-6">
-                                            <input
-                                                className="u-full-width"
-                                                type="text"
-                                                name="username"
-                                                id="author"
-                                                placeholder="Your username"
-                                            />
-                                        </div>
-                                        <div className="col-md-6">
-                                            <input
-                                                className="u-full-width"
-                                                type="email"
-                                                name="email"
-                                                id="email"
-                                                placeholder="E-mail Address"
-                                            />
-                                        </div>
+
                                     </div>
                                     <div className="row">
                                         <div className="col-md-12">

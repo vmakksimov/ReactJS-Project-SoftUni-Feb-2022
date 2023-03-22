@@ -229,9 +229,10 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
             <section className="comments-wrap mb-4">
                 <h3>Reviews</h3>
                 <div className="comment-list mt-4">
-                
+                        {/* {key={Object.keys(x)}} */}
+                        {newBook.reviews.map(x => console.log(x))}
                     {newBook.reviews.length > 0
-                        ? newBook.reviews.map(x =>  <Reviews key={Object.keys(x)} book={x} />)
+                        ? newBook.reviews.map(x => <Reviews key={x._id}  book={x} />)
                         : <span>No reviews yet.</span>
                     }
 
