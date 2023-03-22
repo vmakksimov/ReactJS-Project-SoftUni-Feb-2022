@@ -232,7 +232,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
                     {console.log(newBook)}
                     {console.log(newBook.reviews)}
                     {/* todo key={Object.keys(x)} */}
-             
+                        
                     {newBook.reviews.length > 0
                         ? newBook.reviews.map(x => <Reviews  book={x} />)
                         : <span>No reviews yet.</span>

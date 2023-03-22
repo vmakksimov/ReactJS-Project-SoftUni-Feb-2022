@@ -58,14 +58,14 @@ export const EditBook = ({ books, editBookHandler }) => {
             bookService.editInitial(objectId, final)
                 .then(res => {
                     editBookHandler(bookId, res)
-                    navigate('/book-store')
+                    navigate(`/book-details/${bookId}`)
 
                 })
         } else {
             bookService.editBooks(bookId, likedBook)
                 .then(res => {
                     editBookHandler(bookId, res)
-                    navigate('/book-store')
+                    navigate(`/book-details/${bookId}`)
                 })
         }
 

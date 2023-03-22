@@ -67,13 +67,17 @@ export const BookReview = ({ editBookHandler }) => {
             reviewedBookData[username].push(review)
         }
 
-        newBook.reviews = []
-        newBook.reviews.push(reviewedBookData)
+        if (newBook.reviews.length > 0) {
+            newBook.reviews.push(reviewedBookData)
+        } else {
+            newBook.reviews = []
+            newBook.reviews.push(reviewedBookData)
+        }
 
-        const likedBook = {...newBook, 'reviews': {reviewedBookData}}
+
         console.log(newBook)
         console.log('liked book below')
-        console.log(likedBook)
+      
 
         const objectId = Number(bookId) - 1
 
@@ -82,14 +86,14 @@ export const BookReview = ({ editBookHandler }) => {
                 .then(res => {
                     console.log(res)
                     editBookHandler(bookId, res)
-                    navigate('/book-store')
+                    navigate(`/book-details/${bookId}`)
 
                 })
         } else {
             bookService.editBooks(bookId, newBook)
                 .then(res => {
                     editBookHandler(bookId, res)
-                    navigate('/book-store')
+                    navigate(`/book-details/${bookId}`)
                 })
         }
 
