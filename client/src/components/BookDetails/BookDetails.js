@@ -229,8 +229,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
             <section className="comments-wrap mb-4">
                 <h3>Reviews</h3>
                 <div className="comment-list mt-4">
-                    {console.log('new book after edit below')}
-                    {console.log(newBook)}
+                
                     {newBook.reviews.length > 0
                         ? newBook.reviews.map(x =>  <Reviews key={Object.keys(x)} book={x} />)
                         : <span>No reviews yet.</span>

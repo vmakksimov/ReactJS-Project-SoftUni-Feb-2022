@@ -14,6 +14,9 @@ export const BookReview = ({ editBookHandler }) => {
     const navigate = useNavigate()
 
     const [currentBook, setBook] = useState({});
+    const [errors, setError] = useState({
+        message: ''
+    });
 
     const { bookId } = useParams();
 
@@ -49,6 +52,17 @@ export const BookReview = ({ editBookHandler }) => {
 
     }, [])
 
+    const userExists = () => {
+        const errorMessage = 'You have already left a review for this book.'
+
+        setError(state => ({
+            ...state,
+            message: errorMessage
+
+        }))
+
+    }
+
     const onSubmitReview = (e) => {
         e.preventDefault();
 
@@ -59,43 +73,46 @@ export const BookReview = ({ editBookHandler }) => {
 
         // TODO chek if the username already in the system
 
-        const reviewedBookData = {}
-
-        if (!(reviewedBookData.hasOwnProperty(username))) {
-            reviewedBookData[username] = [review,]
+        if (newBook.reviews.map(x => Object.keys(x).toString() == user.username)) {
+            return userExists()
         } else {
-            reviewedBookData[username].push(review)
+            const reviewedBookData = {}
+
+            if (!(reviewedBookData.hasOwnProperty(user.username))) {
+                reviewedBookData[user.username] = [review,]
+            } else {
+                reviewedBookData[user.username].push(review)
+            }
+
+            if (newBook.reviews.length > 0) {
+                newBook.reviews.push(reviewedBookData)
+            } else {
+                newBook.reviews = []
+                newBook.reviews.push(reviewedBookData)
+            }
+
+            console.log('liked book below')
+
+
+            const objectId = Number(bookId) - 1
+
+            if (bookId.length <= 1) {
+                bookService.editInitial(objectId, newBook)
+                    .then(res => {
+                        editBookHandler(bookId, res)
+                        navigate(`/book-details/${bookId}`)
+
+                    })
+            } else {
+                bookService.editBooks(bookId, newBook)
+                    .then(res => {
+                        editBookHandler(bookId, res)
+                        navigate(`/book-details/${bookId}`)
+                    })
+            }
         }
 
-        if (newBook.reviews.length > 0) {
-            newBook.reviews.push(reviewedBookData)
-        } else {
-            newBook.reviews = []
-            newBook.reviews.push(reviewedBookData)
-        }
 
-
-        console.log(newBook)
-        console.log('liked book below')
-      
-
-        const objectId = Number(bookId) - 1
-
-        if (bookId.length <= 1) {
-            bookService.editInitial(objectId, newBook)
-                .then(res => {
-                    console.log(res)
-                    editBookHandler(bookId, res)
-                    navigate(`/book-details/${bookId}`)
-
-                })
-        } else {
-            bookService.editBooks(bookId, newBook)
-                .then(res => {
-                    editBookHandler(bookId, res)
-                    navigate(`/book-details/${bookId}`)
-                })
-        }
 
     }
 
@@ -173,6 +190,8 @@ export const BookReview = ({ editBookHandler }) => {
                                                 defaultValue="Submit"
                                             />
                                         </div>
+                                        {errors.message &&
+                                            <div style={{ color: 'red' }}>{errors.message}</div>}
                                     </div>
                                 </form>
                             </section>

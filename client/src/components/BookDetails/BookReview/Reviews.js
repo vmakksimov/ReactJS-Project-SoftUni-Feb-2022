@@ -9,7 +9,6 @@ export const Reviews = ({book}) => {
 
             <div className="author-post">
                 <div className="comment-meta d-flex">
-                    {console.log(book)}
                     <h4>{Object.keys(book)}</h4>
                     <span className="meta-date">Dec 2,2020</span>
                     <small className="comments-reply">
