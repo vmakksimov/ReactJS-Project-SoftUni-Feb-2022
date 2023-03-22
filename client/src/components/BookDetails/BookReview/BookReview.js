@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import { AuthContext } from "../../../context/AuthContext"
 import { useContext } from "react"
 
-export const BookReview = ({editBookHandler}) => {
+export const BookReview = ({ editBookHandler }) => {
 
 
     const { user, books } = useContext(AuthContext)
@@ -56,23 +56,27 @@ export const BookReview = ({editBookHandler}) => {
         const email = formData.get('email')
         const username = formData.get('username')
         const review = formData.get('review')
-       
+
+        // TODO chek if the username already in the system
+
         const reviewedBookData = {}
 
-        if (!(reviewedBookData.hasOwnProperty(username))){
+        if (!(reviewedBookData.hasOwnProperty(username))) {
             reviewedBookData[username] = [review,]
-        }else{
+        } else {
             reviewedBookData[username].push(review)
         }
 
+        newBook.reviews = []
         newBook.reviews.push(reviewedBookData)
-    
 
-        const reviewedBook = {...newBook, 'reviews': {...reviewedBookData}}
+        const likedBook = {...newBook, 'reviews': {reviewedBookData}}
+        console.log(newBook)
+        console.log('liked book below')
+        console.log(likedBook)
 
-       
         const objectId = Number(bookId) - 1
-       
+
         if (bookId.length <= 1) {
             bookService.editInitial(objectId, newBook)
                 .then(res => {
@@ -88,7 +92,7 @@ export const BookReview = ({editBookHandler}) => {
                     navigate('/book-store')
                 })
         }
-    
+
     }
 
     return (
@@ -97,8 +101,8 @@ export const BookReview = ({editBookHandler}) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <h1 className="page-title" style={{fontSize: '26px'}}>
-                            {bookId.length <= 1
+                            <h1 className="page-title" style={{ fontSize: '26px' }}>
+                                {bookId.length <= 1
                                     ? <div><h1>{current.author}</h1>
                                         <p>{current.title}</p></div>
 
@@ -112,7 +116,7 @@ export const BookReview = ({editBookHandler}) => {
                 </div>
             </section>
             <section className="padding-large">
-                <div className="container" style={{width: '50%'}}>
+                <div className="container" style={{ width: '50%' }}>
                     <div className="row">
                         <div className="col-md-12">
                             <section className="comment-respond  mb-5">
