@@ -21,7 +21,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
     const newBook = books.find(x => x._id == bookId)
     const likedByUser = newBook.liked_by.includes(user._id)
 
-    
+
 
 
     const style = {
@@ -56,6 +56,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
 
         const filledHeart = "fa fa-heart"
         const nonFilledHeart = "fa fa-heart-o"
+
 
         if (e.target.className == nonFilledHeart) {
 
@@ -228,13 +229,10 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
             <section className="comments-wrap mb-4">
                 <h3>Reviews</h3>
                 <div className="comment-list mt-4">
-                    {console.log('new book reviews below')}
+                    {console.log('new book after edit below')}
                     {console.log(newBook)}
-                    {console.log(newBook.reviews)}
-                    {/* todo key={Object.keys(x)} */}
-                        
                     {newBook.reviews.length > 0
-                        ? newBook.reviews.map(x => <Reviews  book={x} />)
+                        ? newBook.reviews.map(x =>  <Reviews key={Object.keys(x)} book={x} />)
                         : <span>No reviews yet.</span>
                     }
 

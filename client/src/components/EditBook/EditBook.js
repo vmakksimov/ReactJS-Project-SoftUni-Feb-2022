@@ -42,10 +42,14 @@ export const EditBook = ({ books, editBookHandler }) => {
         let likedBook;
         let likedBook1;
 
+        if (currentBook.reviews.length <= 0){
+            currentBook.reviews = []
+        }
+
         if (bookId.length <= 1){
             likedBook1 = { ...booksData, 'liked': current['liked'], 'total_likes': current['total_likes'], 'liked_by': current['liked_by'] }
         }else{
-            likedBook = { ...booksData, 'liked': currentBook['liked'], 'total_likes': currentBook['total_likes'], 'liked_by': currentBook['liked_by'] }
+            likedBook = { ...booksData, 'liked': currentBook['liked'], 'total_likes': currentBook['total_likes'], 'liked_by': currentBook['liked_by'], 'reviews': currentBook['reviews'] }
         }
         
         const newBook = books.find(x => x._id == bookId)
