@@ -57,58 +57,38 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
         const filledHeart = "fa fa-heart"
         const nonFilledHeart = "fa fa-heart-o"
 
+        if (e.target.className == nonFilledHeart && !likedByUser) {
 
-        if (e.target.className == nonFilledHeart) {
+            e.target.className = filledHeart
+            newBook.liked = "true"
 
-
-            if (!likedByUser) {
-                e.target.className = filledHeart
-
-                if (bookId.length <= 1) {
-                    console.log(newBook)
-                    newBook.total_likes += 1
-                    newBook.liked_by.push(user._id)
-                } else {
-                    newBook.total_likes = Number(0)
-
-                    newBook.total_likes += 1
-                    newBook.liked_by = []
-
-                    newBook.liked_by.push(user._id)
-
-                }
-
-                newBook.liked = "true"
-
+            if (bookId.length <= 1) {
+                newBook.total_likes += 1
+                newBook.liked_by.push(user._id)
+            } else {
+                newBook.total_likes = Number(0)
+                newBook.total_likes += 1
+                newBook.liked_by = []
+                newBook.liked_by.push(user._id)
             }
 
-        } else if (e.target.className == filledHeart) {
+        } else if (e.target.className == filledHeart && newBook.total_likes >= 1) {
             e.target.className = nonFilledHeart
+            newBook.liked = "false"
 
-            if (newBook.total_likes >= 1) {
-
-                if (bookId.length <= 1) {
-                    newBook.total_likes -= 1
-
-                    newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
-                } else {
-                    newBook.total_likes = Number(newBook.total_likes)
-                    newBook.total_likes -= 1
-
-                    newBook.liked_by = []
-                    newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
-                }
-
-                newBook.liked = "false"
+            if (bookId.length <= 1) {
+                newBook.total_likes -= 1
+                newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
+            } else {
+                newBook.total_likes = Number(newBook.total_likes)
+                newBook.total_likes -= 1
+                newBook.liked_by = []
+                newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
             }
-
         }
 
-
         const objectId = Number(bookId) - 1
-
         const likedBook = { ...newBook, 'liked': newBook['liked'], 'total_likes': newBook['total_likes'], 'liked_by': newBook['liked_by'] }
-
 
         if (bookId.length <= 1) {
             bookService.editInitial(objectId, newBook)
@@ -229,10 +209,10 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
             <section className="comments-wrap mb-4">
                 <h3>Reviews</h3>
                 <div className="comment-list mt-4">
-                        {/* {key={Object.keys(x)}} */}
-                        {newBook.reviews.map(x => console.log(x))}
+                    {/* {key={Object.keys(x)}} */}
+
                     {newBook.reviews.length > 0
-                        ? newBook.reviews.map(x => <Reviews key={x._id}  book={x} />)
+                        ? newBook.reviews.map(x => <Reviews key={x._id} book={x} />)
                         : <span>No reviews yet.</span>
                     }
 

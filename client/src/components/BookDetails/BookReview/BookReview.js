@@ -69,7 +69,7 @@ export const BookReview = ({ editBookHandler }) => {
 
         const formData = new FormData(e.target)
         const review = formData.get('review')
-        const userInReview = newBook.reviews.map(x => Object.keys(x).toString() == user.username)
+        // const userInReview = newBook.reviews.map(x => Object.keys(x).toString() == user.username)
 
 
         const reviewedBookData = {}
