@@ -1,7 +1,9 @@
 import "./ProfileBooks.css"
+import { Link } from "react-router-dom"
 
 export const ProfileBooks = ({book}) => {
     return (
+        <Link to={`/book-details/${book._id}`}>
         <div className="col-lg-4 col-md-6 col-sm-12 class-item filter-1 wow fadeInUp" data-wow-delay="0.0s">
             <div className="class-wrap">
                 <div className="class-img">
@@ -12,11 +14,12 @@ export const ProfileBooks = ({book}) => {
                     {book.author}
 
                     <h2>{book.title}</h2>
-                    <div className="class-meta">
-                        <p><i className="far fa-calendar-alt"></i>{book.likes}</p>
-                    </div>
+
+                    <p>Total likes: {book.total_likes}</p>
+                   
                 </div>
             </div>
         </div>
+        </Link>
     )
 }

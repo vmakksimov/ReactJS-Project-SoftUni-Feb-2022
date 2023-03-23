@@ -27,7 +27,7 @@ export const Profile = () => {
                         <strong>Information</strong>
                         <br />
                         <div className="table-responsive">
-                            <table className="table table-user-information">
+                            <table className="table table-user-information" style={{display: 'flex', justifyContent: 'center'}}>
                                 <tbody>
                                     <tr>
                                         <td>
