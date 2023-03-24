@@ -103,19 +103,21 @@ export const Home = () => {
                                 <div id="all-genre" data-tab-content="" className="active">
                                     <div className="row">
 
-                                        {/* {books.length > 0 
+                                        {books.length <= 5 
 
                                        
                                         ?books.slice(1, 5).map(x => <BookItem key={x._id} book={x} />)
                                         
-                                        : <span>No current books added.</span>
-                                        } */}
-                                        {console.log(current)}
-
-                                        {current.length > 0
-                                            ? current.map(x => <BookItem key={x._id} book={x} />)
-                                            : books.slice(4).map(x => <BookItem key={x._id} book={x} />)
+                                        :books.slice(5,).map(x => <BookItem key={x._id} book={x} />)
                                         }
+                                        {/* {console.log(books)}
+
+                                        {books.length <= 4
+                                            // ? current.map(x => <BookItem key={x._id} book={x} />)
+                                            ? books.slice(1, 5).map(x => <BookItem key={x._id} book={x} />)
+
+                                            : books.slice(6,).map(x => <BookItem key={x._id} book={x} />)
+                                        } */}
 
                                     </div>
                                 </div>
