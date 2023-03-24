@@ -16,6 +16,7 @@ import { BookStore } from './components/Store/BookStore';
 import { BookDetails } from './components/BookDetails/BookDetails';
 import { EditBook } from './components/EditBook/EditBook';
 import { Profile } from './components/Profile/Profile';
+import { EditProfile } from './components/Profile/ProfileBooks/EditProfile/EditProfile';
 
 
 
@@ -40,6 +41,10 @@ function App() {
         
     }
 
+    const editProfile = (authData) => {
+        setAuth({...user, ...authData})
+    }
+
     const userLogin = (authData) => {
         setAuth(authData)
     }
@@ -62,7 +67,7 @@ function App() {
 
 
     return (
-        <AuthContext.Provider value={{ user, books, userLogin, userLogout }}>
+        <AuthContext.Provider value={{ user, books, userLogin, userLogout, editProfile }}>
 
             <div className="App">
                 <Header />
@@ -75,6 +80,7 @@ function App() {
                         <Route path='/login' element={<Login />} />
                         <Route path='/logout' element={<Logout />} />
                         <Route path='/profile' element={<Profile />} />
+                        <Route path='/profile/edit' element={<EditProfile />} />
                         <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
                         <Route path='/book-store' element={<BookStore />} />
                         {/* <Route path='/book/review/:bookId' element={<BookReview editBookHandler={editBookHandler}/>} /> */}

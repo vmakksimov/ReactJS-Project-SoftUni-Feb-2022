@@ -16,7 +16,6 @@ export const ProfileBooks = ({book}) => {
                     <h2>{book.title}</h2>
 
                     <p>Total likes: {book.total_likes}</p>
-                   
                 </div>
             </div>
         </div>

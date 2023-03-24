@@ -31,11 +31,10 @@ export const Register = () => {
         if (password !== confirmPassword){
             return;
         }
-        console.log('works')
+       
 
         AuthService.register(email, password, username, image, first_name, last_name, usertype)
             .then(res => {
-                console.log(res)
                 userLogin(res)
                 navigate('/')
                 
@@ -84,8 +83,8 @@ export const Register = () => {
                         <div className="input-box">
                             <span className="details">Sign up as</span>
                             <select name="user_type">
-                                <option value="teacher">Author</option>
-                                <option value="student">Reader</option>
+                                <option value="author">Author</option>
+                                <option value="reader">Reader</option>
                             </select>
                         </div>
                     </div>

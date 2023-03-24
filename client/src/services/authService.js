@@ -18,3 +18,6 @@ export const logout = async (accessToken) => {
 
     }
 }
+
+export const getUser = (accessToken) => request.get(`${baseUrl}/me`, {headers: {'X-Authorization': accessToken}})
+export const updateUser = (accessToken) => request.put(`${baseUrl}/me`, {headers: {'X-Authorization': accessToken}})

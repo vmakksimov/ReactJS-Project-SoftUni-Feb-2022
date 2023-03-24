@@ -20,12 +20,12 @@ export const BookStore = () => {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="colored">
-                                <h1 className="page-title">Shop</h1>
+                                <h1 className="page-title">Catalog</h1>
                                 <div className="breadcum-items">
                                     <span className="item">
                                         <Link to="/">Home /</Link>
                                     </span>
-                                    <span className="item colored">Shop</span>
+                                    <span className="item colored">Catalog</span>
                                 </div>
                             </div>
                         </div>

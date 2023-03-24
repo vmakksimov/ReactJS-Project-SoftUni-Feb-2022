@@ -14,6 +14,11 @@ export const Home = () => {
 
     }
 
+    const onGenre = (e) => {
+        e.preventDefault()
+        console.log(e.target.id)
+    }
+
 
     return (
         <>
@@ -76,17 +81,17 @@ export const Home = () => {
                                 <li data-tab-target="#business" className="tab">
                                     Business
                                 </li>
-                                <li data-tab-target="#technology" className="tab">
-                                    Technology
+                                <li data-tab-target="#technology" className="tab" id="horror" onClick={onGenre}>
+                                    Horror
                                 </li>
                                 <li data-tab-target="#romantic" className="tab">
-                                    Romantic
+                                    Fictional
                                 </li>
                                 <li data-tab-target="#adventure" className="tab">
-                                    Adventure
+                                    Romantic
                                 </li>
                                 <li data-tab-target="#fictional" className="tab">
-                                    Fictional
+                                    Adventure
                                 </li>
                             </ul>
                             <div className="tab-content">

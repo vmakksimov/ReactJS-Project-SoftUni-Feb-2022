@@ -2,14 +2,34 @@ import "./Profile.css"
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
 import { ProfileBooks } from "./ProfileBooks/ProfileBooks"
+import { useState } from "react"
+import { EditProfile } from "./ProfileBooks/EditProfile/EditProfile"
+import { useNavigate } from "react-router-dom"
 
 export const Profile = () => {
 
     const { user, books } = useContext(AuthContext)
+    const navigate = useNavigate();
 
     const likedBooks = [];
     const likedByUser = books.map(x => x.liked_by.includes(user._id) ? likedBooks.push(x) : 'No likes from this user.')
-    console.log(likedBooks)
+  
+    const [values, setValues] = useState('',{
+        username: '',
+
+    })
+
+//    const onChange = () => {
+//     console.log('onchange')
+//    }
+
+    // const booksData = Object.fromEntries(new FormData(e.target))
+
+    const changeInput = (e) => {
+        navigate('/profile/edit')
+    }
+
+    
 
     return (
         <div className="team">
@@ -27,7 +47,7 @@ export const Profile = () => {
                         <strong>Information</strong>
                         <br />
                         <div className="table-responsive">
-                            <table className="table table-user-information" style={{display: 'flex', justifyContent: 'center'}}>
+                            <table className="table table-user-information" style={{display: 'flex', justifyContent: 'center'}} >
                                 <tbody>
                                     <tr>
                                         <td>
@@ -36,8 +56,10 @@ export const Profile = () => {
                                                 Username
                                             </strong>
                                         </td>
-                                        <td className="text-primary">{user.username}</td>
+                                       
+                                        <td className="text-primary">{user.username} </td>
                                     </tr>
+                                    
                                     <tr>
                                         <td>
                                             <strong>
@@ -54,7 +76,7 @@ export const Profile = () => {
                                                 Role
                                             </strong>
                                         </td>
-                                        <td className="text-primary">User</td>
+                                        <td className="text-primary">{user.user_type}</td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -67,7 +89,9 @@ export const Profile = () => {
                                     </tr>
 
                                 </tbody>
-                            </table>
+                                
+                            </table> 
+                            <button onClick={changeInput}>EDIT</button>
                         </div>
                     </div>
                 </div>

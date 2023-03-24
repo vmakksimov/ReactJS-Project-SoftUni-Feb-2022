@@ -12,7 +12,8 @@ export const CreateBook = ({addBookHandler}) => {
         title: '',
         author: '',
         year: '',
-        image: ''
+        image: '',
+        summary: '',
 
     })
 
@@ -57,6 +58,20 @@ export const CreateBook = ({addBookHandler}) => {
                         <span className="details">Year</span>
                         <input type="text" name="year" placeholder="Enter year" value={values.year} onChange={onChange} required />
                     </div>
+                    <div className="input-box">
+                        <span className="details">Summary</span>
+                        <input type="text" name="summary" placeholder="Type summary" value={values.summary} onChange={onChange} required />
+                    </div>
+                    <div className="input-box">
+                            <span className="details">Genre</span>
+                            <select name="genre">
+                                <option value="business">Business</option>
+                                <option value="horror">Horror</option>
+                                <option value="fictional">Fictional</option>
+                                <option value="romantic">Romantic</option>
+                                <option value="adventure">Adventure</option>
+                            </select>
+                        </div>
                     <div className="input-box">
                         <span className="details">Image</span>
                         <input type="text" name="image" placeholder="Enter Image Url" value={values.image} onChange={onChange} required />
