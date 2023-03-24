@@ -49,6 +49,15 @@ export const Header = () => {
                                                 Books
                                             </Link>
                                         </li>
+                                        <li className="menu-item">
+                                            <Link
+                                                to="/most-liked"
+                                                className="nav-link"
+                                                data-effect="Articles"
+                                            >
+                                                Most Liked
+                                            </Link>
+                                        </li>
                                         {user.accessToken
 
                                             ?
