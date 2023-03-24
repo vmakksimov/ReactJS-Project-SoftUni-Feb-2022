@@ -1,14 +1,13 @@
 import { BookItem } from "./BookItem/BookItem"
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
-import { useState } from "react"
+
 
 
 export const Home = () => {
 
 
     const { books } = useContext(AuthContext)
-    const [current, setBook] = useState({});
 
     // const firstOne = books.find(x => x._id == 1)
 
@@ -17,12 +16,7 @@ export const Home = () => {
 
     }
 
-    const onGenre = (e) => {
-        e.preventDefault()
-        const genre = books.filter(x => x.genre == e.target.id)
-        setBook(genre)
-
-    }
+   
 
 
     return (
@@ -77,28 +71,9 @@ export const Home = () => {
                                 <div className="title">
                                     <span>Some quality items</span>
                                 </div>
-                                <h2 className="section-title">Popular Books</h2>
+                                <h2 className="section-title">Recently added</h2>
                             </div>
-                            <ul className="tabs">
-                                <li data-tab-target="#all-genre" className="active tab" id="all" onClick={onGenre}>
-                                    All Genre
-                                </li>
-                                <li data-tab-target="#business" className="tab" id="business" onClick={onGenre}>
-                                    Business
-                                </li>
-                                <li data-tab-target="#technology" className="tab" id="horror" onClick={onGenre}>
-                                    Horror
-                                </li>
-                                <li data-tab-target="#romantic" className="tab" id="fictional" onClick={onGenre}>
-                                    Fictional
-                                </li>
-                                <li data-tab-target="#adventure" className="tab" id="romantic" onClick={onGenre}>
-                                    Romantic
-                                </li>
-                                <li data-tab-target="#fictional" className="tab" id="adventure" onClick={onGenre}>
-                                    Adventure
-                                </li>
-                            </ul>
+                            
                             <div className="tab-content">
                                 <div id="all-genre" data-tab-content="" className="active">
                                     <div className="row">
