@@ -1,12 +1,15 @@
 import { BookItem } from "./BookItem/BookItem"
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
+import { useState } from "react"
 
-    
+
 export const Home = () => {
 
 
     const { books } = useContext(AuthContext)
+    const [current, setBook] = useState({});
+
     // const firstOne = books.find(x => x._id == 1)
 
     const onLike = (e) => {
@@ -16,7 +19,9 @@ export const Home = () => {
 
     const onGenre = (e) => {
         e.preventDefault()
-        console.log(e.target.id)
+        const genre = books.filter(x => x.genre == e.target.id)
+        setBook(genre)
+
     }
 
 
@@ -75,35 +80,41 @@ export const Home = () => {
                                 <h2 className="section-title">Popular Books</h2>
                             </div>
                             <ul className="tabs">
-                                <li data-tab-target="#all-genre" className="active tab">
+                                <li data-tab-target="#all-genre" className="active tab" id="all" onClick={onGenre}>
                                     All Genre
                                 </li>
-                                <li data-tab-target="#business" className="tab">
+                                <li data-tab-target="#business" className="tab" id="business" onClick={onGenre}>
                                     Business
                                 </li>
                                 <li data-tab-target="#technology" className="tab" id="horror" onClick={onGenre}>
                                     Horror
                                 </li>
-                                <li data-tab-target="#romantic" className="tab">
+                                <li data-tab-target="#romantic" className="tab" id="fictional" onClick={onGenre}>
                                     Fictional
                                 </li>
-                                <li data-tab-target="#adventure" className="tab">
+                                <li data-tab-target="#adventure" className="tab" id="romantic" onClick={onGenre}>
                                     Romantic
                                 </li>
-                                <li data-tab-target="#fictional" className="tab">
+                                <li data-tab-target="#fictional" className="tab" id="adventure" onClick={onGenre}>
                                     Adventure
                                 </li>
                             </ul>
                             <div className="tab-content">
                                 <div id="all-genre" data-tab-content="" className="active">
                                     <div className="row">
-                                       
-                                        {books.length > 0 
 
-                                        
+                                        {/* {books.length > 0 
+
+                                       
                                         ?books.slice(1, 5).map(x => <BookItem key={x._id} book={x} />)
                                         
                                         : <span>No current books added.</span>
+                                        } */}
+                                        {console.log(current)}
+
+                                        {current.length > 0
+                                            ? current.map(x => <BookItem key={x._id} book={x} />)
+                                            : books.slice(4).map(x => <BookItem key={x._id} book={x} />)
                                         }
 
                                     </div>
