@@ -7,10 +7,7 @@ export const MostLiked = () => {
 
     const { books } = useContext(AuthContext)
     
-    
     let sortedProducts = books.sort((p1, p2) => (p1.total_likes < p2.total_likes) ? 1 : (p1.total_likes > p2.total_likes) ? -1 : 0);
-    
-
     
     return (
         <div className="table-container">
