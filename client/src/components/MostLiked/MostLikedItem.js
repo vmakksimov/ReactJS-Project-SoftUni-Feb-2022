@@ -1,23 +1,25 @@
-export const MostLikedItem = ({book, index}) => {
+export const MostLikedItem = ({ book, index }) => {
     return (
         <tr>
-           
+
             <td data-title="Provider Name"> {index}</td>
-            
+
             <td data-title="Provider Name">
                 <a href="">
-                    <i className="fa fa-heart" aria-hidden="true" />
+
                 </a>
                 {book.title}
             </td>
-            <td data-title="E-mail"></td>
-            <td className="select">
-                <a className="button" href="">
-                    Buy
-                </a>
-                <a className="button" href="">
-                    Buy
-                </a>
+            <td data-title="E-mail">  <img src={book.image} alt="Books" className="product-item" style={{width: '25%'}}/></td>
+            <td className="select" style={{fontSize: '20px'}}>
+                <p >
+                    <i className="fa fa-heart" aria-hidden="true" /> {book.total_likes}
+                </p>
+              </td>
+              <td className="select" style={{fontSize: '20px'}}>  
+              <p>
+                    <i className="fa fa-commenting" aria-hidden="true"></i> {book.reviews.length}
+                </p>
             </td>
         </tr>
     )

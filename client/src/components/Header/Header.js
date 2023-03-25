@@ -54,8 +54,8 @@ export const Header = () => {
                                                 BOOKSTORE
                                             </button>
                                             <div id="myDropdown" className="dropdown-content">
-                                                <Link to="/book-store">Catalog</Link>
-                                                <Link to="/most-liked">Most Liked</Link>
+                                                <Link to="/book-store">CATALOG</Link>
+                                                <Link to="/most-liked">MOST LIKED</Link>
                                                 {user.accessToken && <Link
                                                         to="/addbook"
                                                         className="nav-link"
