@@ -37,6 +37,10 @@ function App() {
         ])
     }
 
+    const editLikeHandler = (likeId, currentLikedBook) => {
+        setBook(state => state.map(x => x._id == likeId ? currentLikedBook : x))
+    }
+
     const deleteHandler = (bookId) => {
         if (bookId.length <= 1) {
             books.splice(Number(bookId) - 1, 1)
@@ -76,7 +80,7 @@ function App() {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ user, books, userLogin, userLogout, editProfile, addLikeHandler }}>
+        <AuthContext.Provider value={{ user, books, userLogin, userLogout, editProfile, addLikeHandler, editLikeHandler }}>
 
             <div className="App">
                 <Header />

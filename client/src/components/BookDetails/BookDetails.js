@@ -11,12 +11,11 @@ import { Liked } from "./BookReview/Liked"
 
 export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) => {
 
-    const { user, addLikeHandler } = useContext(AuthContext)
+    const { user, addLikeHandler, editLikeHandler } = useContext(AuthContext)
     const navigate = useNavigate()
     const [currentBook, setBook] = useState({});
     const [isActive, setReview] = useState(false);
     const [likes, setLikes] = useState([]);
-
     const { bookId } = useParams();
 
     const current = books.find(x => x._id === Number(bookId))
@@ -29,6 +28,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
     console.log(likess)
     let currentLikedBook = likess.find(x => x.book_id == bookId ? x : false)
     let likedByUser;
+    let likeId;
 
     if (currentLikedBook) {
         likedByUser = currentLikedBook.user_liked.includes(user._id) ? true : false
@@ -57,7 +57,6 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
 
         const filledHeart = "fa fa-heart"
         const nonFilledHeart = "fa fa-heart-o"
-
         const objectId = Number(bookId) - 1
         // Liked(e, filledHeart, nonFilledHeart, bookId, likedByUser, user, newBook, currentLikedBook)
 
@@ -77,23 +76,32 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
 
         } else if (e.target.className == filledHeart) {
 
-
+            e.target.className = nonFilledHeart
             if (likedByUser) {
-                e.target.className = nonFilledHeart
+
                 currentLikedBook.total_likes -= 1
                 currentLikedBook.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
+                likeId = currentLikedBook._id
             }
 
         }
+       
 
 
-        if (Object.keys(likesObject.length > 0)) {
+
+        if (likesObject !== undefined) {
             bookService.like(likesObject)
                 .then(res => {
                     console.log('response from like service')
                     console.log(res)
                     setLikes(likesObject)
                     addLikeHandler(likesObject)
+                })
+        } else {
+            bookService.likeUpdate(likeId, currentLikedBook)
+                .then(res => {
+                    setLikes(currentLikedBook)
+                    editLikeHandler(likeId, res)
                 })
         }
 
@@ -276,9 +284,9 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
                             {user.accessToken && <Link to=""><i className={likedByUser ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>}
 
                             {currentLikedBook
-                            ?<div><span>Total Likes: {currentLikedBook.total_likes}</span></div>
-                            :<div><span>Total Likes: 0</span></div>
-                        }
+                                ? <div><span>Total Likes: {currentLikedBook.total_likes}</span></div>
+                                : <div><span>Total Likes: 0</span></div>
+                            }
 
                             {/* {bookId.length <= 1
                                 ? <div><span>Total Likes: {current.total_likes}</span></div>

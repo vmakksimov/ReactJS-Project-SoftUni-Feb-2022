@@ -21,7 +21,7 @@ export const getFromData = (bookId) => request.get(`${secondUrl}/${bookId}`)
 export const create = (booksData) => request.post(secondUrl, booksData)
 
 export const like = (booksData) => request.post(likeUrl, booksData)
-
+export const likeUpdate = (likeId, currentLikedBook) => request.put(`${likeUrl}/${likeId}`,currentLikedBook)
 
 
 // UPDATE
