@@ -57,7 +57,8 @@ export const EditBook = ({ books, editBookHandler }) => {
         
        const objectId = Number(bookId) - 1
 
-       
+       console.log('liked book from edit below')
+       console.log(likedBook)
         if (bookId.length <= 1) {
             bookService.editInitial(objectId, final)
                 .then(res => {
@@ -68,6 +69,7 @@ export const EditBook = ({ books, editBookHandler }) => {
         } else {
             bookService.editBooks(bookId, likedBook)
                 .then(res => {
+            
                     editBookHandler(bookId, res)
                     navigate(`/book-details/${bookId}`)
                 })

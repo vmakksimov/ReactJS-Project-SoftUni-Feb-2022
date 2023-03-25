@@ -26,11 +26,16 @@ function App() {
 
     const [user, setAuth] = useLocalStorage('auth', {})
     const [books, setBook] = useState([])
+    const [likes, setLike] = useState([])
 
-    useEffect(() => {
-        bookService.getInitialBooks()
-            .then(result => setBook(Object.values(result)))
-    }, [])
+    const addLikeHandler = (newLike) => {
+        console.log('new like below')
+        console.log(newLike)
+        setLike(state => [
+            ...state,
+            newLike,
+        ])
+    }
 
     const deleteHandler = (bookId) => {
         if (bookId.length <= 1) {
@@ -65,10 +70,13 @@ function App() {
         setBook(state => state.map(x => x._id == bookId ? booksData : x))
     }
 
-
+    useEffect(() => {
+        bookService.getInitialBooks()
+            .then(result => setBook(Object.values(result)))
+    }, [])
 
     return (
-        <AuthContext.Provider value={{ user, books, userLogin, userLogout, editProfile }}>
+        <AuthContext.Provider value={{ user, books, userLogin, userLogout, editProfile, addLikeHandler }}>
 
             <div className="App">
                 <Header />
@@ -86,7 +94,7 @@ function App() {
                         <Route path='/book-store' element={<BookStore />} />
                         <Route path='/most-liked' element={<MostLiked />} />
                         {/* <Route path='/book/review/:bookId' element={<BookReview editBookHandler={editBookHandler}/>} /> */}
-                        <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} deleteHandler={deleteHandler} />} />
+                        <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} deleteHandler={deleteHandler} likess={likes} />} />
                         <Route path='/book-details/edit/:bookId' element={<EditBook books={books} editBookHandler={editBookHandler} />} />
 
                     </Routes>

@@ -5,6 +5,8 @@ const baseUrl = 'http://localhost:3030/jsonstore/books';
 
 const secondUrl = 'http://localhost:3030/data/books';
 
+const likeUrl = 'http://localhost:3030/jsonstore/likes';
+
 // GET
 export const getInitialBooks = () => request.get(baseUrl)
 
@@ -17,6 +19,10 @@ export const getFromData = (bookId) => request.get(`${secondUrl}/${bookId}`)
 // POST
 
 export const create = (booksData) => request.post(secondUrl, booksData)
+
+export const like = (booksData) => request.post(likeUrl, booksData)
+
+
 
 // UPDATE
 

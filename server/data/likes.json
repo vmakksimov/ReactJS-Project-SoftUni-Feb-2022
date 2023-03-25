@@ -1,0 +1,9 @@
+[
+    {
+        "user_liked": [],
+        "book_id": "",
+        "total_likes": 0,
+        "liked": false,
+        "reviews": []
+    }
+]

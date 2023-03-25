@@ -9,20 +9,34 @@ import { Reviews } from "./BookReview/Reviews"
 import { SubmitReview } from "./BookReview/LeaveReview"
 import { Liked } from "./BookReview/Liked"
 
-export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
+export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) => {
 
-    const { user } = useContext(AuthContext)
-
+    const { user, addLikeHandler } = useContext(AuthContext)
     const navigate = useNavigate()
-
     const [currentBook, setBook] = useState({});
     const [isActive, setReview] = useState(false);
+    const [likes, setLikes] = useState([]);
 
     const { bookId } = useParams();
 
     const current = books.find(x => x._id === Number(bookId))
     let newBook = books.find(x => x._id == bookId)
-    const likedByUser = newBook.liked_by.includes(user._id)
+    // const currentLikedBook = likes.find(x => console.log(x))
+    // console.log(currentLikedBook)
+    // console.log(likes.book_id.includes(bookId) ? true : false)
+    console.log('currentLiked above')
+    console.log(newBook)
+    console.log(likess)
+    let currentLikedBook = likess.find(x => x.book_id == bookId ? x : false)
+    let likedByUser;
+
+    if (currentLikedBook) {
+        likedByUser = currentLikedBook.user_liked.includes(user._id) ? true : false
+    } else {
+        likedByUser = false
+    }
+
+
 
     const style = {
 
@@ -36,46 +50,97 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
     const firstId = Number(bookId) - 1
     const finalStr = firstId.toString()
 
-    useEffect(() => {
-        if (bookId.length <= 1) {
-            bookService.getFromStore(finalStr)
-                .then(res => {
-                    setBook(res)
-                })
-        } else {
-            bookService.getFromData(bookId)
-                .then(res => {
-                    setBook(res)
-                })
-        }
-
-    }, [])
 
 
     const onLike = (e) => {
+        e.preventDefault()
 
         const filledHeart = "fa fa-heart"
         const nonFilledHeart = "fa fa-heart-o"
 
         const objectId = Number(bookId) - 1
-        Liked(e, filledHeart, nonFilledHeart, bookId, likedByUser, user, newBook)
-        newBook = { ...newBook, 'liked': newBook['liked'], 'total_likes': newBook['total_likes'], 'liked_by': newBook['liked_by'] }
-        
+        // Liked(e, filledHeart, nonFilledHeart, bookId, likedByUser, user, newBook, currentLikedBook)
 
-        if (bookId.length <= 1) {
-            bookService.editInitial(objectId, newBook)
+        let likesObject;
+        if (e.target.className == nonFilledHeart && !likedByUser) {
+
+            e.target.className = filledHeart
+
+            if (!currentLikedBook) {
+                likesObject = { "user_liked": [user._id], 'book_id': bookId, "total_likes": 1, "liked": true, "reviews": [] }
+            } else {
+                currentLikedBook.total_likes += 1
+                currentLikedBook.user_liked.push(user._id)
+                currentLikedBook.liked = true
+            }
+
+
+        } else if (e.target.className == filledHeart) {
+
+
+            if (likedByUser) {
+                e.target.className = nonFilledHeart
+                currentLikedBook.total_likes -= 1
+                currentLikedBook.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
+            }
+
+        }
+
+
+        if (Object.keys(likesObject.length > 0)) {
+            bookService.like(likesObject)
                 .then(res => {
-                    editBookHandler(bookId, res)
-                })
-        } else {
-            bookService.editBooks(bookId, newBook)
-                .then(res => {
-                    setBook(res)
-                    editBookHandler(bookId, res)
+                    console.log('response from like service')
+                    console.log(res)
+                    setLikes(likesObject)
+                    addLikeHandler(likesObject)
                 })
         }
 
+
     }
+
+
+
+
+    // newBook = { ...newBook, 'liked': newBook['liked'], 'total_likes': newBook['total_likes'], 'liked_by': newBook['liked_by'] }
+
+    // let likesObject = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": false, "reviews": [] }
+
+    // const final = { ...newBook, ...newBook }
+
+
+    // if (bookId.length <= 1) {
+    //     bookService.editInitial(objectId, newBook)
+    //         .then(res => {
+    //             editBookHandler(bookId, res)
+    //         })
+    // } else {
+    //     if (user._id !== currentBook._ownerId) {
+    //         bookService.like(likesObject)
+    //             .then(res => {
+    //                 console.log('response from like service')
+    //                 console.log(res)
+    //                 setLikes(likesObject)
+    //                 console.log(likes)
+    //                 addLikeHandler(likesObject)
+
+    //             })
+
+
+    //     } else {
+    //         bookService.editBooks(bookId, final)
+    //             .then(res => {
+    //                 console.log('response below')
+    //                 console.log(res)
+    //                 setBook(res)
+    //                 editBookHandler(bookId, res)
+    //             })
+    //     }
+
+    // }
+
+
 
     const onSubmitReview = (e) => {
         e.preventDefault();
@@ -93,7 +158,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
             bookService.editInitial(objectId, newBook)
                 .then(res => {
                     editBookHandler(bookId, res)
-                    
+
                     navigate(`/book-details/${bookId}`)
 
                 })
@@ -124,7 +189,8 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
 
     }
 
-    const onReview = () => {
+    const onReview = (e) => {
+        e.preventDefault();
         // navigate(`/book/review/${bookId}`)
         if (isActive) {
             setReview(false)
@@ -133,6 +199,21 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
         }
 
     }
+
+    useEffect(() => {
+        if (bookId.length <= 1) {
+            bookService.getFromStore(finalStr)
+                .then(res => {
+                    setBook(res)
+                })
+        } else {
+            bookService.getFromData(bookId)
+                .then(res => {
+                    setBook(res)
+                })
+        }
+
+    }, [])
 
 
 
@@ -194,23 +275,27 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
 
                             {user.accessToken && <Link to=""><i className={likedByUser ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>}
 
-                            
+                            {currentLikedBook
+                            ?<div><span>Total Likes: {currentLikedBook.total_likes}</span></div>
+                            :<div><span>Total Likes: 0</span></div>
+                        }
 
-                            {bookId.length <= 1
+                            {/* {bookId.length <= 1
                                 ? <div><span>Total Likes: {current.total_likes}</span></div>
-                                : <div><span>Total Likes: {currentBook.total_likes}</span></div>
-                            }
+                                : user._id !== currentBook._ownerId ? <div><span>Total Likes: {likes.total_likes}</span></div> : <div><span>Total Likes: {currentBook.total_likes}</span></div>
+
+                            } */}
 
                         </div>
                     </div>
                     <div>
                         {bookId.length <= 1
-                            ? user.email == current._ownerEmail  ? <div>  <Link to={`/book-details/edit/${bookId}`} type="button">Edit</Link> <button onClick={onDeleteHandler}>Delete</button> <button onClick={onReview}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
+                            ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} type="button">Edit</Link> <button onClick={onDeleteHandler}>Delete</button> <button onClick={onReview}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
                             : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="button">Edit</Link> <button onClick={onDeleteHandler}>Delete</button> <button onClick={onReview}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
                         }
 
                     </div>
-                    {isActive && <form  className="form-group mt-3"  onSubmit={onSubmitReview} style={{ width: '50%', display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
+                    {isActive && <form className="form-group mt-3" onSubmit={onSubmitReview} style={{ width: '50%', display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
                         <div className="row">
 
                         </div>
@@ -225,15 +310,6 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler }) => {
                                     defaultValue={""}
                                 />
                             </div>
-                            {/* <div className="col-md-12">
-                                            <label className="example-send-yourself-copy">
-                                                <input type="checkbox" />
-                                                <span className="label-body">
-                                                    Save my name, email, and website in this browser for the
-                                                    next time I leave a review.
-                                                </span>
-                                            </label>
-                                        </div> */}
                             <div className="col-md-12">
                                 <input
                                     className="btn btn-rounded btn-large btn-full"

@@ -27,7 +27,7 @@ export const MostLiked = () => {
                 </tfoot>
                 <tbody>
 
-                    {sortedProducts.length > 0 && sortedProducts.map((x, index) => <MostLikedItem key={x._id} book={x} index={index +1}/>)}
+                    {sortedProducts.length > 0 && sortedProducts.slice(0,5).map((x, index) => <MostLikedItem key={x._id} book={x} index={index +1}/>)}
                     
                 </tbody>
             </table>
