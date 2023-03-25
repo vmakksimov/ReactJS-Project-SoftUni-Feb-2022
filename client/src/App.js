@@ -17,6 +17,7 @@ import { BookDetails } from './components/BookDetails/BookDetails';
 import { EditBook } from './components/EditBook/EditBook';
 import { Profile } from './components/Profile/Profile';
 import { EditProfile } from './components/Profile/ProfileBooks/EditProfile/EditProfile';
+import { MostLiked } from './components/MostLiked/MostLiked';
 
 
 
@@ -83,6 +84,7 @@ function App() {
                         <Route path='/profile/edit' element={<EditProfile />} />
                         <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
                         <Route path='/book-store' element={<BookStore />} />
+                        <Route path='/most-liked' element={<MostLiked />} />
                         {/* <Route path='/book/review/:bookId' element={<BookReview editBookHandler={editBookHandler}/>} /> */}
                         <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} deleteHandler={deleteHandler} />} />
                         <Route path='/book-details/edit/:bookId' element={<EditBook books={books} editBookHandler={editBookHandler} />} />

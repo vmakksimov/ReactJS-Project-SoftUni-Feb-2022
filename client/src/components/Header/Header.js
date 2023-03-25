@@ -1,11 +1,29 @@
 import { Link } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
-
-
+import "./Header.css"
 export const Header = () => {
 
     const { user } = useContext(AuthContext)
+
+    const onClick = () => {
+
+        document.getElementById("myDropdown").classList.toggle("show");
+
+        // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                const dropdowns = document.getElementsByClassName("dropdown-content");
+                let i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    }
 
     return (
         <div id="header-wrap">
@@ -25,54 +43,32 @@ export const Header = () => {
                             <nav id="navbar">
                                 <div className="main-menu stellarnav">
                                     <ul className="menu-list">
-                                    
+
                                         <li className="menu-item active">
                                             <Link to="/" data-effect="Home">
                                                 Home
                                             </Link>
                                         </li>
-                                        
-                                        <li className="menu-item">
-                                        
-                                            <Link to="#about" className="nav-link" data-effect="About">
-                                                
-                                                About
-                                            </Link>
-                                        </li>
-
-                                        <li className="menu-item">
-                                            <Link
-                                                to="/book-store"
-                                                className="nav-link"
-                                                data-effect="Articles"
-                                            >
-                                                Books
-                                            </Link>
-                                        </li>
-                                        <li className="menu-item">
-                                            <Link
-                                                to="/most-liked"
-                                                className="nav-link"
-                                                data-effect="Articles"
-                                            >
-                                                Most Liked
-                                            </Link>
-                                        </li>
-                                        {user.accessToken
-
-                                            ?
-                                            <> 
-                                                <li className="menu-item">
-                                                    <Link
+                                        <li className="dropdown">
+                                            <button onClick={onClick} className="dropbtn">
+                                                BOOKSTORE
+                                            </button>
+                                            <div id="myDropdown" className="dropdown-content">
+                                                <Link to="/book-store">Catalog</Link>
+                                                <Link to="/most-liked">Most Liked</Link>
+                                                {user.accessToken && <Link
                                                         to="/addbook"
                                                         className="nav-link"
                                                         data-effect="Articles"
                                                     >
-                                                        Add Book
-                                                    </Link>
-                                                </li>
-                                            </>
-                                            : <> <li className="menu-item">
+                                                        Add New Book
+                                                    </Link>}
+                                            </div>
+                                        </li>
+                                        {!user.accessToken
+
+                                            &&
+                                            <> <li className="menu-item">
                                                 <Link
                                                     to="/login"
                                                     className="nav-link"
@@ -104,20 +100,20 @@ export const Header = () => {
                                             </Link>
                                         </li>
                                         {user.accessToken
-                                         && 
-                                         <>
-                                         <li className="menu-item">
-                                         <Link
-                                             to="/logout"
-                                             className="nav-link"
-                                             data-effect="Articles"
-                                         >
-                                             Logout
-                                         </Link>
-                                     </li>
-                                     
-                                     <span>Hello, {user.first_name} <Link to='/profile'><i className="fa fa-user" aria-hidden="true"></i></Link> </span> </>}
-                    
+                                            &&
+                                            <>
+                                                <li className="menu-item">
+                                                    <Link
+                                                        to="/logout"
+                                                        className="nav-link"
+                                                        data-effect="Articles"
+                                                    >
+                                                        Logout
+                                                    </Link>
+                                                </li>
+
+                                                <span>Hello, {user.first_name} <Link to='/profile'><i className="fa fa-user" aria-hidden="true"></i></Link> </span> </>}
+
                                     </ul>
                                     <div className="hamburger">
                                         <span className="bar" />
