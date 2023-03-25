@@ -5,9 +5,10 @@ import { MostLikedItem } from './MostLikedItem'
 
 export const MostLiked = () => {
 
-    const { books } = useContext(AuthContext)
+    const { likes} = useContext(AuthContext)
+
     
-    let sortedProducts = books.sort((p1, p2) => (p1.total_likes < p2.total_likes) ? 1 : (p1.total_likes > p2.total_likes) ? -1 : 0);
+    let sortedProducts = likes.sort((p1, p2) => (p1.total_likes < p2.total_likes) ? 1 : (p1.total_likes > p2.total_likes) ? -1 : 0);
     
     return (
         <div className="table-container">
@@ -27,8 +28,8 @@ export const MostLiked = () => {
                 </tfoot>
                 <tbody>
 
-                    {sortedProducts.length > 0 && sortedProducts.slice(0,5).map((x, index) => <MostLikedItem key={x._id} book={x} index={index +1}/>)}
-                    
+                    {sortedProducts.length > 0 && sortedProducts.slice(0,5).map((x, index) => <MostLikedItem key={x._id} like={x} index={index +1}/>)}
+                  
                 </tbody>
             </table>
            

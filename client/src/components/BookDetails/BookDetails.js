@@ -66,19 +66,17 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
             e.target.className = filledHeart
 
             if (!currentLikedBook) {
-                likesObject = { "user_liked": [user._id], 'book_id': bookId, "total_likes": 1, "liked": true, "reviews": [] }
+                likesObject = { "user_liked": [user._id], 'book_id': bookId, "total_likes": 1, "liked": true, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
             } else {
                 currentLikedBook.total_likes += 1
                 currentLikedBook.user_liked.push(user._id)
                 currentLikedBook.liked = true
             }
 
-
         } else if (e.target.className == filledHeart) {
 
             e.target.className = nonFilledHeart
             if (likedByUser) {
-
                 currentLikedBook.total_likes -= 1
                 currentLikedBook.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
                 likeId = currentLikedBook._id
@@ -86,21 +84,18 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
 
         }
        
-
-
-
         if (likesObject !== undefined) {
             bookService.like(likesObject)
                 .then(res => {
                     console.log('response from like service')
                     console.log(res)
-                    setLikes(likesObject)
-                    addLikeHandler(likesObject)
+                    setLikes(res)
+                    addLikeHandler(res)
                 })
         } else {
             bookService.likeUpdate(likeId, currentLikedBook)
                 .then(res => {
-                    setLikes(currentLikedBook)
+                    setLikes(res)
                     editLikeHandler(likeId, res)
                 })
         }

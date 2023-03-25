@@ -80,7 +80,7 @@ function App() {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ user, books, userLogin, userLogout, editProfile, addLikeHandler, editLikeHandler }}>
+        <AuthContext.Provider value={{ user, books, likes, userLogin, userLogout, editProfile, addLikeHandler, editLikeHandler }}>
 
             <div className="App">
                 <Header />
