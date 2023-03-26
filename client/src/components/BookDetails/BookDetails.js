@@ -42,7 +42,7 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
 
     style.fontSize = '30px'
     style.padding = '10px'
-    style.content = "\f08a";
+   
 
 
     const firstId = Number(bookId) - 1
