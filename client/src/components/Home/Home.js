@@ -1,6 +1,7 @@
 import { BookItem } from "./BookItem/BookItem"
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
+import { Link } from "react-router-dom"
 
 
 
@@ -10,13 +11,6 @@ export const Home = () => {
     const { books } = useContext(AuthContext)
 
     // const firstOne = books.find(x => x._id == 1)
-
-    const onLike = (e) => {
-        e.preventDefault()
-
-    }
-
-   
 
 
     return (
@@ -30,29 +24,28 @@ export const Home = () => {
                                 <div className="col-md-6">
                                     <figure className="products-thumb">
                                         <img
-                                            src='images/it.jpg'
+                                            src='images/830502.jpg'
 
                                             alt="book"
                                             className="single-image"
                                         />
-                                        <a href=""><i className="fa fa-heart-o" aria-hidden="true" onClick={onLike}></i></a>
+                                        
                                     </figure>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="product-entry">
-                                        <h2 className="section-title divider">Best Selling Book</h2>
+                                        <h2 className="section-title divider">Most Popular Book</h2>
                                         <div className="products-content">
                                             <div className="author-name">By Stephen King</div>
                                             <h3 className="item-title">IT</h3>
                                             <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                                                eu feugiat amet, libero ipsum enim pharetra hac.
+                                            The story follows the experiences of seven children as they are terrorized by an evil entity that exploits the fears of its victims to disguise itself while hunting its prey. `It` primarily appears in the form of Pennywise the Dancing Clown to attract its preferred prey of young children.
                                             </p>
 
                                             <div className="btn-wrap">
-                                                <a href="#" className="btn-accent-arrow">
-                                                    shop it now <i className="icon icon-ns-arrow-right" />
-                                                </a>
+                                                <Link to='/book-details/1' className="btn-accent-arrow">
+                                                    See More <i className="icon icon-ns-arrow-right" />
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>

@@ -22,7 +22,7 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
     const current = books.find(x => x._id === Number(bookId))
     const newBook = books.find(x => x._id == bookId)
 
-    
+
     let currentLikedBook = likess.find(x => x.book_id == bookId ? x : false)
     let likedByUser;
     let likesObject;
@@ -42,7 +42,7 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
 
     style.fontSize = '30px'
     style.padding = '10px'
-   
+
 
 
     const firstId = Number(bookId) - 1
@@ -55,7 +55,7 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
 
         const filledHeart = "fa fa-heart"
         const nonFilledHeart = "fa fa-heart-o"
-     
+
         Liked(e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject)
 
         if (!currentLikedBook) {
@@ -195,29 +195,23 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
 
                             {bookId.length <= 1
                                 ? <div><h1>{current.title}</h1>
-                                    <p>{current.author}</p></div>
+                                    <p>{current.author}</p>
 
+                                    <p>
+                                        {current.summary}
+                                    </p>
+                                </div>
 
                                 : <div><h1>{currentBook.title}</h1>
-                                    <p>{currentBook.author}</p></div>
+                                    <p>{currentBook.author}</p>
+
+                                    <p>
+                                        {currentBook.summary}
+                                    </p>
+
+                                </div>
 
                             }
-
-
-
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                aliquip ex ea commodo consequat.
-                            </p>
-                            <p>
-                                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                                anim id est laborum.
-
-                            </p>
 
                             {user.accessToken && <Link to=""><i className={likedByUser ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>}
 
