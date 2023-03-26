@@ -12,7 +12,7 @@ export const MostLikedItem = ({ like, index }) => {
                 <a href="">
 
                 </a>
-                <Link to={`/book-details/${like._id}`} style={{textDecoration: 'none'}}>
+                <Link to={`/book-details/${like.book_id}`} style={{textDecoration: 'none'}}>
                 {like.title}
                 </Link>
             </td>

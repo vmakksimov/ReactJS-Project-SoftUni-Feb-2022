@@ -173,7 +173,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
                 })
         } else {
             
-            currentLikedBook = { "user_liked": [user._id], 'book_id': bookId, "total_likes": 1, "liked": true, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
+            currentLikedBook = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": false, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
             currentLikedBook.reviews.push(reviewedBookData)
             bookService.like(currentLikedBook)
                 .then(res => {
@@ -359,7 +359,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
                 <div className="comment-list mt-4">
                     {/* {key={Object.keys(x)}} */}
 
-                    {currentLikedBook.reviews.length > 0
+                    {currentLikedBook
                         ? currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} />)
                         : <span>No reviews yet.</span>
                     }
