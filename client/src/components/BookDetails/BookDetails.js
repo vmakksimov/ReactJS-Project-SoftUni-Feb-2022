@@ -10,7 +10,7 @@ import { SubmitReview } from "./BookReview/LeaveReview"
 import { Liked } from "./BookReview/Liked"
 import uniqid from 'uniqid';
 
-export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) => {
+export const BookDetails = ({ books, deleteHandler, likess }) => {
 
     const { user, addLikeHandler, editLikeHandler } = useContext(AuthContext)
     const navigate = useNavigate()
@@ -20,7 +20,9 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
     const { bookId } = useParams();
 
     const current = books.find(x => x._id === Number(bookId))
-    let newBook = books.find(x => x._id == bookId)
+    const newBook = books.find(x => x._id == bookId)
+
+    
     let currentLikedBook = likess.find(x => x.book_id == bookId ? x : false)
     let likedByUser;
     let likesObject;
@@ -30,6 +32,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
     if (currentLikedBook) {
         likedByUser = currentLikedBook.user_liked.includes(user._id) ? true : false
     } else {
+        likesObject = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": false, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
         likedByUser = false
     }
 
@@ -52,44 +55,17 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
 
         const filledHeart = "fa fa-heart"
         const nonFilledHeart = "fa fa-heart-o"
-        const objectId = Number(bookId) - 1
-        // Liked(e, filledHeart, nonFilledHeart, bookId, likedByUser, user, newBook, currentLikedBook, likesObject, likeId)
-        if (e.target.className == nonFilledHeart && !likedByUser) {
+     
+        Liked(e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject)
 
-            e.target.className = filledHeart
-
-            if (!currentLikedBook) {
-                likesObject = { "user_liked": [user._id], 'book_id': bookId, "total_likes": 1, "liked": true, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
-            } else {
-                currentLikedBook.total_likes += 1
-                currentLikedBook.user_liked.push(user._id)
-                currentLikedBook.liked = true
-            }
-
-        } else if (e.target.className == filledHeart) {
-
-            e.target.className = nonFilledHeart
-            if (likedByUser) {
-                console.log('haha')
-                currentLikedBook.total_likes -= 1
-                currentLikedBook.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
-                likeId = currentLikedBook._id
-            }
-
-        }
-
-        console.log(Liked)
-
-
-        if (likesObject !== undefined && likeId == undefined) {
+        if (!currentLikedBook) {
             bookService.like(likesObject)
                 .then(res => {
-                    console.log('response from like service')
-                    console.log(res)
                     setLikes(res)
                     addLikeHandler(res)
                 })
         } else {
+            likeId = currentLikedBook._id
             bookService.likeUpdate(likeId, currentLikedBook)
                 .then(res => {
                     setLikes(res)
@@ -101,47 +77,6 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
     }
 
 
-
-
-    // newBook = { ...newBook, 'liked': newBook['liked'], 'total_likes': newBook['total_likes'], 'liked_by': newBook['liked_by'] }
-
-    // let likesObject = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": false, "reviews": [] }
-
-    // const final = { ...newBook, ...newBook }
-
-
-    // if (bookId.length <= 1) {
-    //     bookService.editInitial(objectId, newBook)
-    //         .then(res => {
-    //             editBookHandler(bookId, res)
-    //         })
-    // } else {
-    //     if (user._id !== currentBook._ownerId) {
-    //         bookService.like(likesObject)
-    //             .then(res => {
-    //                 console.log('response from like service')
-    //                 console.log(res)
-    //                 setLikes(likesObject)
-    //                 console.log(likes)
-    //                 addLikeHandler(likesObject)
-
-    //             })
-
-
-    //     } else {
-    //         bookService.editBooks(bookId, final)
-    //             .then(res => {
-    //                 console.log('response below')
-    //                 console.log(res)
-    //                 setBook(res)
-    //                 editBookHandler(bookId, res)
-    //             })
-    //     }
-
-    // }
-
-
-
     const onSubmitReview = (e) => {
         e.preventDefault();
 
@@ -149,8 +84,6 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
         const review = formData.get('review')
         // const userInReview = newBook.reviews.map(x => Object.keys(x).toString() == user.username)
         const clearFiled = document.getElementById('comment')
-
-        const objectId = Number(bookId) - 1
 
         // SubmitReview(review, user, newBook, bookId, clearFiled)
 
@@ -172,7 +105,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
                     editLikeHandler(likeId, res)
                 })
         } else {
-            
+
             currentLikedBook = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": false, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
             currentLikedBook.reviews.push(reviewedBookData)
             bookService.like(currentLikedBook)
@@ -183,23 +116,6 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
         }
 
         clearFiled.value = ''
-
-
-        // if (bookId.length <= 1) {
-        //     bookService.editInitial(objectId, newBook)
-        //         .then(res => {
-        //             editBookHandler(bookId, res)
-
-        //             navigate(`/book-details/${bookId}`)
-
-        //         })
-        // } else {
-        //     bookService.editBooks(bookId, newBook)
-        //         .then(res => {
-        //             editBookHandler(bookId, res)
-        //             navigate(`/book-details/${bookId}`)
-        //         })
-        // }
 
     }
 
@@ -222,7 +138,6 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
 
     const onReview = (e) => {
         e.preventDefault();
-        // navigate(`/book/review/${bookId}`)
         if (isActive) {
             setReview(false)
         } else {

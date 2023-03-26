@@ -29,8 +29,6 @@ function App() {
     const [likes, setLike] = useState([])
 
     const addLikeHandler = (newLike) => {
-        console.log('new like below')
-        console.log(newLike)
         setLike(state => [
             ...state,
             newLike,

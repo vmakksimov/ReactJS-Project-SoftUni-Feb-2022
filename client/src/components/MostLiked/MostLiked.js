@@ -7,6 +7,7 @@ export const MostLiked = () => {
 
     const { likes} = useContext(AuthContext)
 
+    console.log(likes)
     
     let sortedProducts = likes.sort((p1, p2) => (p1.total_likes < p2.total_likes) ? 1 : (p1.total_likes > p2.total_likes) ? -1 : 0);
     

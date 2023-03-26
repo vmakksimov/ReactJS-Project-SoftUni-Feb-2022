@@ -1,44 +1,37 @@
-export const Liked = (e, filledHeart, nonFilledHeart, bookId, likedByUser, user, newBook, currentLikedBook, likeId, likesObject) => {
-
+export const Liked = (e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject) => {
 
     if (e.target.className == nonFilledHeart && !likedByUser) {
 
         e.target.className = filledHeart
 
-        if (!currentLikedBook) {
-            likesObject = { "user_liked": [user._id], 'book_id': bookId, "total_likes": 1, "liked": true, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
-        } else {
+        if (currentLikedBook) {
             currentLikedBook.total_likes += 1
             currentLikedBook.user_liked.push(user._id)
             currentLikedBook.liked = true
+        } else {
+            likesObject.total_likes += 1
+            likesObject.user_liked.push(user._id)
+            likesObject.liked = true
         }
 
-    } else if (e.target.className == filledHeart) {
+
+
+    } else if (e.target.className == filledHeart && likedByUser) {
 
         e.target.className = nonFilledHeart
-        if (likedByUser) {
+        if (currentLikedBook) {
             currentLikedBook.total_likes -= 1
             currentLikedBook.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
             likeId = currentLikedBook._id
+        } else {
+            likesObject.total_likes -= 1
+            likesObject.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
+            likeId = likesObject._id
         }
 
+
     }
-        
-        // newBook.liked = "false"
-        // newBook.total_likes >= 1
-
-        // if (bookId.length <= 1) {
-        //     newBook.total_likes -= 1
-        //     newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
-        // } else {
-        //     newBook.total_likes = Number(newBook.total_likes)
-        //     newBook.total_likes -= 1
-        //     newBook.liked_by = []
-        //     newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
-        //     newBook = { ...newBook }
-        // }
-    
 
 
-    return likesObject, likeId
+    return e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject
 }
