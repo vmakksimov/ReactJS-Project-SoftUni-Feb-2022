@@ -8,11 +8,11 @@ import { useNavigate } from "react-router-dom"
 
 export const Profile = () => {
 
-    const { user, books } = useContext(AuthContext)
+    const { user, books, likes } = useContext(AuthContext)
     const navigate = useNavigate();
 
     const likedBooks = [];
-    const likedByUser = books.map(x => x.liked_by.includes(user._id) ? likedBooks.push(x) : 'No likes from this user.')
+    const likedByUser = likes.map(x => x.user_liked.includes(user._id) ? likedBooks.push(x) : 'No likes from this user.')
   
     const [values, setValues] = useState('',{
         username: '',
