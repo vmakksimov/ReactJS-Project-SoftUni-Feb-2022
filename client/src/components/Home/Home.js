@@ -74,18 +74,11 @@ export const Home = () => {
                                         {books.length <= 5 
 
                                        
-                                        ?books.slice(1, 5).map(x => <BookItem key={x._id} book={x} />)
+                                        ? books.length > 0 ? books.slice(1, 5).map(x => <BookItem key={x._id} book={x} />) : <span>No books added.</span>
                                         
                                         :books.slice(5,).map(x => <BookItem key={x._id} book={x} />)
                                         }
-                                        {/* {console.log(books)}
-
-                                        {books.length <= 4
-                                            // ? current.map(x => <BookItem key={x._id} book={x} />)
-                                            ? books.slice(1, 5).map(x => <BookItem key={x._id} book={x} />)
-
-                                            : books.slice(6,).map(x => <BookItem key={x._id} book={x} />)
-                                        } */}
+                                
 
                                     </div>
                                 </div>
