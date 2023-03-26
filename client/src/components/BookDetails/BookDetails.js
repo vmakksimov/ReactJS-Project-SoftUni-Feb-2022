@@ -8,6 +8,7 @@ import { useContext } from "react"
 import { Reviews } from "./BookReview/Reviews"
 import { SubmitReview } from "./BookReview/LeaveReview"
 import { Liked } from "./BookReview/Liked"
+import uniqid from 'uniqid';
 
 export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) => {
 
@@ -20,23 +21,17 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
 
     const current = books.find(x => x._id === Number(bookId))
     let newBook = books.find(x => x._id == bookId)
-    // const currentLikedBook = likes.find(x => console.log(x))
-    // console.log(currentLikedBook)
-    // console.log(likes.book_id.includes(bookId) ? true : false)
-    console.log('currentLiked above')
-    console.log(newBook)
-    console.log(likess)
     let currentLikedBook = likess.find(x => x.book_id == bookId ? x : false)
     let likedByUser;
+    let likesObject;
     let likeId;
+
 
     if (currentLikedBook) {
         likedByUser = currentLikedBook.user_liked.includes(user._id) ? true : false
     } else {
         likedByUser = false
     }
-
-
 
     const style = {
 
@@ -58,9 +53,7 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
         const filledHeart = "fa fa-heart"
         const nonFilledHeart = "fa fa-heart-o"
         const objectId = Number(bookId) - 1
-        // Liked(e, filledHeart, nonFilledHeart, bookId, likedByUser, user, newBook, currentLikedBook)
-
-        let likesObject;
+        // Liked(e, filledHeart, nonFilledHeart, bookId, likedByUser, user, newBook, currentLikedBook, likesObject, likeId)
         if (e.target.className == nonFilledHeart && !likedByUser) {
 
             e.target.className = filledHeart
@@ -77,14 +70,18 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
 
             e.target.className = nonFilledHeart
             if (likedByUser) {
+                console.log('haha')
                 currentLikedBook.total_likes -= 1
                 currentLikedBook.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
                 likeId = currentLikedBook._id
             }
 
         }
-       
-        if (likesObject !== undefined) {
+
+        console.log(Liked)
+
+
+        if (likesObject !== undefined && likeId == undefined) {
             bookService.like(likesObject)
                 .then(res => {
                     console.log('response from like service')
@@ -155,23 +152,54 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
 
         const objectId = Number(bookId) - 1
 
-        SubmitReview(review, user, newBook, bookId, clearFiled)
+        // SubmitReview(review, user, newBook, bookId, clearFiled)
 
-        if (bookId.length <= 1) {
-            bookService.editInitial(objectId, newBook)
+        const reviewedBookData = {}
+
+        if (!(reviewedBookData.hasOwnProperty(user.username))) {
+            reviewedBookData[user.username] = [review,]
+            reviewedBookData['_id'] = uniqid()
+        } else {
+            reviewedBookData[user.username].push(review)
+        }
+
+        if (currentLikedBook) {
+            likeId = currentLikedBook._id
+            currentLikedBook.reviews.push(reviewedBookData)
+            bookService.likeUpdate(likeId, currentLikedBook)
                 .then(res => {
-                    editBookHandler(bookId, res)
-
-                    navigate(`/book-details/${bookId}`)
-
+                    setLikes(res)
+                    editLikeHandler(likeId, res)
                 })
         } else {
-            bookService.editBooks(bookId, newBook)
+            
+            currentLikedBook = { "user_liked": [user._id], 'book_id': bookId, "total_likes": 1, "liked": true, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
+            currentLikedBook.reviews.push(reviewedBookData)
+            bookService.like(currentLikedBook)
                 .then(res => {
-                    editBookHandler(bookId, res)
-                    navigate(`/book-details/${bookId}`)
+                    setLikes(res)
+                    addLikeHandler(res)
                 })
         }
+
+        clearFiled.value = ''
+
+
+        // if (bookId.length <= 1) {
+        //     bookService.editInitial(objectId, newBook)
+        //         .then(res => {
+        //             editBookHandler(bookId, res)
+
+        //             navigate(`/book-details/${bookId}`)
+
+        //         })
+        // } else {
+        //     bookService.editBooks(bookId, newBook)
+        //         .then(res => {
+        //             editBookHandler(bookId, res)
+        //             navigate(`/book-details/${bookId}`)
+        //         })
+        // }
 
     }
 
@@ -331,8 +359,8 @@ export const BookDetails = ({ books, editBookHandler, deleteHandler, likess }) =
                 <div className="comment-list mt-4">
                     {/* {key={Object.keys(x)}} */}
 
-                    {newBook.reviews.length > 0
-                        ? newBook.reviews.map(x => <Reviews key={x._id} book={x} />)
+                    {currentLikedBook.reviews.length > 0
+                        ? currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} />)
                         : <span>No reviews yet.</span>
                     }
 

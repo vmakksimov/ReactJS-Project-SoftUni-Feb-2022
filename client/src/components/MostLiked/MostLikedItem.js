@@ -16,7 +16,7 @@ export const MostLikedItem = ({ like, index }) => {
                 {like.title}
                 </Link>
             </td>
-            <td data-title="E-mail"> <Link to={`/book-details/${like._id}`} style={{textDecoration: 'none'}}> <img src={like.image} alt="Books" className="product-item" style={{width: '25%'}}/></Link></td>
+            <td data-title="E-mail"> <Link to={`/book-details/${like.book_id}`} style={{textDecoration: 'none'}}> <img src={like.image} alt="Books" className="product-item" style={{width: '25%'}}/></Link></td>
             <td className="select" style={{fontSize: '20px'}}>
                 <p >
                     <i className="fa fa-heart" aria-hidden="true" /> {like.total_likes}

@@ -1,39 +1,28 @@
-export const Liked = (e, filledHeart, nonFilledHeart, bookId, likedByUser, user, newBook, currentLikedBook) => {
-    let likesObject;
+export const Liked = (e, filledHeart, nonFilledHeart, bookId, likedByUser, user, newBook, currentLikedBook, likeId, likesObject) => {
+
+
     if (e.target.className == nonFilledHeart && !likedByUser) {
 
         e.target.className = filledHeart
-        // newBook.liked = "true"
-
-        // if (bookId.length <= 1) {
-        //     newBook.total_likes += 1
-        //     newBook.liked_by.push(user._id)
-        // } else {
-        //     newBook.total_likes = Number(0)
-        //     newBook.total_likes += 1
-        //     newBook.liked_by = []
-        //     newBook.liked_by.push(user._id)
-        //     newBook = {...newBook}
-        // }
 
         if (!currentLikedBook) {
-            likesObject = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": true, "reviews": [] }
+            likesObject = { "user_liked": [user._id], 'book_id': bookId, "total_likes": 1, "liked": true, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
         } else {
             currentLikedBook.total_likes += 1
             currentLikedBook.user_liked.push(user._id)
             currentLikedBook.liked = true
         }
 
-
-
     } else if (e.target.className == filledHeart) {
 
-
-        if (likedByUser){
-            e.target.className = nonFilledHeart
+        e.target.className = nonFilledHeart
+        if (likedByUser) {
             currentLikedBook.total_likes -= 1
             currentLikedBook.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
+            likeId = currentLikedBook._id
         }
+
+    }
         
         // newBook.liked = "false"
         // newBook.total_likes >= 1
@@ -48,8 +37,8 @@ export const Liked = (e, filledHeart, nonFilledHeart, bookId, likedByUser, user,
         //     newBook.liked_by = newBook.liked_by.filter(e => e !== user._id);
         //     newBook = { ...newBook }
         // }
-    }
+    
 
 
-    return filledHeart, nonFilledHeart, bookId, likedByUser, user, newBook, currentLikedBook
+    return likesObject, likeId
 }
