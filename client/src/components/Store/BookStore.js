@@ -65,11 +65,11 @@ export const BookStore = () => {
                     <div className="row">
                         <div className="products-grid grid">
 
-                            {console.log(books)}
+                         
                             {current.length > 0
                                 ? current.map(x => <BookList key={x._id} book={x} />)
 
-                                : books.map(x => <BookList key={x._id} book={x} />)
+                                : books.length > 0 ? books.map(x => <BookList key={x._id} book={x} />) : <span>No books in the catalog.</span>
 
                             }
                         </div>

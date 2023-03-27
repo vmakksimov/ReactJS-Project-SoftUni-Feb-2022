@@ -1,16 +1,17 @@
 import { BookItem } from "./BookItem/BookItem"
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
-import { Link } from "react-router-dom"
+import { Link} from "react-router-dom"
 
 
 
 export const Home = () => {
-
+ 
+    
 
     const { books } = useContext(AuthContext)
 
-    // const firstOne = books.find(x => x._id == 1)
+    const firstOne = books.find(x => x._id == 1)
 
 
     return (
@@ -43,6 +44,7 @@ export const Home = () => {
                                             </p>
 
                                             <div className="btn-wrap">
+                                                {books.length > 0}
                                                 <Link to='/book-details/1' className="btn-accent-arrow">
                                                     See More <i className="icon icon-ns-arrow-right" />
                                                 </Link>

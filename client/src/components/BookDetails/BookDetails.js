@@ -9,6 +9,7 @@ import { Reviews } from "./BookReview/Reviews"
 import { SubmitReview } from "./BookReview/LeaveReview"
 import { Liked } from "./BookReview/Liked"
 import uniqid from 'uniqid';
+import "./BookDetails.css"
 
 export const BookDetails = ({ books, deleteHandler, likess }) => {
 
@@ -21,6 +22,8 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
 
     const current = books.find(x => x._id === Number(bookId))
     const newBook = books.find(x => x._id == bookId)
+    const isReviewed = likes.filter(x => console.log(x))
+    console.log(likes)
 
 
     let currentLikedBook = likess.find(x => x.book_id == bookId ? x : false)
@@ -216,8 +219,8 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
                             {user.accessToken && <Link to=""><i className={likedByUser ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>}
 
                             {currentLikedBook
-                                ? <div><span>Total Likes: {currentLikedBook.total_likes}</span></div>
-                                : <div><span>Total Likes: 0</span></div>
+                                ? <div><span>Likes: {currentLikedBook.total_likes}</span></div>
+                                : <div><span>Likes: 0</span></div>
                             }
 
                             {/* {bookId.length <= 1
@@ -230,8 +233,8 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
                     </div>
                     <div>
                         {bookId.length <= 1
-                            ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} type="button">Edit</Link> <button onClick={onDeleteHandler}>Delete</button> <button onClick={onReview}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
-                            : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="button">Edit</Link> <button onClick={onDeleteHandler}>Delete</button> <button onClick={onReview}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
+                            ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} className="buttonEdit" style={{padding: '20px 29px'}}>Edit</Link> <button onClick={onDeleteHandler} className="buttonEdit" style={{padding: '31px 29px'}}>Delete</button> <button onClick={onReview} className="buttonEdit" style={{padding: '31px 29px'}}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview} className="buttonEdit" style={{padding: '31px 29px'}}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
+                            : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="buttonEdit" style={{padding: '20px 29px'}}>Edit</Link> <button onClick={onDeleteHandler} className="buttonEdit" style={{padding: '31px 29px'}}>Delete</button> <button onClick={onReview} className="buttonEdit"style={{padding: '31px 29px'}}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview} className="buttonEdit" style={{padding: '31px 29px'}}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
                         }
 
                     </div>
@@ -248,6 +251,7 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
                                     placeholder="Write your review here"
                                     rows={20}
                                     defaultValue={""}
+                                    style={{marginTop: '20px'}}
                                 />
                             </div>
                             <div className="col-md-12">
@@ -255,6 +259,8 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
                                     className="btn btn-rounded btn-large btn-full"
                                     type="submit"
                                     defaultValue="Submit"
+                                    style={{borderRadius: '10%'}}
+                                    
                                 />
                             </div>
 
@@ -268,10 +274,11 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
                 <div className="comment-list mt-4">
                     {/* {key={Object.keys(x)}} */}
 
-                    {currentLikedBook
-                        ? currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} />)
-                        : <span>No reviews yet.</span>
-                    }
+                    {/* {currentLikedBook && currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} />)} */}
+                    {likes['reviews']
+                    ? currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} />)
+                    : <span>No Reviews</span>}
+                    
 
                     {/*flex-container*/}
 
