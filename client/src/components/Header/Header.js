@@ -45,17 +45,17 @@ export const Header = () => {
                                     <ul className="menu-list">
 
                                         <li className="menu-item">
-                                            <Link to="/" data-effect="Articles">
+                                            <Link to="/" data-effect="Articles" className="dropbtn">
                                                 Home
                                             </Link>
                                         </li>
                                         <li className="menu-item">
-                                            <Link to="/about" data-effect="Articles">
+                                            <Link to="/about" data-effect="Articles" className="dropbtn">
                                                 About
                                             </Link>
                                         </li>
                                         <li className="dropdown">
-                                            <button onClick={onClick} className="dropbtn">
+                                            <button onClick={onClick} className="dropbtn" style={{height: '45px'}}>
                                                 BOOKSTORE
                                             </button>
                                             <div id="myDropdown" className="dropdown-content">
@@ -76,8 +76,9 @@ export const Header = () => {
                                             <> <li className="menu-item">
                                                 <Link
                                                     to="/login"
-                                                    className="nav-link"
+                                                    className="dropbtn"
                                                     data-effect="Articles"
+                                                    
                                                 >
                                                     Login
                                                 </Link>
@@ -85,7 +86,7 @@ export const Header = () => {
                                                 <li className="menu-item">
                                                     <Link
                                                         to="/register"
-                                                        className="nav-link"
+                                                        className="dropbtn"
                                                         data-effect="Articles"
                                                     >
                                                         Register
@@ -97,8 +98,8 @@ export const Header = () => {
 
                                         <li className="menu-item">
                                             <Link
-                                                to="#contact"
-                                                className="nav-link"
+                                                to="/contact"
+                                                className="dropbtn"
                                                 data-effect="Contact"
                                             >
                                                 Contact
@@ -110,7 +111,7 @@ export const Header = () => {
                                                 <li className="menu-item">
                                                     <Link
                                                         to="/logout"
-                                                        className="nav-link"
+                                                        className="dropbtn"
                                                         data-effect="Articles"
                                                     >
                                                         Logout

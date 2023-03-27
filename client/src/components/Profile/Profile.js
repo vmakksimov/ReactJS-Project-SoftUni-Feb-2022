@@ -19,6 +19,8 @@ export const Profile = () => {
 
     })
 
+    console.log(user)
+
 //    const onChange = () => {
 //     console.log('onchange')
 //    }
@@ -76,7 +78,7 @@ export const Profile = () => {
                                                 Role
                                             </strong>
                                         </td>
-                                        <td className="text-primary">{user.user_type}</td>
+                                        <td className="text-primary">{user.usertype}</td>
                                     </tr>
                                     <tr>
                                         <td>

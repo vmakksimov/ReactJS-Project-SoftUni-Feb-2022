@@ -12,6 +12,7 @@ export const MostLiked = () => {
     
     let sortedProducts = likes.sort((p1, p2) => (p1.total_likes < p2.total_likes) ? 1 : (p1.total_likes > p2.total_likes) ? -1 : 0);
     let isLiked = sortedProducts.filter(x => x.liked ? true: false)
+    console.log(likes)
     
     
     return (
@@ -32,7 +33,7 @@ export const MostLiked = () => {
                 </tfoot>
                 <tbody>
 
-                    {isLiked.length > 0 ?isLiked.slice(0,5).map((x, index) => <MostLikedItem key={x._id} like={x} index={index +1}/>) : <span>There are no liked books.</span>}
+                    {isLiked.length > 0 ?isLiked.slice(0,5).map((x, index) => <MostLikedItem key={x._id} like={x} index={index +1}/>) : 'There are no liked books.'}
                   
                 </tbody>
             </table>
