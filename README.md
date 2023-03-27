@@ -35,3 +35,4 @@ Built With
  - ReactJS
  - SoftUni Practise Server 
  - HTML + CSS Free tempplates + many modifications
+ - Hardcoded data with books & likes in the server / data directory for initial loading with content
