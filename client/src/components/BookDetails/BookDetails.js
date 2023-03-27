@@ -22,8 +22,8 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
 
     const current = books.find(x => x._id === Number(bookId))
     const newBook = books.find(x => x._id == bookId)
-    const isReviewed = likes.filter(x => console.log(x))
-    console.log(likes)
+    // const isReviewed = likes.filter(x => console.log(x))
+    // console.log(likes)
 
 
     let currentLikedBook = likess.find(x => x.book_id == bookId ? x : false)
@@ -274,10 +274,13 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
                 <div className="comment-list mt-4">
                     {/* {key={Object.keys(x)}} */}
 
-                    {/* {currentLikedBook && currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} />)} */}
-                    {likes['reviews']
+                    {currentLikedBook ?
+                     currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} />)
+                    : <span>No Reviews</span>
+                    }
+                    {/* {likes['reviews']
                     ? currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} />)
-                    : <span>No Reviews</span>}
+                    : !isActive && <span>No Reviews</span>} */}
                     
 
                     {/*flex-container*/}

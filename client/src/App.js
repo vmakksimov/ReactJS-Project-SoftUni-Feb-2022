@@ -18,6 +18,7 @@ import { EditBook } from './components/EditBook/EditBook';
 import { Profile } from './components/Profile/Profile';
 import { EditProfile } from './components/Profile/ProfileBooks/EditProfile/EditProfile';
 import { MostLiked } from './components/MostLiked/MostLiked';
+import { About } from './components/About/About';
 
 
 
@@ -91,6 +92,7 @@ function App() {
                         <Route path='/login' element={<Login />} />
                         <Route path='/logout' element={<Logout />} />
                         <Route path='/profile' element={<Profile />} />
+                        <Route path='/about' element={<About />} />
                         <Route path='/profile/edit' element={<EditProfile />} />
                         <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
                         <Route path='/book-store' element={<BookStore />} />

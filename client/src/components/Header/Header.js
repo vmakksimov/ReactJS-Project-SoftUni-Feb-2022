@@ -44,9 +44,14 @@ export const Header = () => {
                                 <div className="main-menu stellarnav">
                                     <ul className="menu-list">
 
-                                        <li className="menu-item active">
-                                            <Link to="/" data-effect="Home">
+                                        <li className="menu-item">
+                                            <Link to="/" data-effect="Articles">
                                                 Home
+                                            </Link>
+                                        </li>
+                                        <li className="menu-item">
+                                            <Link to="/about" data-effect="Articles">
+                                                About
                                             </Link>
                                         </li>
                                         <li className="dropdown">

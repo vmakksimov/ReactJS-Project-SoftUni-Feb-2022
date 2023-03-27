@@ -21,10 +21,12 @@ export const Liked = (e, filledHeart, nonFilledHeart, user, likedByUser, current
         e.target.className = nonFilledHeart
         if (currentLikedBook) {
             currentLikedBook.total_likes -= 1
+            currentLikedBook.liked = false
             currentLikedBook.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
             likeId = currentLikedBook._id
         } else {
             likesObject.total_likes -= 1
+            likesObject.liked = false
             likesObject.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
             likeId = likesObject._id
         }
