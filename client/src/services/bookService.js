@@ -36,3 +36,5 @@ export const editBooks = (bookId, booksData) => request.put(`${secondUrl}/${book
 export const removeInitialBook = (bookId) => request.del(`${baseUrl}/${bookId}`)
 
 export const removeBook = (bookId) => request.del(`${secondUrl}/${bookId}`)
+
+export const removeLiked = (newId) => request.del(`${likeUrl}/${newId}`)

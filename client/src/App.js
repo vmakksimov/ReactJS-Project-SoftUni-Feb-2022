@@ -41,12 +41,16 @@ function App() {
         setBook(state => state.map(x => x._id == likeId ? currentLikedBook : x))
     }
 
-    const deleteHandler = (bookId) => {
+    const deleteHandler = (bookId, newId) => {
+        console.log(newId)
+        setLike(likes.filter(x => x._id !== newId))
         if (bookId.length <= 1) {
             books.splice(Number(bookId) - 1, 1)
             setBook(books)
+
         }else{
             setBook(books.filter(x => x._id !== bookId))
+            
         }
         
     }

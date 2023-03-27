@@ -57,8 +57,7 @@ export const EditBook = ({ books, editBookHandler }) => {
         
        const objectId = Number(bookId) - 1
 
-       console.log('liked book from edit below')
-       console.log(likedBook)
+      
         if (bookId.length <= 1) {
             bookService.editInitial(objectId, final)
                 .then(res => {

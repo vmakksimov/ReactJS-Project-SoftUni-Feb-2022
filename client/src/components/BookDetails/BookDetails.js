@@ -128,12 +128,17 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
         const confirmation = window.confirm('Are you sure you want to delete this book?')
 
         if (confirmation) {
+           let newId = currentLikedBook._id
+           console.log(newId)
+            bookService.removeLiked(newId)
             if (bookId.length <= 1) {
                 bookService.removeInitialBook(objectId)
+              
             } else {
                 bookService.removeBook(bookId)
+                
             }
-            deleteHandler(bookId)
+            deleteHandler(bookId, newId)
             navigate('/')
         }
 

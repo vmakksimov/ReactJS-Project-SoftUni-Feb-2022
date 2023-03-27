@@ -16,8 +16,11 @@ export const MostLiked = () => {
     
     
     return (
+        <>
+        <div className="table-container">TOP 5 Liked Books</div>
         <div className="table-container">
-    
+            {isLiked.length > 0 ? 
+        
             <table>
                 <thead>
                     <tr>
@@ -31,13 +34,19 @@ export const MostLiked = () => {
                 <tfoot>
                     <tr></tr>
                 </tfoot>
+                
                 <tbody>
 
-                    {isLiked.length > 0 ?isLiked.slice(0,5).map((x, index) => <MostLikedItem key={x._id} like={x} index={index +1}/>) : 'There are no liked books.'}
+                    {isLiked.slice(0,5).map((x, index) => <MostLikedItem key={x._id} like={x} index={index +1}/>)}
                   
                 </tbody>
+              
             </table>
-           
+        
+            
+            : <span>There are no liked books.</span>}
+            
         </div>
+        </>
     )
 }
