@@ -102,6 +102,10 @@ export const EditBook = ({ books, editBookHandler }) => {
                             <span className="details">Image</span>
                             <input type="text" name="image" placeholder="Enter Image Url" defaultValue={bookId.length <= 1 ? current.image : currentBook.image} />
                         </div>
+                        <div className="input-box">
+                            <span className="details">Summary</span>
+                            <input type="text" name="summary" placeholder="Summary" defaultValue={bookId.length <= 1 ? current.summary : currentBook.summary} />
+                        </div>
                     </div>
 
                     <div className="button-book">
