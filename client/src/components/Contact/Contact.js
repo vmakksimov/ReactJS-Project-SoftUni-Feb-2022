@@ -73,12 +73,7 @@ export const Contact = () => {
                     required=""
                     defaultValue={""}
                   />
-                  <label>
-                    <input type="checkbox" required="" />
-                    <span className="label-body">
-                      I agree all the <a href="#">terms and conditions</a>
-                    </span>
-                  </label>
+                  
                   <button
                     type="submit"
                     name="submit"

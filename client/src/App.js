@@ -41,18 +41,17 @@ function App() {
         setBook(state => state.map(x => x._id == likeId ? currentLikedBook : x))
     }
 
-    const deleteHandler = (bookId, newId) => {
-        console.log(newId)
-        setLike(likes.filter(x => x._id !== newId))
+    const deleteHandler = (bookId) => {
         if (bookId.length <= 1) {
             books.splice(Number(bookId) - 1, 1)
             setBook(books)
-
         }else{
-            setBook(books.filter(x => x._id !== bookId))
-            
+            setBook(books.filter(x => x._id !== bookId)) 
         }
-        
+    }
+
+    const deleteLikeHandler = (newId) => {
+        setLike(likes.filter(x => x._id !== newId))
     }
 
     const editProfile = (authData) => {
@@ -104,7 +103,7 @@ function App() {
                         <Route path='/book-store' element={<BookStore />} />
                         <Route path='/most-liked' element={<MostLiked />} />
                         {/* <Route path='/book/review/:bookId' element={<BookReview editBookHandler={editBookHandler}/>} /> */}
-                        <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} deleteHandler={deleteHandler} likess={likes} />} />
+                        <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} deleteHandler={deleteHandler} deleteLikeHandler={deleteLikeHandler} likess={likes} />} />
                         <Route path='/book-details/edit/:bookId' element={<EditBook books={books} editBookHandler={editBookHandler} />} />
 
                     </Routes>

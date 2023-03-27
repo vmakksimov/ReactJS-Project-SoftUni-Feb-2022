@@ -11,7 +11,7 @@ import { Liked } from "./BookReview/Liked"
 import uniqid from 'uniqid';
 import "./BookDetails.css"
 
-export const BookDetails = ({ books, deleteHandler, likess }) => {
+export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler }) => {
 
     const { user, addLikeHandler, editLikeHandler } = useContext(AuthContext)
     const navigate = useNavigate()
@@ -38,20 +38,13 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
         likesObject = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": false, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
         likedByUser = false
     }
-
-    const style = {
-
-    }
+    const style = {}
 
     style.fontSize = '30px'
     style.padding = '10px'
 
-
-
     const firstId = Number(bookId) - 1
     const finalStr = firstId.toString()
-
-
 
     const onLike = (e) => {
         e.preventDefault()
@@ -78,7 +71,6 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
 
 
     }
-
 
     const onSubmitReview = (e) => {
         e.preventDefault();
@@ -128,9 +120,12 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
         const confirmation = window.confirm('Are you sure you want to delete this book?')
 
         if (confirmation) {
-           let newId = currentLikedBook._id
-           console.log(newId)
-            bookService.removeLiked(newId)
+            if (currentLikedBook){
+                let newId = currentLikedBook._id
+                bookService.removeLiked(newId)
+                deleteLikeHandler(newId)
+            }
+
             if (bookId.length <= 1) {
                 bookService.removeInitialBook(objectId)
               
@@ -138,7 +133,8 @@ export const BookDetails = ({ books, deleteHandler, likess }) => {
                 bookService.removeBook(bookId)
                 
             }
-            deleteHandler(bookId, newId)
+
+            deleteHandler(bookId)
             navigate('/')
         }
 
