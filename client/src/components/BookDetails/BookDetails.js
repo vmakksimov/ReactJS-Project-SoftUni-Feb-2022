@@ -52,7 +52,7 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
         const filledHeart = "fa fa-heart"
         const nonFilledHeart = "fa fa-heart-o"
 
-        Liked(e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject)
+        Liked(e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler)
 
         if (!currentLikedBook) {
             bookService.like(likesObject)
@@ -260,7 +260,7 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
                                     className="btn btn-rounded btn-large btn-full"
                                     type="submit"
                                     defaultValue="Submit"
-                                    style={{borderRadius: '10%'}}
+                                    style={{borderRadius: '25px'}}
                                     
                                 />
                             </div>

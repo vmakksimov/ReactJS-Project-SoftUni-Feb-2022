@@ -1,4 +1,6 @@
-export const Liked = (e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject) => {
+import * as bookService from '../../../services/bookService'
+
+export const Liked = (e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler) => {
 
     if (e.target.className == nonFilledHeart && !likedByUser) {
 
@@ -23,6 +25,12 @@ export const Liked = (e, filledHeart, nonFilledHeart, user, likedByUser, current
             currentLikedBook.total_likes -= 1
             if (currentLikedBook.total_likes <= 0){
                 currentLikedBook.liked = false
+              
+                // if (currentLikedBook.reviews.length <= 0){
+                    
+                //     bookService.removeLiked(currentLikedBook._id)
+                //     deleteLikeHandler(currentLikedBook._id)
+                // }
             }
             
             currentLikedBook.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
@@ -31,6 +39,11 @@ export const Liked = (e, filledHeart, nonFilledHeart, user, likedByUser, current
             likesObject.total_likes -= 1
             if (currentLikedBook.total_likes <= 0){
                 likesObject.liked = false
+              
+                // if (likesObject.reviews.length <= 0){
+                //     bookService.removeLiked(likesObject._id)
+                //     deleteLikeHandler(likesObject._id)
+                // }
             }
             likesObject.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
             likeId = likesObject._id
