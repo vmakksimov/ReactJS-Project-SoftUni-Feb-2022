@@ -6,15 +6,9 @@ import { useParams, useNavigate } from "react-router-dom"
 export const EditBook = ({ books, editBookHandler }) => {
 
     const navigate = useNavigate();
-
     const [currentBook, setBook] = useState({});
-
     const { bookId } = useParams();
-    
     const current = books.find(x => x._id === Number(bookId))
-
-
-
     const firstId = Number(bookId) + 1
     const finalStr = firstId.toString()
 
@@ -36,12 +30,10 @@ export const EditBook = ({ books, editBookHandler }) => {
     const onChange = (e) => {
         e.preventDefault()
        
-
         const booksData = Object.fromEntries(new FormData(e.target))
 
         let likedBook;
         let likedBook1;
-
 
         if (bookId.length <= 1){
             likedBook1 = { ...booksData, 'liked': current['liked'], 'total_likes': current['total_likes'], 'liked_by': current['liked_by'] }
@@ -51,10 +43,8 @@ export const EditBook = ({ books, editBookHandler }) => {
         
         const newBook = books.find(x => x._id == bookId)
         const final = {...newBook, ...likedBook1}
-        
        const objectId = Number(bookId) - 1
 
-      
         if (bookId.length <= 1) {
             bookService.editInitial(objectId, final)
                 .then(res => {

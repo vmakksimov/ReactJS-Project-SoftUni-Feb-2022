@@ -1,94 +1,104 @@
+import { useState } from "react"
+import { ThankYou } from "./ThankYou"
+
 export const Contact = () => {
+
+    const [submited, setSubmit] = useState(false)
+    
+    const onSubmit = () => {
+        if (submited){
+            setSubmit(false)
+        }else{
+            setSubmit(true)
+        }
+    }
     return (
         <>
+        
   <section className="contact-information padding-large mt-3">
     <div className="container">
-      <div className="row">
-        <div className="col-md-6 p-0 mb-3">
-          <h2>Get in Touch</h2>
-          <div className="contact-detail d-flex flex-wrap mt-4">
-            <div className="detail mr-6 mb-4">
-              <p>
-                Feel free to get in touch at any time in the provided contacts below.
-              </p>
-              <ul className="list-unstyled list-icon">
-                <li>
-                  <i className="icon icon-phone" />
-                  +1650-243-0000
-                </li>
-                <li>
-                  <i className="icon icon-envelope-o" />
-                  <a href="mailto:info@yourcompany.com">vmakksimov@gmail.com</a>
-                </li>
-                <li>
-                  <i className="icon icon-location2" />
-                  Sofia, Bulgaria
-                </li>
-              </ul>
-            </div>
-            {/*detail*/}
-         
-            {/*detail*/}
+      {!submited 
+      ? <div className="row">
+      <div className="col-md-6 p-0 mb-3">
+        <h2>Get in Touch</h2>
+        <div className="contact-detail d-flex flex-wrap mt-4">
+          <div className="detail mr-6 mb-4">
+            <p>
+              Feel free to get in touch at any time in the provided contacts below.
+            </p>
+            <ul className="list-unstyled list-icon">
+              <li>
+                <i className="icon icon-phone" />
+                +1650-243-0000
+              </li>
+              <li>
+                <i className="icon icon-envelope-o" />
+                <a href="mailto:info@yourcompany.com">vmakksimov@gmail.com</a>
+              </li>
+              <li>
+                <i className="icon icon-location2" />
+                Sofia, Bulgaria
+              </li>
+            </ul>
           </div>
-          {/*contact-detail*/}
         </div>
-        {/*col-md-6*/}
-        <div className="col-md-6 p-0">
-          <div className="contact-information">
-            <h2>Send A Message</h2>
-            <form
-              name="contactform"
-              action="contact.php"
-              method="post"
-              className="contact-form d-flex flex-wrap mt-4"
-            >
-              <div className="row">
-                <div className="col-md-6">
-                  <input
-                    type="text"
-                    minLength={2}
-                    name="name"
-                    placeholder="Name"
-                    className="u-full-width"
-                    required=""
-                  />
-                </div>
-                <div className="col-md-6">
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="E-mail"
-                    className="u-full-width"
-                    required=""
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-12">
-                  <textarea
-                    className="u-full-width"
-                    name="message"
-                    placeholder="Message"
-                    style={{ height: 150 }}
-                    required=""
-                    defaultValue={""}
-                  />
-                  
-                  <button
-                    type="submit"
-                    name="submit"
-                    className="btn btn-full btn-rounded"
-                  >
-                    Submit
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-          {/*contact-information*/}
-        </div>
-        {/*col-md-6*/}
       </div>
+      <div className="col-md-6 p-0">
+        <div className="contact-information">
+          <h2>Send A Message</h2>
+          <form
+            name="contactform"
+            className="contact-form d-flex flex-wrap mt-4"
+            onSubmit={onSubmit}
+          >
+            <div className="row">
+              <div className="col-md-6">
+                <input
+                  type="text"
+                  minLength={2}
+                  name="name"
+                  placeholder="Name"
+                  className="u-full-width"
+                  required=""
+                />
+              </div>
+              <div className="col-md-6">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="E-mail"
+                  className="u-full-width"
+                  required=""
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-12">
+                <textarea
+                  className="u-full-width"
+                  name="message"
+                  placeholder="Message"
+                  style={{ height: 150 }}
+                  required=""
+                  defaultValue={""}
+                />
+                
+                <button
+               
+                  type="submit"
+                  name="submit"
+                  className="btn btn-full btn-rounded"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+      : <ThankYou/>
+    }
     </div>
   </section>
   <section className="google-map">
