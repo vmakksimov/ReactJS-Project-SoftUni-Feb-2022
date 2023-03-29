@@ -17,14 +17,17 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
     const navigate = useNavigate()
     const [currentBook, setBook] = useState({});
     const [isActive, setReview] = useState(false);
-    const [likes, setLikes] = useState([]);
+    const [likes, setLikes] = useState();
+    const [day, setDate] = useState([])
     const { bookId } = useParams();
 
     const current = books.find(x => x._id === Number(bookId))
     const newBook = books.find(x => x._id == bookId)
     // const isReviewed = likes.filter(x => console.log(x))
     // console.log(likes)
-
+    const dateHandler = () => {
+        setDate([])
+    }
 
     let currentLikedBook = likess.find(x => x.book_id == bookId ? x : false)
     let likedByUser;
@@ -111,6 +114,26 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
         }
 
         clearFiled.value = ''
+        const currentDate = Date().split(' ')
+
+        const month = currentDate[1].toString()
+        const date = currentDate[2].toString()
+        const year = currentDate[3].toString()
+        const hour = currentDate[4].toString()
+
+        const final = {
+            month: month,
+            date : date,
+            year: year,
+            hour: hour,
+        }
+
+        setDate(state => [
+            ...state,
+            final,
+        ])
+
+        
 
     }
 
@@ -276,7 +299,7 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
                     {/* {key={Object.keys(x)}} */}
 
                     {currentLikedBook ?
-                     currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} />)
+                     currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} user={user} day={day} dateHandler={dateHandler} />)
                     : <span>No Reviews</span>
                     }
                     {/* {likes['reviews']

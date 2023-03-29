@@ -29,6 +29,14 @@ function App() {
     const [user, setAuth] = useLocalStorage('auth', {})
     const [books, setBook] = useState([])
     const [likes, setLike] = useState([])
+    const [users, setUsers] = useState([])
+
+    const addUsersHandler = (usersData) => {
+        setUsers(state => [
+            ...state,
+            usersData,
+        ])
+    }
 
     const addLikeHandler = (newLike) => {
         setLike(state => [
@@ -83,7 +91,7 @@ function App() {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ user, books, likes, userLogin, userLogout, editProfile, addLikeHandler, editLikeHandler }}>
+        <AuthContext.Provider value={{ user, books, likes,users, userLogin, userLogout, editProfile, addLikeHandler, editLikeHandler }}>
 
             <div className="App">
                 <Header />
@@ -92,7 +100,7 @@ function App() {
                 <main id='main'>
                     <Routes>
                         <Route path='/' element={<Home />} />
-                        <Route path='/register' element={<Register />} />
+                        <Route path='/register' element={<Register addUsersHandler={addUsersHandler}/>} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/logout' element={<Logout />} />
                         <Route path='/profile' element={<Profile />} />
