@@ -35,10 +35,12 @@ export const Register = ({ addUsersHandler }) => {
     let registeredUser;
     let newErrors;
 
+
+
     const validationHandler = (e, bound) => {
         bookService.getUsers()
             .then(res => {
-                
+
                 if (res !== undefined) {
                     registeredUser = Object.values(res).find(x => x.username == e.target.value || x.email == e.target.value)
                 }
@@ -97,19 +99,50 @@ export const Register = ({ addUsersHandler }) => {
         const last_name = formData.get('last_name')
         const confirmPassword = formData.get('re_password')
 
-        if (errors){
-            return navigate('/404')
-        }
-
         if (password !== confirmPassword) {
             return
         }
 
+        let currentEmail;
+        let currentUsername
 
-        bookService.createUser(usersData)
-        addUsersHandler(usersData)
+        // bookService.getUsers()
+        //     .then(res => {
+        //         if (res){
+        //             currentEmail= Object.values(res).map(x => x.email == email)
+        //             currentUsername= Object.values(res).map(x => x.username == username)
 
-        AuthService.register(email, password, username, image, first_name, last_name, usertype)
+        //             console.log(currentEmail.includes(true))
+        //             console.log(currentUsername.includes(true))
+
+        //             if (currentEmail.includes(true)){
+        //                 console.log('cucrrentemail')
+        //                 return navigate('/404')
+        //             }
+
+        //             if (currentUsername.includes(true)){
+        //                 console.log('cucrrentusernameee')
+
+        //                 navigate('/book-store')
+        //                 return;
+        //             }
+        //         }
+
+
+        //     })
+
+        currentEmail = users.map(x => x.email == email)
+        currentUsername = users.map(x => x.username == username)
+
+        if (currentEmail.includes(true) || currentUsername.includes(true)) {
+            console.log('cucrrentemail')
+            return navigate('/404')
+
+        }else{
+            bookService.createUser(usersData)
+            addUsersHandler(usersData)
+
+            AuthService.register(email, password, username, image, first_name, last_name, usertype)
             .then(res => {
                 userLogin(res)
                 navigate('/')
@@ -118,6 +151,16 @@ export const Register = ({ addUsersHandler }) => {
             .catch(() => {
                 navigate('/404')
             })
+        }
+
+        // if (currentUsername.includes(true)) {
+        //     console.log('cucrrentusernameee')
+        //     return navigate('/404')
+        // }
+
+
+        
+
 
     }
     return (

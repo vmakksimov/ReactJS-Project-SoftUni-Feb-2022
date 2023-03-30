@@ -56,7 +56,7 @@ export const Login = () => {
                         }
 
                         
-
+                     
                         
                     }else if (e.target.name == 'password'){
                         console.log('here pass')
@@ -77,6 +77,7 @@ export const Login = () => {
                                 [e.target.name]: values[e.target.name]
                             })
                         }
+                        
                     }
 
                 }
@@ -92,7 +93,7 @@ export const Login = () => {
         if (errors){
             return navigate('/404')
         }
-        
+
         login(email, password)
             .then(authData => {
                 userLogin(authData)
