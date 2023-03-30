@@ -10,6 +10,7 @@ import { RegisterValidation } from "./Validation/RegisterValidation"
 export const Register = ({ addUsersHandler }) => {
 
     const [user, setState] = useState([]);
+
     const navigate = useNavigate();
     const { userLogin, users } = useContext(AuthContext);
 
@@ -20,10 +21,9 @@ export const Register = ({ addUsersHandler }) => {
         first_name: '',
         last_name: '',
         re_password: '',
-        // country: '',
-        // city: '',
-        // streetNumber: '',
+
     });
+    let isRegistered = []
 
     const ChangeHandler = (e) => {
         setValues(state => ({
@@ -35,19 +35,17 @@ export const Register = ({ addUsersHandler }) => {
 
     const validationHandler = (e, bound) => {
         let currentUser;
-        // let currentEmail;
-        // let currentUsername
-        // currentEmail = users.map(x => x.email == e.target.value)
-        // currentUsername = users.map(x => x.username == e.target.value)
         bookService.getUsers()
             .then(res => {
                 if (res) {
+                    console.log(res)
                     currentUser = Object.values(res).map(x => x.username == e.target.value || x.email == e.target.value)
+
                     if (currentUser.includes(true)) {
                         setErrors({
                             [e.target.name]: values[e.target.name]
                         })
-                    }else{
+                    } else {
                         setErrors({})
                     }
 
@@ -56,19 +54,19 @@ export const Register = ({ addUsersHandler }) => {
                         setErrors({
                             [e.target.name]: values[e.target.name]
                         })
-            
+
                     }
-            
+
                     if (e.target.name == 'password' && e.target.parentElement.parentElement.children[5].children[1].value.length > 0) {
                         const repassword = e.target.parentElement.parentElement.children[5].children[1].name
-            
+
                         if (e.target.parentElement.parentElement.children[5].children[1].value != e.target.value) {
                             setErrors({
                                 [repassword]: values[repassword]
                             })
                         }
                     }
-            
+
                     if (e.target.name == 're_password' && e.target.parentElement.parentElement.children[4].children[1].value != e.target.value) {
                         setErrors({
                             [e.target.name]: values[e.target.name]
@@ -80,20 +78,6 @@ export const Register = ({ addUsersHandler }) => {
                 }
             })
     }
-
-
-
-    // if (registeredUser) {
-    //     setErrors({
-    //         [e.target.name]: values[e.target.name]
-    //     })
-
-
-
-    // }
-    // )
-
-
 
 
 
@@ -115,11 +99,8 @@ export const Register = ({ addUsersHandler }) => {
             return
         }
 
-        // let currentEmail;
-        // let currentUsername
-        let currentUser
-        // currentEmail = users.map(x => x.email == email)
-        // currentUsername = users.map(x => x.username == username)
+        let currentUser;
+
 
         bookService.getUsers()
             .then(res => {
@@ -128,6 +109,7 @@ export const Register = ({ addUsersHandler }) => {
 
                     if (currentUser.includes(true)) {
                         return navigate('/404')
+
                     } else {
                         bookService.createUser(usersData)
                         addUsersHandler(usersData)
@@ -141,12 +123,26 @@ export const Register = ({ addUsersHandler }) => {
                             .catch(() => {
                                 navigate('/404')
                             })
+
                     }
+                } else {
+                    bookService.createUser(usersData)
+                    addUsersHandler(usersData)
+
+                    AuthService.register(email, password, username, image, first_name, last_name, usertype)
+                        .then(res => {
+                            userLogin(res)
+                            navigate('/')
+
+                        })
+                        .catch(() => {
+                            navigate('/404')
+                        })
                 }
-
-
-
             })
+
+
+
 
 
 
