@@ -14,7 +14,7 @@ export const Login = () => {
 
         email: '',
         password: '',
-       
+
     });
 
     const ChangeHandler = (e) => {
@@ -35,37 +35,37 @@ export const Login = () => {
                 if (res !== undefined) {
                     currentpass = Object.values(res).find(x => x.password == e.target.value)
                     email = Object.values(res).find(x => x.email == e.target.value)
-                    
-                    if (e.target.name == 'email'){
-                        if (email === undefined){
-                            setErrors({
-                                [e.target.name]: values[e.target.name]
-                            })
-                        } 
 
-                        if (currentpass && e.target.parentElement.children[1].value != currentpass.password){
+                    if (e.target.name == 'email') {
+                        if (email === undefined) {
                             setErrors({
                                 [e.target.name]: values[e.target.name]
                             })
                         }
 
-                        if (currentpass && currentpass.email != e.target.value){
+                        if (currentpass && e.target.parentElement.children[1].value != currentpass.password) {
                             setErrors({
                                 [e.target.name]: values[e.target.name]
                             })
                         }
 
-                        
-                     
-                        
-                    }else if (e.target.name == 'password'){
+                        if (currentpass && currentpass.email != e.target.value) {
+                            setErrors({
+                                [e.target.name]: values[e.target.name]
+                            })
+                        }
+
+
+
+
+                    } else if (e.target.name == 'password') {
                         console.log('here pass')
-                        if (currentpass === undefined){
+                        if (currentpass === undefined) {
                             setErrors({
                                 [e.target.name]: values[e.target.name]
                             })
-                        } 
-    
+                        }
+
                         if (currentpass && e.target.parentElement.children[0].value != currentpass.email) {
                             setErrors({
                                 [e.target.name]: values[e.target.name]
@@ -77,32 +77,54 @@ export const Login = () => {
                                 [e.target.name]: values[e.target.name]
                             })
                         }
-                        
+
                     }
 
                 }
             })
-            setErrors({})
+        setErrors({})
     }
-    
+
 
     const onLogin = (e) => {
         e.preventDefault()
         const { email, password } = Object.fromEntries(new FormData(e.target))
 
-        // if (errors){
-        //     return navigate('/404')
-        // }
+        bookService.getUsers()
+            .then(res => {
+                if (res) {
+                    let currentEmail = Object.values(res).find(x => x.email === email)
 
-        login(email, password)
-            .then(authData => {
-                userLogin(authData)
-                navigate('/')
+
+                    if (currentEmail != undefined) {
+                        if (currentEmail.email != email) {
+                            return navigate('/404')
+                        } else if (currentEmail.password !== password) {
+                            return navigate('/404')
+                        } else {
+                            login(email, password)
+                                .then(authData => {
+                                    userLogin(authData)
+                                    navigate('/')
+                                })
+                                .catch(() => {
+                                    console.log('username or password incorrecct')
+                                    navigate('/404')
+                                })
+                        }
+                    } else {
+                        return navigate('/404')
+                    }
+
+                } else {
+                    return navigate('/404')
+                }
+
             })
-            .catch(() => {
-                console.log('username or password incorrecct')
-                navigate('/404')
-            })
+
+
+
+
 
     }
 

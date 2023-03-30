@@ -38,7 +38,7 @@ export const Register = ({ addUsersHandler }) => {
         bookService.getUsers()
             .then(res => {
                 if (res) {
-                    console.log(res)
+                    
                     currentUser = Object.values(res).map(x => x.username == e.target.value || x.email == e.target.value)
 
                     if (currentUser.includes(true)) {
@@ -140,10 +140,6 @@ export const Register = ({ addUsersHandler }) => {
                         })
                 }
             })
-
-
-
-
 
 
     }
