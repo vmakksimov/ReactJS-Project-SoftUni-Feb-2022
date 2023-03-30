@@ -14,9 +14,7 @@ export const Login = () => {
 
         email: '',
         password: '',
-        // country: '',
-        // city: '',
-        // streetNumber: '',
+       
     });
 
     const ChangeHandler = (e) => {
@@ -33,8 +31,6 @@ export const Login = () => {
             .then(res => {
                 let currentpass
                 let email;
-                
-               
 
                 if (res !== undefined) {
                     currentpass = Object.values(res).find(x => x.password == e.target.value)
@@ -53,13 +49,13 @@ export const Login = () => {
                             })
                         }
 
-
-
                         if (currentpass && currentpass.email != e.target.value){
                             setErrors({
                                 [e.target.name]: values[e.target.name]
                             })
                         }
+
+                        
 
                         
                     }else if (e.target.name == 'password'){
@@ -93,7 +89,10 @@ export const Login = () => {
         e.preventDefault()
         const { email, password } = Object.fromEntries(new FormData(e.target))
 
-
+        if (errors){
+            return navigate('/404')
+        }
+        
         login(email, password)
             .then(authData => {
                 userLogin(authData)

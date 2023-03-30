@@ -27,9 +27,9 @@ export const Profile = () => {
 
     // const booksData = Object.fromEntries(new FormData(e.target))
 
-    const changeInput = (e) => {
-        navigate('/profile/edit')
-    }
+    // const changeInput = (e) => {
+    //     navigate('/profile/edit')
+    // }
 
     
 
@@ -93,7 +93,7 @@ export const Profile = () => {
                                 </tbody>
                                 
                             </table> 
-                            <button onClick={changeInput}>EDIT</button>
+                            {/* <button onClick={changeInput}>EDIT</button> */}
                         </div>
                     </div>
                 </div>

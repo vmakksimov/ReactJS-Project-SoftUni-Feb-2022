@@ -97,9 +97,12 @@ export const Register = ({ addUsersHandler }) => {
         const last_name = formData.get('last_name')
         const confirmPassword = formData.get('re_password')
 
-        if (password !== confirmPassword) {
+        if (errors){
+            return navigate('/404')
+        }
 
-            return;
+        if (password !== confirmPassword) {
+            return
         }
 
 

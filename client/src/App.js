@@ -20,6 +20,7 @@ import { EditProfile } from './components/Profile/ProfileBooks/EditProfile/EditP
 import { MostLiked } from './components/MostLiked/MostLiked';
 import { About } from './components/About/About';
 import { Contact } from './components/Contact/Contact';
+import { Error404 } from './components/Error/404';
 
 
 
@@ -110,6 +111,7 @@ function App() {
                         <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
                         <Route path='/book-store' element={<BookStore />} />
                         <Route path='/most-liked' element={<MostLiked />} />
+                        <Route path='/404' element={<Error404 />} />
                         {/* <Route path='/book/review/:bookId' element={<BookReview editBookHandler={editBookHandler}/>} /> */}
                         <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} deleteHandler={deleteHandler} deleteLikeHandler={deleteLikeHandler} likess={likes} />} />
                         <Route path='/book-details/edit/:bookId' element={<EditBook books={books} editBookHandler={editBookHandler} />} />
