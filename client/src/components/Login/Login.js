@@ -39,7 +39,6 @@ export const Login = () => {
                 if (res !== undefined) {
                     currentpass = Object.values(res).find(x => x.password == e.target.value)
                     email = Object.values(res).find(x => x.email == e.target.value)
-                    console.log(e.target)
                     
                     if (e.target.name == 'email'){
                         if (email === undefined){
@@ -47,6 +46,20 @@ export const Login = () => {
                                 [e.target.name]: values[e.target.name]
                             })
                         } 
+
+                        if (currentpass && e.target.parentElement.children[1].value != currentpass.password){
+                            setErrors({
+                                [e.target.name]: values[e.target.name]
+                            })
+                        }
+
+
+
+                        if (currentpass && currentpass.email != e.target.value){
+                            setErrors({
+                                [e.target.name]: values[e.target.name]
+                            })
+                        }
 
                         
                     }else if (e.target.name == 'password'){
@@ -57,13 +70,13 @@ export const Login = () => {
                             })
                         } 
     
-                        if (e.target.parentElement.children[0].value != currentpass.email) {
+                        if (currentpass && e.target.parentElement.children[0].value != currentpass.email) {
                             setErrors({
                                 [e.target.name]: values[e.target.name]
                             })
                         }
 
-                        if (currentpass.password != e.target.value) {
+                        if (currentpass && currentpass.password != e.target.value) {
                             setErrors({
                                 [e.target.name]: values[e.target.name]
                             })
@@ -74,60 +87,7 @@ export const Login = () => {
             })
             setErrors({})
     }
-    //             email = currentpass.email == e.target.parentElement.children[0].value
-    //             console.log(email)
-
-    //             // setErrors({
-    //             //     [e.target.name]: values[e.target.name]
-    //             // })
-    //             if (email){
-    //                 if (e.target.parentElement.children[0].value.length > 0) {
-
-    //                     if (e.target.parentElement.children[0].value != currentpass.email){
-    //                         console.log('yessssssssss')
-    //                         console.log(e.target.name)
-    //                         setErrors({
-    //                             [e.target.name]: values[e.target.name]
-    //                         })
-    //                     }
-
-
-
-
-    //                     // const currentEmail = currentpass.find(x => x.email == e.target.parentElement.children[0].value)
-
-    //                     if (e.target.parentElement.children[1].value !== currentpass.password) {
-    //                         setErrors({
-    //                             [e.target.name]: values[e.target.name]
-    //                         })
-    //                     }else{
-    //                         setErrors({})
-    //                     }
-
-    //                 }
-
-    //             }else{
-    //                 setErrors({
-    //                     [e.target.name]: values[e.target.name]
-    //                 })
-    //             }
-
-
-
-    //         } else {
-    //             setErrors({
-    //                 [e.target.name]: values[e.target.name]
-    //             })
-    //         }
-
-
-    //     }else{
-    //         setErrors({
-    //             [e.target.name]: values[e.target.name]
-    //         })
-    //     }
-
-
+    
 
     const onLogin = (e) => {
         e.preventDefault()
@@ -161,7 +121,7 @@ export const Login = () => {
                 <input className="pass" type="password" name="password" align="center" values={values.password} onChange={ChangeHandler} onBlur={(e) => validationHandler(e)} placeholder="Password" />
                 {errors.password &&
                     <p className="form-error" style={{ marginTop: '0px' }}>
-                        Incorrect email or password.
+                        Incorrect password.
                     </p>
                 }
                 <button type="submit" className="submit login" align="center">Sign in</button>
