@@ -32,56 +32,68 @@ export const Register = ({ addUsersHandler }) => {
         }))
     }
 
-    let registeredUser;
-    let newErrors;
-
-
 
     const validationHandler = (e, bound) => {
+        let currentUser;
+        // let currentEmail;
+        // let currentUsername
+        // currentEmail = users.map(x => x.email == e.target.value)
+        // currentUsername = users.map(x => x.username == e.target.value)
         bookService.getUsers()
             .then(res => {
+                if (res) {
+                    currentUser = Object.values(res).map(x => x.username == e.target.value || x.email == e.target.value)
+                    if (currentUser.includes(true)) {
+                        setErrors({
+                            [e.target.name]: values[e.target.name]
+                        })
+                    }else{
+                        setErrors({})
+                    }
 
-                if (res !== undefined) {
-                    registeredUser = Object.values(res).find(x => x.username == e.target.value || x.email == e.target.value)
-                }
+                    if (bound && e.target.value.length < bound) {
 
-                if (registeredUser) {
-                    setErrors({
-                        [e.target.name]: values[e.target.name]
-                    })
+                        setErrors({
+                            [e.target.name]: values[e.target.name]
+                        })
+            
+                    }
+            
+                    if (e.target.name == 'password' && e.target.parentElement.parentElement.children[5].children[1].value.length > 0) {
+                        const repassword = e.target.parentElement.parentElement.children[5].children[1].name
+            
+                        if (e.target.parentElement.parentElement.children[5].children[1].value != e.target.value) {
+                            setErrors({
+                                [repassword]: values[repassword]
+                            })
+                        }
+                    }
+            
+                    if (e.target.name == 're_password' && e.target.parentElement.parentElement.children[4].children[1].value != e.target.value) {
+                        setErrors({
+                            [e.target.name]: values[e.target.name]
+                        })
+                    }
 
                 } else {
                     setErrors({})
                 }
-
-                if (bound && e.target.value.length < bound) {
-
-                    setErrors({
-                        [e.target.name]: values[e.target.name]
-                    })
-
-                }
-
-                if (e.target.name == 'password' && e.target.parentElement.parentElement.children[5].children[1].value.length > 0) {
-                    const repassword = e.target.parentElement.parentElement.children[5].children[1].name
-
-                    if (e.target.parentElement.parentElement.children[5].children[1].value != e.target.value) {
-                        setErrors({
-                            [repassword]: values[repassword]
-                        })
-                    }
-                }
-
-                if (e.target.name == 're_password' && e.target.parentElement.parentElement.children[4].children[1].value != e.target.value) {
-                    setErrors({
-                        [e.target.name]: values[e.target.name]
-                    })
-                }
-
-            }
-            )
-
+            })
     }
+
+
+
+    // if (registeredUser) {
+    //     setErrors({
+    //         [e.target.name]: values[e.target.name]
+    //     })
+
+
+
+    // }
+    // )
+
+
 
 
 
@@ -103,63 +115,39 @@ export const Register = ({ addUsersHandler }) => {
             return
         }
 
-        let currentEmail;
-        let currentUsername
+        // let currentEmail;
+        // let currentUsername
+        let currentUser
+        // currentEmail = users.map(x => x.email == email)
+        // currentUsername = users.map(x => x.username == username)
 
-        // bookService.getUsers()
-        //     .then(res => {
-        //         if (res){
-        //             currentEmail= Object.values(res).map(x => x.email == email)
-        //             currentUsername= Object.values(res).map(x => x.username == username)
-
-        //             console.log(currentEmail.includes(true))
-        //             console.log(currentUsername.includes(true))
-
-        //             if (currentEmail.includes(true)){
-        //                 console.log('cucrrentemail')
-        //                 return navigate('/404')
-        //             }
-
-        //             if (currentUsername.includes(true)){
-        //                 console.log('cucrrentusernameee')
-
-        //                 navigate('/book-store')
-        //                 return;
-        //             }
-        //         }
-
-
-        //     })
-
-        currentEmail = users.map(x => x.email == email)
-        currentUsername = users.map(x => x.username == username)
-
-        if (currentEmail.includes(true) || currentUsername.includes(true)) {
-            console.log('cucrrentemail')
-            return navigate('/404')
-
-        }else{
-            bookService.createUser(usersData)
-            addUsersHandler(usersData)
-
-            AuthService.register(email, password, username, image, first_name, last_name, usertype)
+        bookService.getUsers()
             .then(res => {
-                userLogin(res)
-                navigate('/')
+                if (res) {
+                    currentUser = Object.values(res).map(x => x.username == username || x.email == email)
+
+                    if (currentUser.includes(true)) {
+                        return navigate('/404')
+                    } else {
+                        bookService.createUser(usersData)
+                        addUsersHandler(usersData)
+
+                        AuthService.register(email, password, username, image, first_name, last_name, usertype)
+                            .then(res => {
+                                userLogin(res)
+                                navigate('/')
+
+                            })
+                            .catch(() => {
+                                navigate('/404')
+                            })
+                    }
+                }
+
+
 
             })
-            .catch(() => {
-                navigate('/404')
-            })
-        }
 
-        // if (currentUsername.includes(true)) {
-        //     console.log('cucrrentusernameee')
-        //     return navigate('/404')
-        // }
-
-
-        
 
 
     }

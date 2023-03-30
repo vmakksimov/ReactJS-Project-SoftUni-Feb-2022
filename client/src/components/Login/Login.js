@@ -90,9 +90,9 @@ export const Login = () => {
         e.preventDefault()
         const { email, password } = Object.fromEntries(new FormData(e.target))
 
-        if (errors){
-            return navigate('/404')
-        }
+        // if (errors){
+        //     return navigate('/404')
+        // }
 
         login(email, password)
             .then(authData => {
