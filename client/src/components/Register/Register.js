@@ -5,7 +5,7 @@ import * as AuthService from '../../services/authService'
 import { Navigate, useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
 import * as bookService from '../../services/bookService'
-import { RegisterValidation, validateEmail } from "./Validation/RegisterValidation"
+import { RegisterValidation, validateEmail, validateUrl } from "./Validation/RegisterValidation"
 
 
 export const Register = ({ addUsersHandler }) => {
@@ -22,7 +22,7 @@ export const Register = ({ addUsersHandler }) => {
         first_name: '',
         last_name: '',
         re_password: '',
-        invalid: '',
+        user_imageUrl: '',
 
     });
     let isRegistered = []
@@ -39,12 +39,12 @@ export const Register = ({ addUsersHandler }) => {
         let currentUser;
         bookService.getUsers()
             .then(res => {
-                let isValid = validateEmail(e.target.value)
+                // let isValidEmail = validateEmail(e.target.parentElement.parentElement.children[1].children[1].value > 0)
+                let isValidUrlImage = validateUrl(e.target.value)
+                // console.log(isValidEmail)
                 if (res) {
                     // let currentEmail = Object.values(res).find(x => x.email === email)
                     currentUser = Object.values(res).map(x => x.username == e.target.value || x.email == e.target.value)
-
-
 
                     if (currentUser.includes(true)) {
                         setErrors({
@@ -54,12 +54,24 @@ export const Register = ({ addUsersHandler }) => {
                         setErrors({})
                     }
 
-                    if (!isValid) {
-                        setErrors({
-                            ['invalid']: values[e.target.name]
-                        })
-                    } else {
-                        setErrors({})
+                    if (e.target.name == 'email') {
+                        if (!validateEmail(e.target.value)) {
+                            setErrors({
+                                [e.target.name]: values[e.target.name]
+                            })
+                        } else {
+                            setErrors({})
+                        }
+                    }
+
+                    if (e.target.name == 'user_imageUrl') {
+                        if (!validateUrl(e.target.value)) {
+                            setErrors({
+                                [e.target.name]: values[e.target.name]
+                            })
+                        } else {
+                            setErrors({})
+                        }
                     }
 
                     if (bound && e.target.value.length < bound) {
@@ -69,8 +81,6 @@ export const Register = ({ addUsersHandler }) => {
                         })
 
                     }
-
-
 
                     if (e.target.name == 'password' && e.target.parentElement.parentElement.children[5].children[1].value.length > 0) {
                         const repassword = e.target.parentElement.parentElement.children[5].children[1].name
@@ -89,12 +99,24 @@ export const Register = ({ addUsersHandler }) => {
                     }
 
                 } else {
-                    if (!isValid) {
-                        setErrors({
-                            ['invalid']: values[e.target.name]
-                        })
-                    } else {
-                        setErrors({})
+                    if (e.target.name == 'email') {
+                        if (!validateEmail(e.target.value)) {
+                            setErrors({
+                                [e.target.name]: values[e.target.name]
+                            })
+                        } else {
+                            setErrors({})
+                        }
+                    }
+
+                    if (e.target.name == 'user_imageUrl') {
+                        if (!validateUrl(e.target.value)) {
+                            setErrors({
+                                [e.target.name]: values[e.target.name]
+                            })
+                        } else {
+                            setErrors({})
+                        }
                     }
 
                     if (bound && e.target.value.length < bound) {
@@ -156,7 +178,8 @@ export const Register = ({ addUsersHandler }) => {
         const first_name = formData.get('first_name')
         const last_name = formData.get('last_name')
         const confirmPassword = formData.get('re_password')
-        let isValid = validateEmail(email)
+        let isValidEmail = validateEmail(email)
+        let isValidUrlImage = validateUrl(image)
 
         if (password !== confirmPassword) {
             return
@@ -173,7 +196,11 @@ export const Register = ({ addUsersHandler }) => {
                     if (currentUser.includes(true)) {
                         return navigate('/404')
 
-                    } else if (!isValid) {
+                    } else if (!isValidEmail) {
+                        return navigate('/404')
+
+                    } else if (!isValidUrlImage) {
+
                         return navigate('/404')
 
                     } else {
@@ -193,24 +220,28 @@ export const Register = ({ addUsersHandler }) => {
 
                 } else {
 
-                    if (!isValid){
-                        navigate('/404')
-                    }else{
+                    if (!isValidEmail) {
+                        return navigate('/404')
+                    } else if (!isValidUrlImage) {
+                        return navigate('/404')
+                    } else {
                         bookService.createUser(usersData)
                         addUsersHandler(usersData)
-    
+
                         AuthService.register(email, password, username, image, first_name, last_name, usertype)
                             .then(res => {
                                 userLogin(res)
                                 navigate('/')
-    
+
                             })
                             .catch(() => {
                                 navigate('/404')
                             })
                     }
-                    }
-                   
+
+
+                }
+
             })
 
 
@@ -237,14 +268,10 @@ export const Register = ({ addUsersHandler }) => {
                             <input type="text" name="email" values={values.email} onChange={ChangeHandler} onBlur={(e) => validationHandler(e)} placeholder="Enter your email" required />
                             {errors.email &&
                                 <p className="form-error" >
-                                    Email already in the database!
+                                    Email already used or invalid!
                                 </p>
                             }
-                            {errors.invalid &&
-                                <p className="form-error" >
-                                    Invalid email!
-                                </p>
-                            }
+
                         </div>
                         <div className="input-box">
                             <span className="details">First Name</span>
@@ -290,7 +317,12 @@ export const Register = ({ addUsersHandler }) => {
                         </div>
                         <div className="input-box">
                             <span className="details">Avatar Url</span>
-                            <input type="text" name="user_imageUrl" placeholder="Avatar Image Url" required />
+                            <input type="text" name="user_imageUrl" values={values.user_imageUrl} onChange={ChangeHandler} onBlur={(e) => validationHandler(e)} placeholder="Avatar Image Url" required />
+                            {errors.user_imageUrl &&
+                                <p className="form-error" >
+                                    Wrong Url!
+                                </p>
+                            }
                         </div>
                         <div className="input-box">
                             <span className="details">Sign up as</span>
