@@ -5,7 +5,8 @@ import * as AuthService from '../../services/authService'
 import { Navigate, useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
 import * as bookService from '../../services/bookService'
-import { RegisterValidation } from "./Validation/RegisterValidation"
+import { RegisterValidation, validateEmail } from "./Validation/RegisterValidation"
+
 
 export const Register = ({ addUsersHandler }) => {
 
@@ -21,6 +22,7 @@ export const Register = ({ addUsersHandler }) => {
         first_name: '',
         last_name: '',
         re_password: '',
+        invalid: '',
 
     });
     let isRegistered = []
@@ -37,13 +39,24 @@ export const Register = ({ addUsersHandler }) => {
         let currentUser;
         bookService.getUsers()
             .then(res => {
+                let isValid = validateEmail(e.target.value)
                 if (res) {
-                    
+                    // let currentEmail = Object.values(res).find(x => x.email === email)
                     currentUser = Object.values(res).map(x => x.username == e.target.value || x.email == e.target.value)
+
+
 
                     if (currentUser.includes(true)) {
                         setErrors({
                             [e.target.name]: values[e.target.name]
+                        })
+                    } else {
+                        setErrors({})
+                    }
+
+                    if (!isValid) {
+                        setErrors({
+                            ['invalid']: values[e.target.name]
                         })
                     } else {
                         setErrors({})
@@ -56,6 +69,8 @@ export const Register = ({ addUsersHandler }) => {
                         })
 
                     }
+
+
 
                     if (e.target.name == 'password' && e.target.parentElement.parentElement.children[5].children[1].value.length > 0) {
                         const repassword = e.target.parentElement.parentElement.children[5].children[1].name
@@ -74,8 +89,55 @@ export const Register = ({ addUsersHandler }) => {
                     }
 
                 } else {
-                    setErrors({})
+                    if (!isValid) {
+                        setErrors({
+                            ['invalid']: values[e.target.name]
+                        })
+                    } else {
+                        setErrors({})
+                    }
+
+                    if (bound && e.target.value.length < bound) {
+
+                        setErrors({
+                            [e.target.name]: values[e.target.name]
+                        })
+
+                    } else {
+                        setErrors({})
+                    }
+
+                    if (e.target.name == 'password' && e.target.parentElement.parentElement.children[5].children[1].value.length > 0) {
+                        const repassword = e.target.parentElement.parentElement.children[5].children[1].name
+
+                        if (e.target.parentElement.parentElement.children[5].children[1].value != e.target.value) {
+                            setErrors({
+                                [repassword]: values[repassword]
+                            })
+                        } else {
+                            setErrors({})
+                        }
+                    }
+
+                    if (e.target.name == 're_password' && e.target.parentElement.parentElement.children[4].children[1].value.length > 0) {
+                        const repassword = e.target.parentElement.parentElement.children[5].children[1].name
+
+                        if (e.target.parentElement.parentElement.children[4].children[1].value != e.target.value) {
+                            setErrors({
+                                [repassword]: values[repassword]
+                            })
+                        } else {
+                            setErrors({
+
+                            })
+                        }
+
+                    }
+
+
                 }
+
+
             })
     }
 
@@ -94,6 +156,7 @@ export const Register = ({ addUsersHandler }) => {
         const first_name = formData.get('first_name')
         const last_name = formData.get('last_name')
         const confirmPassword = formData.get('re_password')
+        let isValid = validateEmail(email)
 
         if (password !== confirmPassword) {
             return
@@ -110,6 +173,9 @@ export const Register = ({ addUsersHandler }) => {
                     if (currentUser.includes(true)) {
                         return navigate('/404')
 
+                    } else if (!isValid) {
+                        return navigate('/404')
+
                     } else {
                         bookService.createUser(usersData)
                         addUsersHandler(usersData)
@@ -123,22 +189,28 @@ export const Register = ({ addUsersHandler }) => {
                             .catch(() => {
                                 navigate('/404')
                             })
-
                     }
+
                 } else {
-                    bookService.createUser(usersData)
-                    addUsersHandler(usersData)
 
-                    AuthService.register(email, password, username, image, first_name, last_name, usertype)
-                        .then(res => {
-                            userLogin(res)
-                            navigate('/')
-
-                        })
-                        .catch(() => {
-                            navigate('/404')
-                        })
-                }
+                    if (!isValid){
+                        navigate('/404')
+                    }else{
+                        bookService.createUser(usersData)
+                        addUsersHandler(usersData)
+    
+                        AuthService.register(email, password, username, image, first_name, last_name, usertype)
+                            .then(res => {
+                                userLogin(res)
+                                navigate('/')
+    
+                            })
+                            .catch(() => {
+                                navigate('/404')
+                            })
+                    }
+                    }
+                   
             })
 
 
@@ -166,6 +238,11 @@ export const Register = ({ addUsersHandler }) => {
                             {errors.email &&
                                 <p className="form-error" >
                                     Email already in the database!
+                                </p>
+                            }
+                            {errors.invalid &&
+                                <p className="form-error" >
+                                    Invalid email!
                                 </p>
                             }
                         </div>

@@ -94,8 +94,6 @@ export const Login = () => {
             .then(res => {
                 if (res) {
                     let currentEmail = Object.values(res).find(x => x.email === email)
-
-
                     if (currentEmail != undefined) {
                         if (currentEmail.email != email) {
                             return navigate('/404')
