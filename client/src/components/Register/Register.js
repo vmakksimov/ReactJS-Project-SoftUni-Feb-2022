@@ -2,7 +2,7 @@ import "./Register.css"
 
 import { useState, useContext } from "react"
 import * as AuthService from '../../services/authService'
-import { Navigate, useNavigate } from "react-router-dom"
+import { BrowserRouter, Navigate, useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
 import * as bookService from '../../services/bookService'
 import { RegisterValidation, validateEmail, validateUrl } from "./Validation/RegisterValidation"
@@ -39,33 +39,23 @@ export const Register = ({ addUsersHandler }) => {
         let currentUser;
         bookService.getUsers()
             .then(res => {
-                // let isValidEmail = validateEmail(e.target.parentElement.parentElement.children[1].children[1].value > 0)
-                let isValidUrlImage = validateUrl(e.target.value)
-                // console.log(isValidEmail)
                 if (res) {
-                    // let currentEmail = Object.values(res).find(x => x.email === email)
-                    currentUser = Object.values(res).map(x => x.username == e.target.value || x.email == e.target.value)
-
-                    if (currentUser.includes(true)) {
-                        setErrors({
-                            [e.target.name]: values[e.target.name]
-                        })
-                    } else {
-                        setErrors({})
-                    }
-
                     if (e.target.name == 'email') {
+                        currentUser = Object.values(res).map(x => x.email == e.target.value)
                         if (!validateEmail(e.target.value)) {
                             setErrors({
                                 [e.target.name]: values[e.target.name]
                             })
+                        } else if (currentUser.includes(true)) {
+                            setErrors({
+                                [e.target.name]: values[e.target.name]
+                            })
                         } else {
                             setErrors({})
                         }
-                    }
-
-                    if (e.target.name == 'user_imageUrl') {
-                        if (!validateUrl(e.target.value)) {
+                    } else if (e.target.name == 'username') {
+                        let currentUsername = Object.values(res).map(x => x.username == e.target.value)
+                        if (currentUsername.includes(true)) {
                             setErrors({
                                 [e.target.name]: values[e.target.name]
                             })
@@ -73,96 +63,64 @@ export const Register = ({ addUsersHandler }) => {
                             setErrors({})
                         }
                     }
-
-                    if (bound && e.target.value.length < bound) {
-
-                        setErrors({
-                            [e.target.name]: values[e.target.name]
-                        })
-
-                    }
-
-                    if (e.target.name == 'password' && e.target.parentElement.parentElement.children[5].children[1].value.length > 0) {
-                        const repassword = e.target.parentElement.parentElement.children[5].children[1].name
-
-                        if (e.target.parentElement.parentElement.children[5].children[1].value != e.target.value) {
-                            setErrors({
-                                [repassword]: values[repassword]
-                            })
-                        }
-                    }
-
-                    if (e.target.name == 're_password' && e.target.parentElement.parentElement.children[4].children[1].value != e.target.value) {
-                        setErrors({
-                            [e.target.name]: values[e.target.name]
-                        })
-                    }
-
-                } else {
-                    if (e.target.name == 'email') {
-                        if (!validateEmail(e.target.value)) {
-                            setErrors({
-                                [e.target.name]: values[e.target.name]
-                            })
-                        } else {
-                            setErrors({})
-                        }
-                    }
-
-                    if (e.target.name == 'user_imageUrl') {
-                        if (!validateUrl(e.target.value)) {
-                            setErrors({
-                                [e.target.name]: values[e.target.name]
-                            })
-                        } else {
-                            setErrors({})
-                        }
-                    }
-
-                    if (bound && e.target.value.length < bound) {
-
-                        setErrors({
-                            [e.target.name]: values[e.target.name]
-                        })
-
-                    } else {
-                        setErrors({})
-                    }
-
-                    if (e.target.name == 'password' && e.target.parentElement.parentElement.children[5].children[1].value.length > 0) {
-                        const repassword = e.target.parentElement.parentElement.children[5].children[1].name
-
-                        if (e.target.parentElement.parentElement.children[5].children[1].value != e.target.value) {
-                            setErrors({
-                                [repassword]: values[repassword]
-                            })
-                        } else {
-                            setErrors({})
-                        }
-                    }
-
-                    if (e.target.name == 're_password' && e.target.parentElement.parentElement.children[4].children[1].value.length > 0) {
-                        const repassword = e.target.parentElement.parentElement.children[5].children[1].name
-
-                        if (e.target.parentElement.parentElement.children[4].children[1].value != e.target.value) {
-                            setErrors({
-                                [repassword]: values[repassword]
-                            })
-                        } else {
-                            setErrors({
-
-                            })
-                        }
-
-                    }
-
 
                 }
 
+                if (e.target.name == 'user_imageUrl') {
+                    if (!validateUrl(e.target.value)) {
+                        setErrors({
+                            [e.target.name]: values[e.target.name]
+                        })
+                    } else {
+                        setErrors({})
+                    }
+                }
+
+                if (e.target.name == 'first_name' || e.target.name == 'last_name') {
+                    if (e.target.value.length < bound) {
+                        setErrors({
+                            [e.target.name]: values[e.target.name]
+                        })
+                    } else {
+                        setErrors({})
+                    }
+                }
+
+                if (e.target.name == 'password' && bound) {
+                    if (e.target.value.length < bound) {
+                        setErrors({
+                            [e.target.name]: values[e.target.name]
+                        })
+                    } else {
+                        setErrors({})
+                    }
+                }
+
+
+                if (e.target.name == 'password' && e.target.parentElement.parentElement.children[5].children[1].value.length > 0) {
+                    const repassword = e.target.parentElement.parentElement.children[5].children[1].name
+
+
+                    if (e.target.parentElement.parentElement.children[5].children[1].value != e.target.value) {
+                        setErrors({
+                            [repassword]: values[repassword]
+                        })
+                    } 
+
+                }
+                if (e.target.name == 're_password') {
+                    if (e.target.parentElement.parentElement.children[4].children[1].value != e.target.value){
+                        setErrors({
+                            [e.target.name]: values[e.target.name]
+                        })
+                    }else{
+                        setErrors({})
+                    }
+                    
+                }
 
             })
     }
-
 
 
     const onRegister = (e) => {
