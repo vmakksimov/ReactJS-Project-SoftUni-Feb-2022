@@ -57,7 +57,11 @@ export const Register = ({ addUsersHandler }) => {
                         }
                     } else if (e.target.name == 'username') {
                         let currentUsername = Object.values(res).map(x => x.username == e.target.value)
-                        if (currentUsername.includes(true)) {
+                        if (e.target.value.length < 2){
+                            setErrors({
+                                [e.target.name]: values[e.target.name]
+                            })
+                        }else if (currentUsername.includes(true)) {
                             setErrors({
                                 [e.target.name]: values[e.target.name]
                             })
@@ -66,6 +70,15 @@ export const Register = ({ addUsersHandler }) => {
                         }
                     }
 
+                }
+                if (!res && e.target.name == 'username') {
+                    if (e.target.value.length < 2) {
+                        setErrors({
+                            [e.target.name]: values[e.target.name]
+                        })
+                    } else {
+                        setErrors({})
+                    }
                 }
                 if (!res && e.target.name == 'email') {
                     if (!validateEmail(e.target.value)) {
@@ -140,32 +153,26 @@ export const Register = ({ addUsersHandler }) => {
         let isValidEmail = validateEmail(email)
         let isValidUrlImage = validateUrl(image)
 
-        if (password !== confirmPassword) {
-            return
-        }
-
         let currentUser;
-
-
         bookService.getUsers()
             .then(res => {
                 if (res) {
                     currentUser = Object.values(res).map(x => x.username == username || x.email == email)
-
                     if (currentUser.includes(true)) {
                         return navigate('/404')
-
-                    } else if (!isValidEmail) {
+                    }  else if (username.length < 2){
                         return navigate('/404')
-
-                    } else if (!isValidUrlImage) {
-
+                    }else if (!isValidUrlImage) {
                         return navigate('/404')
-
-                    } else {
+                    } else if (password.length < 8){
+                        return navigate('/404')
+                    }else if (password !== confirmPassword) {
+                        return navigate('/404')
+                    } else if (first_name.length < 2 || last_name.length < 2){
+                        return navigate('/404')
+                    }else {
                         bookService.createUser(usersData)
                         addUsersHandler(usersData)
-
                         AuthService.register(email, password, username, image, first_name, last_name, usertype)
                             .then(res => {
                                 userLogin(res)
@@ -179,9 +186,17 @@ export const Register = ({ addUsersHandler }) => {
                 } else {
                     if (!isValidEmail) {
                         return navigate('/404')
-                    } else if (!isValidUrlImage) {
+                    } else if (username.length < 2){
                         return navigate('/404')
-                    } else {
+                    }else if (!isValidUrlImage) {
+                        return navigate('/404')
+                    } else if (password.length < 8){
+                        return navigate('/404')
+                    }else if (password !== confirmPassword) {
+                        return navigate('/404')
+                    } else if (first_name.length < 2 || last_name.length < 2){
+                        return navigate('/404')
+                    }else {
                         bookService.createUser(usersData)
                         addUsersHandler(usersData)
                         AuthService.register(email, password, username, image, first_name, last_name, usertype)
@@ -211,7 +226,7 @@ export const Register = ({ addUsersHandler }) => {
                             <input type="text" name="username" values={values.username} onChange={ChangeHandler} onBlur={(e) => validationHandler(e)} placeholder="Enter your username" required />
                             {errors.username &&
                                 <p className="form-error" >
-                                    Username already exists!
+                                    Username already exists or text is shorter than 2 characters!
                                 </p>
                             }
                         </div>
