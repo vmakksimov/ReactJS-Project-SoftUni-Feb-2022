@@ -65,7 +65,15 @@ export const Register = ({ addUsersHandler }) => {
                     }
 
                 }
-
+                if (e.target.name == 'email') {
+                    if (!validateEmail(e.target.value)) {
+                        setErrors({
+                            [e.target.name]: values[e.target.name]
+                        })
+                    }  else {
+                        setErrors({})
+                    }
+                }
                 if (e.target.name == 'user_imageUrl') {
                     if (!validateUrl(e.target.value)) {
                         setErrors({
@@ -75,7 +83,6 @@ export const Register = ({ addUsersHandler }) => {
                         setErrors({})
                     }
                 }
-
                 if (e.target.name == 'first_name' || e.target.name == 'last_name') {
                     if (e.target.value.length < bound) {
                         setErrors({
@@ -85,7 +92,6 @@ export const Register = ({ addUsersHandler }) => {
                         setErrors({})
                     }
                 }
-
                 if (e.target.name == 'password' && bound) {
                     if (e.target.value.length < bound) {
                         setErrors({
@@ -95,18 +101,13 @@ export const Register = ({ addUsersHandler }) => {
                         setErrors({})
                     }
                 }
-
-
                 if (e.target.name == 'password' && e.target.parentElement.parentElement.children[5].children[1].value.length > 0) {
                     const repassword = e.target.parentElement.parentElement.children[5].children[1].name
-
-
                     if (e.target.parentElement.parentElement.children[5].children[1].value != e.target.value) {
                         setErrors({
                             [repassword]: values[repassword]
                         })
                     } 
-
                 }
                 if (e.target.name == 're_password') {
                     if (e.target.parentElement.parentElement.children[4].children[1].value != e.target.value){
@@ -116,9 +117,7 @@ export const Register = ({ addUsersHandler }) => {
                     }else{
                         setErrors({})
                     }
-                    
                 }
-
             })
     }
 
@@ -175,9 +174,7 @@ export const Register = ({ addUsersHandler }) => {
                                 navigate('/404')
                             })
                     }
-
                 } else {
-
                     if (!isValidEmail) {
                         return navigate('/404')
                     } else if (!isValidUrlImage) {
@@ -185,7 +182,6 @@ export const Register = ({ addUsersHandler }) => {
                     } else {
                         bookService.createUser(usersData)
                         addUsersHandler(usersData)
-
                         AuthService.register(email, password, username, image, first_name, last_name, usertype)
                             .then(res => {
                                 userLogin(res)
@@ -196,10 +192,7 @@ export const Register = ({ addUsersHandler }) => {
                                 navigate('/404')
                             })
                     }
-
-
                 }
-
             })
 
 
