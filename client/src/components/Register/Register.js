@@ -42,15 +42,17 @@ export const Register = ({ addUsersHandler }) => {
                 if (res) {
                     if (e.target.name == 'email') {
                         currentUser = Object.values(res).map(x => x.email == e.target.value)
-                        if (!validateEmail(e.target.value)) {
+                        
+                        if (currentUser.includes(true)) {
+                            console.log('includes')
                             setErrors({
                                 [e.target.name]: values[e.target.name]
                             })
-                        } else if (currentUser.includes(true)) {
+                        } else if (!validateEmail(e.target.value)) {
                             setErrors({
                                 [e.target.name]: values[e.target.name]
                             })
-                        } else {
+                        } else{
                             setErrors({})
                         }
                     } else if (e.target.name == 'username') {
@@ -65,7 +67,7 @@ export const Register = ({ addUsersHandler }) => {
                     }
 
                 }
-                if (e.target.name == 'email') {
+                if (!res && e.target.name == 'email') {
                     if (!validateEmail(e.target.value)) {
                         setErrors({
                             [e.target.name]: values[e.target.name]
