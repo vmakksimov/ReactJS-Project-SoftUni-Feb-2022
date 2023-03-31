@@ -177,7 +177,6 @@ export const Register = ({ addUsersHandler }) => {
                             .then(res => {
                                 userLogin(res)
                                 navigate('/')
-
                             })
                             .catch(() => {
                                 navigate('/404')
