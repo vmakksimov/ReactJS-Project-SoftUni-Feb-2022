@@ -161,7 +161,7 @@ export const Register = ({ addUsersHandler }) => {
                     if (currentUser.includes(true)) {
                         return navigate('/404')
                     }  else if (username.length < 2){
-                        return navigate('/404')
+                        return;
                     }else if (!isValidUrlImage) {
                         return navigate('/404')
                     } else if (password.length < 8){
