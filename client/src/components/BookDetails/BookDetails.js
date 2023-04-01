@@ -123,7 +123,7 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
 
         const final = {
             month: month,
-            date : date,
+            date: date,
             year: year,
             hour: hour,
         }
@@ -133,7 +133,7 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
             final,
         ])
 
-        
+
 
     }
 
@@ -143,7 +143,7 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
         const confirmation = window.confirm('Are you sure you want to delete this book?')
 
         if (confirmation) {
-            if (currentLikedBook){
+            if (currentLikedBook) {
                 let newId = currentLikedBook._id
                 bookService.removeLiked(newId)
                 deleteLikeHandler(newId)
@@ -151,10 +151,10 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
 
             if (bookId.length <= 1) {
                 bookService.removeInitialBook(objectId)
-              
+
             } else {
                 bookService.removeBook(bookId)
-                
+
             }
 
             deleteHandler(bookId)
@@ -252,46 +252,46 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
                                 : user._id !== currentBook._ownerId ? <div><span>Total Likes: {likes.total_likes}</span></div> : <div><span>Total Likes: {currentBook.total_likes}</span></div>
 
                             } */}
+                            <div>
+                                {bookId.length <= 1
+                                    ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} className="buttonEdit" style={{ padding: '20px 29px' }}>Edit</Link> <button onClick={onDeleteHandler} className="buttonEdit" style={{ padding: '31px 29px' }}>Delete</button> <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
+                                    : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="buttonEdit" style={{ padding: '20px 29px' }}>Edit</Link> <button onClick={onDeleteHandler} className="buttonEdit" style={{ padding: '31px 29px' }}>Delete</button> <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
+                                }
+
+                                {isActive && <form className="form-group mt-3" onSubmit={onSubmitReview} style={{ width: '50%', display: 'flex', justifyContent: 'center', marginTop: '5px', marginLeft: '25%' }}>
+
+                                    <div className="row" >
+                                        <div className="col-md-12">
+                                            <textarea
+                                                className="u-full-width"
+                                                id="comment"
+                                                name="review"
+                                                placeholder="Write your review here"
+                                                rows={20}
+                                                defaultValue={""}
+                                                style={{ marginTop: '20px' }}
+                                            />
+                                        </div>
+                                        <div className="col-md-12">
+                                            <input
+                                                className="btn btn-rounded btn-large btn-full"
+                                                type="submit"
+                                                defaultValue="Submit"
+                                                style={{ borderRadius: '25px' }}
+
+                                            />
+                                        </div>
+
+                                    </div>
+                                </form>}
+
+                            </div>
 
                         </div>
                     </div>
-                    <div>
-                        {bookId.length <= 1
-                            ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} className="buttonEdit" style={{padding: '20px 29px'}}>Edit</Link> <button onClick={onDeleteHandler} className="buttonEdit" style={{padding: '31px 29px'}}>Delete</button> <button onClick={onReview} className="buttonEdit" style={{padding: '31px 29px'}}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview} className="buttonEdit" style={{padding: '31px 29px'}}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
-                            : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="buttonEdit" style={{padding: '20px 29px'}}>Edit</Link> <button onClick={onDeleteHandler} className="buttonEdit" style={{padding: '31px 29px'}}>Delete</button> <button onClick={onReview} className="buttonEdit"style={{padding: '31px 29px'}}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview} className="buttonEdit" style={{padding: '31px 29px'}}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
-                        }
-
-                    </div>
-                    {isActive && <form className="form-group mt-3" onSubmit={onSubmitReview} style={{ width: '50%', display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
-                        <div className="row">
-
-                        </div>
-                        <div className="row" style={{ width: '50%' }} >
-                            <div className="col-md-12">
-                                <textarea
-                                    className="u-full-width"
-                                    id="comment"
-                                    name="review"
-                                    placeholder="Write your review here"
-                                    rows={20}
-                                    defaultValue={""}
-                                    style={{marginTop: '20px'}}
-                                />
-                            </div>
-                            <div className="col-md-12">
-                                <input
-                                    className="btn btn-rounded btn-large btn-full"
-                                    type="submit"
-                                    defaultValue="Submit"
-                                    style={{borderRadius: '25px'}}
-                                    
-                                />
-                            </div>
-
-                        </div>
-                    </form>}
 
                 </div>
+
             </div>
             <section className="comments-wrap mb-4">
                 <h3>Reviews</h3>
@@ -299,13 +299,13 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
                     {/* {key={Object.keys(x)}} */}
 
                     {currentLikedBook ?
-                     currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} user={user} day={day} dateHandler={dateHandler} />)
-                    : <span>No Reviews</span>
+                        currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} user={user} day={day} dateHandler={dateHandler} />)
+                        : <span>No Reviews</span>
                     }
                     {/* {likes['reviews']
                     ? currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} />)
                     : !isActive && <span>No Reviews</span>} */}
-                    
+
 
                     {/*flex-container*/}
 

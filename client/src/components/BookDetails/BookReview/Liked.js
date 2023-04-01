@@ -1,5 +1,3 @@
-import * as bookService from '../../../services/bookService'
-
 export const Liked = (e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler) => {
 
     if (e.target.className == nonFilledHeart && !likedByUser) {

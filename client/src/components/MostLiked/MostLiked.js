@@ -22,7 +22,7 @@ export const MostLiked = () => {
                     <tr>
                         <th>#</th>
                         <th>Name</th>
-                        <th>Price</th>
+                        <th>Cover</th>
                         <th>Likes</th>
                         <th>Reviews</th>
                     </tr>

@@ -27,13 +27,12 @@ export const createUser = (userData) => request.post(usersUrl, userData)
 export const create = (booksData) => request.post(secondUrl, booksData)
 
 export const like = (booksData) => request.post(likeUrl, booksData)
-export const likeUpdate = (likeId, currentLikedBook) => request.put(`${likeUrl}/${likeId}`,currentLikedBook)
 
+export const likeUpdate = (likeId, currentLikedBook) => request.put(`${likeUrl}/${likeId}`,currentLikedBook)
 
 // UPDATE
 
 export const editInitial = (bookId, finalBook) => request.put(`${baseUrl}/${bookId}`, finalBook)
-
 
 export const editBooks = (bookId, booksData) => request.put(`${secondUrl}/${bookId}`, booksData)
 

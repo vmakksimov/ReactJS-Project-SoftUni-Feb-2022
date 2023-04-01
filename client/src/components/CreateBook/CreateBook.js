@@ -1,4 +1,3 @@
-
 import "./CreateBook.css"
 import { useState, useContext } from "react"
 import * as BookService from '../../services/bookService'
@@ -8,21 +7,17 @@ import { validateUrl } from "../../Validation/RegisterValidation"
 
 export const CreateBook = ({ addBookHandler }) => {
     const currentDate = Date().split(' ')
-    const year = currentDate[3]
+    const yearDate = currentDate[3]
     const { books } = useContext(AuthContext)
     const navigate = useNavigate()
     const [errors, setErrors] = useState({})
     const [values, setValues] = useState({
-
         title: '',
         author: '',
         year: '',
         image: '',
         summary: '',
-
-
     });
-
     const ChangeHandler = (e) => {
         setValues(state => ({
             ...state,
@@ -48,7 +43,6 @@ export const CreateBook = ({ addBookHandler }) => {
             }
         }
         if (e.target.name == 'year') {
-            console.log(Number(e.target.value) > Number(year))
             if (isNaN(+e.target.value)){
                 setErrors({
                     [e.target.name]: values[e.target.name]
@@ -58,7 +52,7 @@ export const CreateBook = ({ addBookHandler }) => {
                     [e.target.name]: values[e.target.name]
                 })
                 
-            }else if (Number(e.target.value) > Number(year)){
+            }else if (Number(e.target.value) > Number(yearDate)){
                 setErrors({
                     [e.target.name]: values[e.target.name]
                 })
@@ -89,7 +83,6 @@ export const CreateBook = ({ addBookHandler }) => {
          }
          if (e.target.name == 'image'){
             let coverExists = books.map(x => x.image == e.target.value)
-            console.log(coverExists)
             if (coverExists.includes(true)){
                 console.log('heree')
                 setErrors({
@@ -106,43 +99,47 @@ export const CreateBook = ({ addBookHandler }) => {
             }
             
          }        
-    }
-
-    // const [values, setValues] = useState('',{
-    //     title: '',
-    //     author: '',
-    //     year: '',
-    //     image: '',
-    //     summary: '',
-
-    // })
-
-    // const array = new Array()
-    // const number = Number(0)
-
-    // const onChange = (e) => {
-
-    //     setValues(e.target.value)
-    // }
-
+    };
     const onSubmit = (e) => {
         e.preventDefault()
         const booksData = Object.fromEntries(new FormData(e.target))
-
-        BookService.create(booksData)
+        const formData = new FormData(e.target)
+        const title = formData.get('title')
+        const author = formData.get('author')
+        const year = formData.get('year')
+        const summary = formData.get('summary')
+        const cover = formData.get('image')
+        let bookExists = books.map(x => x.title == title)
+        let coverExists = books.map(x => x.image == cover)
+        if (bookExists.includes(true)){
+            return;
+        }else if (title.length < 2){
+            return;
+        }else if(author.length < 2 || !isNaN(+author)){
+            return;
+        }else if (isNaN(+year)){
+            return;
+        }else if (year.length < 2 || year.length > 4){
+            return;
+        }else if (Number(year) > Number(yearDate)){
+            return;
+        }else if(summary.length < 60 || !isNaN(+summary)){
+            return;
+        }else if(coverExists.includes(true)){
+            return;
+        }else if (!validateUrl(cover)){
+            return;
+        }else{
+            BookService.create(booksData)
             .then(res => {
                 addBookHandler(res)
                 navigate('/book-store')
             })
-
-
+        }
     }
-
-
     return (
         <div className="container-register">
             <div className="title sign">Add Book</div>
-
             <div className="content">
                 <form onSubmit={onSubmit}>
                     <div className="game-details">
