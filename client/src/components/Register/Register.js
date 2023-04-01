@@ -5,7 +5,7 @@ import * as AuthService from '../../services/authService'
 import { BrowserRouter, Navigate, useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
 import * as bookService from '../../services/bookService'
-import { RegisterValidation, validateEmail, validateUrl } from "./Validation/RegisterValidation"
+import { validateEmail, validateUrl } from "../../Validation/RegisterValidation"
 
 
 export const Register = ({ addUsersHandler }) => {
@@ -163,13 +163,13 @@ export const Register = ({ addUsersHandler }) => {
                     }  else if (username.length < 2){
                         return;
                     }else if (!isValidUrlImage) {
-                        return navigate('/404')
+                        return;
                     } else if (password.length < 8){
-                        return navigate('/404')
+                        return;
                     }else if (password !== confirmPassword) {
-                        return navigate('/404')
+                        return;
                     } else if (first_name.length < 2 || last_name.length < 2){
-                        return navigate('/404')
+                        return;
                     }else {
                         bookService.createUser(usersData)
                         addUsersHandler(usersData)
@@ -184,17 +184,17 @@ export const Register = ({ addUsersHandler }) => {
                     }
                 } else {
                     if (!isValidEmail) {
-                        return navigate('/404')
+                        return;
                     } else if (username.length < 2){
-                        return navigate('/404')
+                        return;
                     }else if (!isValidUrlImage) {
-                        return navigate('/404')
+                        return;
                     } else if (password.length < 8){
-                        return navigate('/404')
+                        return;
                     }else if (password !== confirmPassword) {
-                        return navigate('/404')
+                        return;
                     } else if (first_name.length < 2 || last_name.length < 2){
-                        return navigate('/404')
+                        return;
                     }else {
                         bookService.createUser(usersData)
                         addUsersHandler(usersData)
