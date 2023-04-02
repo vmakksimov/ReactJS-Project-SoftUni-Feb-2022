@@ -4,11 +4,12 @@ import * as BookService from '../../services/bookService'
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
 import { validateUrl } from "../../Validation/RegisterValidation"
+import { BookContext } from "../../context/BookContext"
 
 export const CreateBook = ({ addBookHandler }) => {
     const currentDate = Date().split(' ')
     const yearDate = currentDate[3]
-    const { books } = useContext(AuthContext)
+    const { books } = useContext(BookContext)
     const navigate = useNavigate()
     const [errors, setErrors] = useState({})
     const [values, setValues] = useState({

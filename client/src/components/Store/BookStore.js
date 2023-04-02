@@ -2,17 +2,15 @@ import { BookList } from "./BookList"
 import { Link } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
 import { useContext, useState } from "react"
-
-
-
-
-
-
+import { BookContext } from "../../context/BookContext"
+import './BookStore.css'
 
 export const BookStore = () => {
 
-    const { books } = useContext(AuthContext)
-    const [current, setBook] = useState({});
+    const { books } = useContext(BookContext)
+    const [current, setBook] = useState({
+      
+    });
 
     const onGenre = (e) => {
         e.preventDefault()
@@ -65,13 +63,18 @@ export const BookStore = () => {
                     <div className="row">
                         <div className="products-grid grid">
 
-                         
-                            {current.length > 0
+                            {current 
+                            ? current.length > 0
                                 ? current.map(x => <BookList key={x._id} book={x} />)
 
                                 : books.length > 0 ? books.map(x => <BookList key={x._id} book={x} />) : <span>No books in the catalog.</span>
 
-                            }
+                            
+                            : <span>Please, register</span>
+                        
+                        }
+                         
+                            
                         </div>
                     </div>
                 </div>

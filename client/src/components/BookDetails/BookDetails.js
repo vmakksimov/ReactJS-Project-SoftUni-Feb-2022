@@ -8,18 +8,43 @@ import { useContext } from "react"
 import { Reviews } from "./BookReview/Reviews"
 import { SubmitReview } from "./BookReview/LeaveReview"
 import { Liked } from "./BookReview/Liked"
+import { BookContext } from "../../context/BookContext"
 import uniqid from 'uniqid';
 import "./BookDetails.css"
 
-export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler }) => {
+export const BookDetails = ({ likess }) => {
 
-    const { user, addLikeHandler, editLikeHandler } = useContext(AuthContext)
+  
+    
+
+    const { user } = useContext(AuthContext)
+    const { books, addLikeHandler, editLikeHandler, deleteHandler, deleteLikeHandler } = useContext(BookContext)
     const navigate = useNavigate()
     const [currentBook, setBook] = useState({});
     const [isActive, setReview] = useState(false);
     const [likes, setLikes] = useState();
     const [day, setDate] = useState([])
     const { bookId } = useParams();
+
+    
+    const firstId = Number(bookId) - 1
+    const finalStr = firstId.toString()
+
+    useEffect(() => {
+        if (bookId.length <= 1) {
+            bookService.getFromStore(finalStr)
+                .then(res => {
+                    setBook(res)
+                })
+        } else {
+            bookService.getFromData(bookId)
+                .then(res => {
+                    setBook(res)
+                })
+        }
+
+    }, [])
+
 
     const current = books.find(x => x._id === Number(bookId))
     const newBook = books.find(x => x._id == bookId)
@@ -38,16 +63,17 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
     if (currentLikedBook) {
         likedByUser = currentLikedBook.user_liked.includes(user._id) ? true : false
     } else {
-        likesObject = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": false, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
-        likedByUser = false
+        if (newBook != undefined){
+            likesObject = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": false, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
+            likedByUser = false
+        }
+        
     }
     const style = {}
 
     style.fontSize = '30px'
     style.padding = '10px'
 
-    const firstId = Number(bookId) - 1
-    const finalStr = firstId.toString()
 
     const onLike = (e) => {
         e.preventDefault()
@@ -173,22 +199,9 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
 
     }
 
-    useEffect(() => {
-        if (bookId.length <= 1) {
-            bookService.getFromStore(finalStr)
-                .then(res => {
-                    setBook(res)
-                })
-        } else {
-            bookService.getFromData(bookId)
-                .then(res => {
-                    setBook(res)
-                })
-        }
+    
 
-    }, [])
-
-
+   
 
     return (
         <section className="bg-sand padding-large">
@@ -197,7 +210,7 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
                     <div className="col-md-6">
                         <figure className="products-thumb">
 
-                            {bookId.length <= 1
+                            {bookId.length <= 1 && current
                                 ? <img
                                     src={current.image}
 
@@ -220,7 +233,7 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
                     <div className="col-md-6 pl-5">
                         <div className="product-detail">
 
-                            {bookId.length <= 1
+                            {bookId.length <= 1 && current
                                 ? <div><h1>{current.title}</h1>
                                     <p>{current.author}</p>
 
@@ -253,7 +266,7 @@ export const BookDetails = ({ books, deleteHandler, likess, deleteLikeHandler })
 
                             } */}
                             <div>
-                                {bookId.length <= 1
+                                {bookId.length <= 1 && current
                                     ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} className="buttonEdit" style={{ padding: '20px 29px' }}>Edit</Link> <button onClick={onDeleteHandler} className="buttonEdit" style={{ padding: '31px 29px' }}>Delete</button> <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
                                     : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="buttonEdit" style={{ padding: '20px 29px' }}>Edit</Link> <button onClick={onDeleteHandler} className="buttonEdit" style={{ padding: '31px 29px' }}>Delete</button> <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
                                 }

@@ -3,12 +3,12 @@ import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
 import { ProfileBooks } from "./ProfileBooks/ProfileBooks"
 import { useState } from "react"
-import { EditProfile } from "./ProfileBooks/EditProfile/EditProfile"
 import { useNavigate } from "react-router-dom"
 
 export const Profile = () => {
 
-    const { user, books, likes } = useContext(AuthContext)
+    const { user, likes } = useContext(AuthContext)
+    
     const navigate = useNavigate();
 
     const likedBooks = [];

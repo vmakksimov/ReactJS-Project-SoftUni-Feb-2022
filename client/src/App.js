@@ -3,7 +3,7 @@ import './App.css';
 import { Header } from './components/Header/Header';
 import { Home } from './components/Home/Home';
 import { Footer } from './components/Footer/Footer';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Register } from './components/Register/Register';
 import { Login } from './components/Login/Login';
 import { useState, useEffect } from 'react'
@@ -21,6 +21,9 @@ import { MostLiked } from './components/MostLiked/MostLiked';
 import { About } from './components/About/About';
 import { Contact } from './components/Contact/Contact';
 import { Error404 } from './components/Error/404';
+import { BookContext } from './context/BookContext';
+import { PrivateGuard } from './components/guards/PrivateGuard';
+import { BookOwner } from './components/guards/PrivateId';
 
 
 
@@ -54,8 +57,8 @@ function App() {
         if (bookId.length <= 1) {
             books.splice(Number(bookId) - 1, 1)
             setBook(books)
-        }else{
-            setBook(books.filter(x => x._id !== bookId)) 
+        } else {
+            setBook(books.filter(x => x._id !== bookId))
         }
     }
 
@@ -64,7 +67,7 @@ function App() {
     }
 
     const editProfile = (authData) => {
-        setAuth({...user, ...authData})
+        setAuth({ ...user, ...authData })
     }
 
     const userLogin = (authData) => {
@@ -92,34 +95,45 @@ function App() {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ user, books, likes,users, userLogin, userLogout, editProfile, addLikeHandler, editLikeHandler }}>
+        <AuthContext.Provider value={{ user, likes, users, isAuthenticated: !!user.accessToken, userLogin, userLogout, addUsersHandler }}>
 
             <div className="App">
-                <Header />
+                <div id="header-wrap">
+                    <header id="header">
+                        <div className="container">
+                            <div className="row">
+                            <Header />
+                            </div>
+                        </div>
+                    </header>
+                </div>
+
                 {/*header-wrap*/}
-
-                <main id='main'>
-                    <Routes>
-                        <Route path='/' element={<Home />} />
-                        <Route path='/register' element={<Register addUsersHandler={addUsersHandler}/>} />
-                        <Route path='/login' element={<Login />} />
-                        <Route path='/logout' element={<Logout />} />
-                        <Route path='/profile' element={<Profile />} />
-                        <Route path='/about' element={<About />} />
-                        <Route path='/contact' element={<Contact />} />
-                        <Route path='/profile/edit' element={<EditProfile />} />
-                        <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
-                        <Route path='/book-store' element={<BookStore />} />
-                        <Route path='/most-liked' element={<MostLiked />} />
-                        <Route path='/404' element={<Error404 />} />
-                        {/* <Route path='/book/review/:bookId' element={<BookReview editBookHandler={editBookHandler}/>} /> */}
-                        <Route path='/book-details/:bookId' element={<BookDetails books={books} editBookHandler={editBookHandler} deleteHandler={deleteHandler} deleteLikeHandler={deleteLikeHandler} likess={likes} />} />
-                        <Route path='/book-details/edit/:bookId' element={<EditBook books={books} editBookHandler={editBookHandler} />} />
-
-                    </Routes>
-
-                    <Footer />
-                </main>
+                <BookContext.Provider value={{ books, likes, addLikeHandler, editLikeHandler, editBookHandler, deleteHandler, deleteLikeHandler }}>
+                    <main id='main'>
+                        <Routes>
+                            <Route path='/' element={<Home />} />
+                            <Route path='/register' element={<Register />} />
+                            <Route path='/login' element={<Login />} />
+                            <Route path='/about' element={<About />} />
+                            <Route path='/contact' element={<Contact />} />
+                            <Route element={<PrivateGuard />}>
+                                <Route path='/logout' element={<Logout />} />
+                                <Route path='/profile' element={<Profile />} />
+                                <Route path='/profile/edit' element={<EditProfile />} />
+                                <Route path='/addbook' element={<CreateBook addBookHandler={addBookHandler} />} />
+                            </Route>
+                            <Route element={<BookOwner />}>
+                                <Route path='/book-details/edit/:bookId' element={<EditBook />} />
+                            </Route>
+                            <Route path='/book-details/:bookId' element={<BookDetails likess={likes} />} />
+                            <Route path='/book-store' element={<BookStore />} />
+                            <Route path='/most-liked' element={<MostLiked />} />
+                            <Route path='/404' element={<Error404 />} />
+                        </Routes>
+                        <Footer />
+                    </main>
+                </BookContext.Provider>
             </div>
 
         </AuthContext.Provider>

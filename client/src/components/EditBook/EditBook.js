@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import * as bookService from '../../services/bookService'
 import { useParams, useNavigate } from "react-router-dom"
 import { validateUrl } from "../../Validation/RegisterValidation"
+import { AuthContext } from "../../context/AuthContext"
+import { BookContext } from "../../context/BookContext"
 
 
-export const EditBook = ({ books, editBookHandler }) => {
+export const EditBook = () => {
+    const { editBookHandler, books } = useContext(BookContext)
     const currentDate = Date().split(' ')
     const yearDate = currentDate[3]
     const navigate = useNavigate();
@@ -156,7 +159,7 @@ export const EditBook = ({ books, editBookHandler }) => {
                         <div className="game-details">
                             <div className="input-box">
                                 <span className="details">Title</span>
-                                <input type="text" name="title" placeholder="Enter title" values={values.title} onChange={ChangeHandler} onBlur={(e) => validationHandler(e, 2)} defaultValue={bookId.length <= 1 ? current.title : currentBook.title} />
+                                <input type="text" name="title" placeholder="Enter title" values={values.title} onChange={ChangeHandler} onBlur={(e) => validationHandler(e, 2)} defaultValue={bookId.length <= 1 && current ? current.title : currentBook.title} />
                                 {errors.title &&
                                     <p className="form-error" >
                                         The characters are shorter than 2!
@@ -165,7 +168,7 @@ export const EditBook = ({ books, editBookHandler }) => {
                             </div>
                             <div className="input-box">
                                 <span className="details">Author</span>
-                                <input type="text" name="author" placeholder="Enter Author" values={values.title} onChange={ChangeHandler} onBlur={(e) => validationHandler(e, 2)} defaultValue={bookId.length <= 1 ? current.author : currentBook.author} />
+                                <input type="text" name="author" placeholder="Enter Author" values={values.title} onChange={ChangeHandler} onBlur={(e) => validationHandler(e, 2)} defaultValue={bookId.length <= 1 && current ? current.author : currentBook.author} />
                                 {errors.author &&
                                     <p className="form-error" >
                                         The characters are shorter than 2!
@@ -174,7 +177,7 @@ export const EditBook = ({ books, editBookHandler }) => {
                             </div>
                             <div className="input-box">
                                 <span className="details">Year</span>
-                                <input type="text" name="year" placeholder="Enter year" values={values.title} onChange={ChangeHandler} onBlur={(e) => validationHandler(e, 3)} defaultValue={bookId.length <= 1 ? current.year : currentBook.year} />
+                                <input type="text" name="year" placeholder="Enter year" values={values.title} onChange={ChangeHandler} onBlur={(e) => validationHandler(e, 3)} defaultValue={bookId.length <= 1 && current ?  current.year : currentBook.year} />
                                 {errors.year &&
                                     <p className="form-error" >
                                         Only 3-4 digits allowed and up to current date!
@@ -183,7 +186,7 @@ export const EditBook = ({ books, editBookHandler }) => {
                             </div>
                             <div className="input-box">
                                 <span className="details">Image</span>
-                                <input type="text" name="image" placeholder="Enter Image Url" values={values.title} onChange={ChangeHandler} onBlur={(e) => validationHandler(e)} defaultValue={bookId.length <= 1 ? current.image : currentBook.image} />
+                                <input type="text" name="image" placeholder="Enter Image Url" values={values.title} onChange={ChangeHandler} onBlur={(e) => validationHandler(e)} defaultValue={bookId.length <= 1 && current ? current.image : currentBook.image} />
                                 {errors.image &&
                                     <p className="form-error" >
                                         URL is not valid!
@@ -192,7 +195,7 @@ export const EditBook = ({ books, editBookHandler }) => {
                             </div>
                             <div className="input-box">
                                 <span className="details">Summary</span>
-                                <input type="text" name="summary" placeholder="Summary" values={values.summary} onChange={ChangeHandler} onBlur={(e) => validationHandler(e, 60)} defaultValue={bookId.length <= 1 ? current.summary : currentBook.summary} />
+                                <input type="text" name="summary" placeholder="Summary" values={values.summary} onChange={ChangeHandler} onBlur={(e) => validationHandler(e, 60)} defaultValue={bookId.length <= 1 && current ? current.summary : currentBook.summary} />
                                 {errors.summary &&
                                     <p className="form-error" >
                                         The characters must be equal or greater than 60!

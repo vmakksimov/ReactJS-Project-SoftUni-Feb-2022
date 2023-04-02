@@ -8,12 +8,12 @@ import * as bookService from '../../services/bookService'
 import { validateEmail, validateUrl } from "../../Validation/RegisterValidation"
 
 
-export const Register = ({ addUsersHandler }) => {
+export const Register = () => {
 
     const [user, setState] = useState([]);
 
     const navigate = useNavigate();
-    const { userLogin, users } = useContext(AuthContext);
+    const { userLogin, addUsersHandler } = useContext(AuthContext);
 
     const [errors, setErrors] = useState({})
     const [values, setValues] = useState({

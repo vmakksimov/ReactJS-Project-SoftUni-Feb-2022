@@ -2,17 +2,22 @@ import { BookItem } from "./BookItem/BookItem"
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
 import { Link} from "react-router-dom"
+import { BookContext } from "../../context/BookContext"
 
 
 
 export const Home = () => {
  
-    
-
-    const { books } = useContext(AuthContext)
-
-    const firstOne = books.find(x => x._id == 1)
-
+    const { likes } = useContext(AuthContext)
+    const { books } = useContext(BookContext)
+    let sortedProducts = likes.sort((p1, p2) => (p1.total_likes < p2.total_likes) ? 1 : (p1.total_likes > p2.total_likes) ? -1 : 0);
+  
+    let isLiked;
+    if (sortedProducts.length > 0){
+        isLiked = books.filter(x => x.title == sortedProducts[0].title)
+    }
+  
+    console.log(sortedProducts)
 
     return (
         <>
@@ -24,12 +29,21 @@ export const Home = () => {
                             <div className="row">
                                 <div className="col-md-6">
                                     <figure className="products-thumb">
-                                        <img
-                                            src='images/830502.jpg'
+                                        {isLiked
+                                        ? <img
+                                        src={isLiked[0].image}
 
-                                            alt="book"
-                                            className="single-image"
-                                        />
+                                        alt="book"
+                                        className="single-image"
+                                    />
+                                    : <img
+                                    src='images/830502.jpg'
+
+                                    alt="book"
+                                    className="single-image"
+                                />
+                                        }
+                                       
                                         
                                     </figure>
                                 </div>
@@ -37,10 +51,10 @@ export const Home = () => {
                                     <div className="product-entry">
                                         <h2 className="section-title divider">Most Popular Book</h2>
                                         <div className="products-content">
-                                            <div className="author-name">By Stephen King</div>
-                                            <h3 className="item-title">IT</h3>
+                                            <div className="author-name">By {isLiked ? isLiked[0].author : 'Stephen King'}</div>
+                                            <h3 className="item-title">{isLiked ? isLiked[0].title : 'IT'}</h3>
                                             <p>
-                                            The story follows the experiences of seven children as they are terrorized by an evil entity that exploits the fears of its victims to disguise itself while hunting its prey. `It` primarily appears in the form of Pennywise the Dancing Clown to attract its preferred prey of young children.
+                                            {isLiked ? isLiked[0].summary : 'The story follows the experiences of seven children as they are terrorized by an evil entity that exploits the fears of its victims to disguise itself while hunting its prey. `It` primarily appears in the form of Pennywise the Dancing Clown to attract its preferred prey of young children.'}
                                             </p>
 
                                             <div className="btn-wrap">
