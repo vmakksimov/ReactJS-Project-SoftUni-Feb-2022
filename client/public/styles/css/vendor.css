@@ -17,6 +17,7 @@
 /*--------------------------------------------------------------
 /** Jarallax
 --------------------------------------------------------------*/
+@import url('http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css');
 .jarallax {
   position: relative;
   z-index: 0;
