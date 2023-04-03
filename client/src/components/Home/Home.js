@@ -3,22 +3,20 @@ import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
 import { Link} from "react-router-dom"
 import { BookContext } from "../../context/BookContext"
-
+import IT from '../../830502.jpg'
+import './Home.css'
 
 
 export const Home = () => {
- 
     const { likes } = useContext(AuthContext)
     const { books } = useContext(BookContext)
     let sortedProducts = likes.sort((p1, p2) => (p1.total_likes < p2.total_likes) ? 1 : (p1.total_likes > p2.total_likes) ? -1 : 0);
-  
     let isLiked;
     if (sortedProducts.length > 0){
         isLiked = books.filter(x => x.title == sortedProducts[0].title)
     }
-  
-    console.log(sortedProducts)
 
+   
     return (
         <>
             <section id="best-selling" className="leaf-pattern-overlay">
@@ -37,7 +35,7 @@ export const Home = () => {
                                         className="single-image"
                                     />
                                     : <img
-                                    src='images/830502.jpg'
+                                    src={IT}
 
                                     alt="book"
                                     className="single-image"

@@ -1,9 +1,9 @@
+import './Footer.css'
+
 export const Footer = () => {
     return (
 
         <footer id="footer">
-
-
             <div id="footer-bottom">
                 <div className="container">
                     <div className="row">
