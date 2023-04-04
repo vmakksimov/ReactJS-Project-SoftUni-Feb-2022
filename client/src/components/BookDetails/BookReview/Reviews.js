@@ -56,12 +56,12 @@ export const Reviews = ({ book, user, day, dateHandler}) => {
                     <div className="comment-meta d-flex">
                         <h4>{Object.keys(book)[0]}</h4>
                         <span className="meta-date"></span>
-                        <small className="comments-reply">
+                        {/* <small className="comments-reply">
                             <a href="#">
                                 <i className="icon icon-mail-reply" />
                                 Reply
                             </a>
-                        </small>
+                        </small> */}
                     </div>
                     {/*meta-tags*/}
                     <p>

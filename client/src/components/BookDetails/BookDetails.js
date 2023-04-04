@@ -10,12 +10,14 @@ import { SubmitReview } from "./BookReview/LeaveReview"
 import { Liked } from "./BookReview/Liked"
 import { BookContext } from "../../context/BookContext"
 import uniqid from 'uniqid';
+import Heart from 'react-heart'
+
 import "./BookDetails.css"
 
 export const BookDetails = ({ likess }) => {
 
-  
-    
+
+
 
     const { user } = useContext(AuthContext)
     const { books, addLikeHandler, editLikeHandler, deleteHandler, deleteLikeHandler } = useContext(BookContext)
@@ -25,8 +27,9 @@ export const BookDetails = ({ likess }) => {
     const [likes, setLikes] = useState();
     const [day, setDate] = useState([])
     const { bookId } = useParams();
+    const [active, setActive] = useState(false)
 
-    
+
     const firstId = Number(bookId) - 1
     const finalStr = firstId.toString()
 
@@ -63,11 +66,11 @@ export const BookDetails = ({ likess }) => {
     if (currentLikedBook) {
         likedByUser = currentLikedBook.user_liked.includes(user._id) ? true : false
     } else {
-        if (newBook != undefined){
+        if (newBook != undefined) {
             likesObject = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": false, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
             likedByUser = false
         }
-        
+
     }
     const style = {}
 
@@ -199,9 +202,9 @@ export const BookDetails = ({ likess }) => {
 
     }
 
-    
 
-   
+
+
 
     return (
         <section className="bg-sand padding-large">
@@ -252,7 +255,9 @@ export const BookDetails = ({ likess }) => {
                                 </div>
 
                             }
-
+                            {/* <div style={{ width: "2rem" }}>
+                                <Heart isActive={active} onClick={() => setActive(!active)} />
+                            </div> */}
                             {user.accessToken && <Link to=""><i className={likedByUser ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>}
 
                             {currentLikedBook

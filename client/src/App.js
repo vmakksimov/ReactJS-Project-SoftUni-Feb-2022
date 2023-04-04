@@ -1,9 +1,12 @@
 
 import './App.css';
+import './styles/css/style.css'
+import './styles/css/normalize.css'
+import './styles/css/vendor.css'
 import { Header } from './components/Header/Header';
 import { Home } from './components/Home/Home';
 import { Footer } from './components/Footer/Footer';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Register } from './components/Register/Register';
 import { Login } from './components/Login/Login';
 import { useState, useEffect } from 'react'
@@ -25,15 +28,13 @@ import { BookContext } from './context/BookContext';
 import { PrivateGuard } from './components/guards/PrivateGuard';
 import { BookOwner } from './components/guards/PrivateId';
 
-
-
-
 function App() {
 
     const [user, setAuth] = useLocalStorage('auth', {})
     const [books, setBook] = useState([])
     const [likes, setLike] = useState([])
     const [users, setUsers] = useState([])
+    const navigate = useNavigate();
 
     const addUsersHandler = (usersData) => {
         setUsers(state => [
@@ -92,6 +93,9 @@ function App() {
     useEffect(() => {
         bookService.getInitialBooks()
             .then(result => setBook(Object.values(result)))
+            .catch((error) => {
+                console.log(error)
+            })
     }, [])
 
     return (

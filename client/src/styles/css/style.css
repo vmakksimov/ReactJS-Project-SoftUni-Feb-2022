@@ -1075,7 +1075,7 @@ button {
 
 /*--- Pattern Overlay
 -----------------------------------------------*/
-.pattern-overlay {
+/* .pattern-overlay {
     background-image: url(images/pattern1.png);
     background-repeat: no-repeat;
     background-position: top right;
@@ -1090,7 +1090,7 @@ button {
     background-image: url(images/pattern2.png);
     background-repeat: no-repeat;
     background-position: top right;
-}
+} */
 /*--- Page Title
 -----------------------------------------------*/
 .page-title {

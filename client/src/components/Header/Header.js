@@ -116,7 +116,7 @@ export const Header = () => {
                                         </Link>
                                     </li>
 
-                                    <span>Hello, {user.first_name} <Link to='/profile'><i className="fa fa-user" aria-hidden="true"></i></Link> </span> </>}
+                                    <span>Hello, <Link to='/profile' style={{textDecoration: 'none'}}> <strong>{user.first_name}</strong></Link></span> </>}
 
                         </ul>
                         <div className="hamburger">

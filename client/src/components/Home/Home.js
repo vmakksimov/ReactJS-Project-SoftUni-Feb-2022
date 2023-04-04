@@ -1,7 +1,7 @@
 import { BookItem } from "./BookItem/BookItem"
 import { AuthContext } from "../../context/AuthContext"
 import { useContext } from "react"
-import { Link} from "react-router-dom"
+import { Link, useParams} from "react-router-dom"
 import { BookContext } from "../../context/BookContext"
 import IT from '../../830502.jpg'
 import './Home.css'
@@ -10,13 +10,14 @@ import './Home.css'
 export const Home = () => {
     const { likes } = useContext(AuthContext)
     const { books } = useContext(BookContext)
+    const { bookId } = useParams();
     let sortedProducts = likes.sort((p1, p2) => (p1.total_likes < p2.total_likes) ? 1 : (p1.total_likes > p2.total_likes) ? -1 : 0);
     let isLiked;
     if (sortedProducts.length > 0){
-        isLiked = books.filter(x => x.title == sortedProducts[0].title)
+        isLiked = books.find(x => x._id == sortedProducts[0].book_id)
     }
-
-   
+    console.log(isLiked)
+   console.log(sortedProducts)
     return (
         <>
             <section id="best-selling" className="leaf-pattern-overlay">
@@ -27,9 +28,9 @@ export const Home = () => {
                             <div className="row">
                                 <div className="col-md-6">
                                     <figure className="products-thumb">
-                                        {isLiked
+                                        {isLiked !== undefined
                                         ? <img
-                                        src={isLiked[0].image}
+                                        src={isLiked.image}
 
                                         alt="book"
                                         className="single-image"
@@ -49,17 +50,16 @@ export const Home = () => {
                                     <div className="product-entry">
                                         <h2 className="section-title divider">Most Popular Book</h2>
                                         <div className="products-content">
-                                            <div className="author-name">By {isLiked ? isLiked[0].author : 'Stephen King'}</div>
-                                            <h3 className="item-title">{isLiked ? isLiked[0].title : 'IT'}</h3>
+                                            <div className="author-name">By {isLiked !== undefined ? isLiked.author : 'Stephen King'}</div>
+                                            <h3 className="item-title">{isLiked !== undefined ? isLiked.title : 'IT'}</h3>
                                             <p>
-                                            {isLiked ? isLiked[0].summary : 'The story follows the experiences of seven children as they are terrorized by an evil entity that exploits the fears of its victims to disguise itself while hunting its prey. `It` primarily appears in the form of Pennywise the Dancing Clown to attract its preferred prey of young children.'}
+                                            {isLiked !== undefined ? isLiked.summary : 'The story follows the experiences of seven children as they are terrorized by an evil entity that exploits the fears of its victims to disguise itself while hunting its prey. `It` primarily appears in the form of Pennywise the Dancing Clown to attract its preferred prey of young children.'}
                                             </p>
 
                                             <div className="btn-wrap">
-                                                {books.length > 0}
-                                                <Link to='/book-details/1' className="btn-accent-arrow">
-                                                    See More <i className="icon icon-ns-arrow-right" />
-                                                </Link>
+                                                {isLiked !== undefined &&
+                                               
+                                                <Link to ={`/book-details/${sortedProducts[0].book_id}`} className="btn-accent-arrow">See More</Link>}
                                             </div>
                                         </div>
                                     </div>
@@ -88,7 +88,7 @@ export const Home = () => {
                                         {books.length <= 5 
 
                                        
-                                        ? books.length > 0 ? books.slice(1, 5).map(x => <BookItem key={x._id} book={x} />) : <span>No books added.</span>
+                                        ? books.length > 0 ? books.slice(0, 4).map(x => <BookItem key={x._id} book={x} />) : <span>No books added.</span>
                                         
                                         :books.slice(5,).map(x => <BookItem key={x._id} book={x} />)
                                         }
