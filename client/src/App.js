@@ -1,5 +1,5 @@
 
-import './App.css';
+
 import './styles/css/style.css'
 import './styles/css/normalize.css'
 import './styles/css/vendor.css'
