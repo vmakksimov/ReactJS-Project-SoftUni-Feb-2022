@@ -1,5 +1,3 @@
-
-
 import './styles/css/style.css'
 import './styles/css/normalize.css'
 import './styles/css/vendor.css'
@@ -34,7 +32,6 @@ function App() {
     const [books, setBook] = useState([])
     const [likes, setLike] = useState([])
     const [users, setUsers] = useState([])
-    const navigate = useNavigate();
 
     const addUsersHandler = (usersData) => {
         setUsers(state => [
