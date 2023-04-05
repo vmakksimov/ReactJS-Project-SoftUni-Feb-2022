@@ -27,6 +27,7 @@ export const BookDetails = ({ likess }) => {
     const [likes, setLikes] = useState();
     const [day, setDate] = useState([])
     const { bookId } = useParams();
+
     const [active, setActive] = useState(false)
 
 
@@ -72,19 +73,57 @@ export const BookDetails = ({ likess }) => {
         }
 
     }
+
+
     const style = {}
 
     style.fontSize = '30px'
     style.padding = '10px'
 
 
+
     const onLike = (e) => {
-        e.preventDefault()
+        // e.preventDefault()
 
         const filledHeart = "fa fa-heart"
         const nonFilledHeart = "fa fa-heart-o"
+       
+        // Liked(e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler)
+        // const likesNow = Liked(e, active, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler, currentHeart)
 
-        Liked(e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler)
+        if (!active && !likedByUser){
+            console.log('active??')
+            setActive(true)
+            if (currentLikedBook) {
+                currentLikedBook.total_likes += 1
+                currentLikedBook.user_liked.push(user._id)
+                currentLikedBook.liked = true
+            } else {
+                likesObject.total_likes += 1
+                likesObject.user_liked.push(user._id)
+                likesObject.liked = true
+            }
+        
+        } else{
+            console.log('hereeee')
+            setActive(false)
+            if (currentLikedBook) {
+                currentLikedBook.total_likes -= 1
+                if (currentLikedBook.total_likes <= 0){
+                    currentLikedBook.liked = false
+                }
+                currentLikedBook.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
+                likeId = currentLikedBook._id
+            } else {
+                likesObject.total_likes -= 1
+                if (currentLikedBook.total_likes <= 0){
+                    likesObject.liked = false
+                }
+                likesObject.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
+                likeId = likesObject._id
+            }
+        }
+
 
         if (!currentLikedBook) {
             bookService.like(likesObject)
@@ -255,10 +294,11 @@ export const BookDetails = ({ likess }) => {
                                 </div>
 
                             }
-                            {/* <div style={{ width: "2rem" }}>
-                                <Heart isActive={active} onClick={() => setActive(!active)} />
-                            </div> */}
-                            {user.accessToken && <Link to=""><i className={likedByUser ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>}
+                            <div style={{ width: "2rem", display: 'inline-block' }}>
+                                <Heart isActive={active} onClick={onLike} style={{ fill: likedByUser ? "#C5A992" : "transparent", stroke: likedByUser ? "#C5A992" : "#C5A992" }} />
+
+                            </div>
+                            {/* {user.accessToken && <Link to=""><i className={likedByUser ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>} */}
 
                             {currentLikedBook
                                 ? <div><span>Likes: {currentLikedBook.total_likes}</span></div>

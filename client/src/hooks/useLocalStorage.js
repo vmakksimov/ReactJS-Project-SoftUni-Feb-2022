@@ -4,6 +4,8 @@ export const useLocalStorage = (key, defaultValue) => {
     const [value, setValue] = useState(() => {
         const setStorage = localStorage.getItem(key)
 
+        console.log(setStorage)
+        console.log(defaultValue)
         return setStorage ? JSON.parse(setStorage) : defaultValue
     })
 

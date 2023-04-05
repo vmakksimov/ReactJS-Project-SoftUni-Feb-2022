@@ -16,8 +16,7 @@ export const Home = () => {
     if (sortedProducts.length > 0){
         isLiked = books.find(x => x._id == sortedProducts[0].book_id)
     }
-    console.log(isLiked)
-   console.log(sortedProducts)
+
     return (
         <>
             <section id="best-selling" className="leaf-pattern-overlay">

@@ -6,11 +6,8 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 export const Profile = () => {
-
     const { user, likes } = useContext(AuthContext)
-    
     const navigate = useNavigate();
-
     const likedBooks = [];
     const likedByUser = likes.map(x => x.user_liked.includes(user._id) ? likedBooks.push(x) : 'No likes from this user.')
   
@@ -18,8 +15,6 @@ export const Profile = () => {
         username: '',
 
     })
-
-    console.log(user)
 
 //    const onChange = () => {
 //     console.log('onchange')

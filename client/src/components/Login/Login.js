@@ -35,7 +35,6 @@ export const Login = () => {
                 if (res !== undefined) {
                     currentpass = Object.values(res).find(x => x.password == e.target.value)
                     email = Object.values(res).find(x => x.email == e.target.value)
-
                     if (e.target.name == 'email') {
                         if (email === undefined) {
                             setErrors({
@@ -59,7 +58,6 @@ export const Login = () => {
 
 
                     } else if (e.target.name == 'password') {
-                        console.log('here pass')
                         if (currentpass === undefined) {
                             setErrors({
                                 [e.target.name]: values[e.target.name]
@@ -106,7 +104,6 @@ export const Login = () => {
                                     navigate('/')
                                 })
                                 .catch(() => {
-                                    console.log('username or password incorrecct')
                                     navigate('/404')
                                 })
                         }
