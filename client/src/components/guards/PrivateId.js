@@ -16,10 +16,6 @@ export const BookOwner = ({ children }) => {
     let selectId =  books.find(x => x._id === bookId) 
     let selectEmail=  books.find(x => x.email === user._ownerEmail)
     const currentId = selectId
-
-    console.log(bookId)
-    console.log(user.email)
-    console.log(selectEmail)
  
 
     if (bookId.length <= 1 && selectEmail){

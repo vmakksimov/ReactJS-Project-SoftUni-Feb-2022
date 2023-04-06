@@ -153,7 +153,8 @@ export const Contact = () => {
                         <button
                           type="submit"
                           name="submit"
-                          className="btn btn-full btn-rounded"
+                          className="buttonEdit"
+                          style={{color: 'white', width: '100%', padding: '29px'}}
                         >
                           Submit
                         </button>

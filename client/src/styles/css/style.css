@@ -60,7 +60,7 @@ Version: 1.1
 }
 /* on mobile devices below 600px
  */
-@media screen and (max-width: 600px) {
+@media all and (max-width: 600px) {
     :root {
         --header-height : 100px;
         --header-height-min   : 80px;
@@ -1021,7 +1021,7 @@ This is main CSS file that contains custom style rules used in this template
   margin-bottom: 7.5em;
 }
 
-@media only screen and (max-width: 768px) {
+@media all and (max-width: 768px) {
   .margin-small,
   .margin-medium,
   .margin-large,
@@ -1135,7 +1135,7 @@ button {
   font-size: 4.5em;
   margin-top: 2em;
 }
-@media screen and (max-width: 768px) {
+@media all and (max-width: 768px) {
   .page-title {
     font-size: 2.5em;
     margin-top: 1em;
@@ -1187,21 +1187,21 @@ button {
 }
 
 
-@media screen and (max-width: 1366px) {
+@media all and (max-width: 1366px) {
   .section-header .section-title:before, 
   .section-header .section-title:after {
       width: 30%;
   }
 }
 
-@media screen and (max-width: 999px) {
+@media all and (max-width: 999px) {
   .section-header .section-title:before, 
   .section-header .section-title:after {
       width: 25%;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media all and (max-width: 768px) {
   .section-title {
     font-size: 2em;
   }
@@ -1341,7 +1341,7 @@ img.post-image {
   text-decoration: none;
 }
 
-@media screen and (max-width: 768px){
+@media all and (max-width: 768px){
   .action-menu .search-bar {
     margin-top: 20px;
     width: 100%;
@@ -1503,7 +1503,7 @@ img.post-image {
     color: #74642F;
     margin-bottom: 40px;
 }
-@media screen and (max-width: 768px) {
+@media all and (max-width: 768px) {
   #best-selling .products-thumb {
       margin: 0;
   }
@@ -1553,7 +1553,7 @@ img.books-image {
     font-family: "Prata", Georgia,serif;
     font-size: 1.4em;
 }
-@media screen and (max-width: 768px) {
+@media all and (max-width: 768px) {
   #quotation blockquote {
     width: 80%;
   }
@@ -1813,7 +1813,7 @@ span.prev-price {
     font-size: 1.3em;
 }
 
-@media screen and (max-width: 768px) {
+@media all and (max-width: 768px) {
   .products-grid .product-style {
     width: 45%;
   }

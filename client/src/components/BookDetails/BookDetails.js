@@ -15,10 +15,6 @@ import Heart from 'react-heart'
 import "./BookDetails.css"
 
 export const BookDetails = ({ likess }) => {
-
-
-
-
     const { user } = useContext(AuthContext)
     const { books, addLikeHandler, editLikeHandler, deleteHandler, deleteLikeHandler } = useContext(BookContext)
     const navigate = useNavigate()
@@ -27,7 +23,6 @@ export const BookDetails = ({ likess }) => {
     const [likes, setLikes] = useState();
     const [day, setDate] = useState([])
     const { bookId } = useParams();
-
     const [active, setActive] = useState(false)
 
 
@@ -73,26 +68,22 @@ export const BookDetails = ({ likess }) => {
         }
 
     }
-
-
     const style = {}
-
     style.fontSize = '30px'
     style.padding = '10px'
-
-
-
     const onLike = (e) => {
         // e.preventDefault()
 
         const filledHeart = "fa fa-heart"
         const nonFilledHeart = "fa fa-heart-o"
-       
-        // Liked(e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler)
-        // const likesNow = Liked(e, active, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler, currentHeart)
+        // const filled = ''
 
-        if (!active && !likedByUser){
-            console.log('active??')
+
+        // Liked(e, filledHeart, nonFilledHeart, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler)
+        // Liked(e, active, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler, filled, nonFilled)
+
+        if (!active && !likedByUser) {
+
             setActive(true)
             if (currentLikedBook) {
                 currentLikedBook.total_likes += 1
@@ -103,20 +94,20 @@ export const BookDetails = ({ likess }) => {
                 likesObject.user_liked.push(user._id)
                 likesObject.liked = true
             }
-        
-        } else{
-            console.log('hereeee')
+
+        } else {
+
             setActive(false)
             if (currentLikedBook) {
                 currentLikedBook.total_likes -= 1
-                if (currentLikedBook.total_likes <= 0){
+                if (currentLikedBook.total_likes <= 0) {
                     currentLikedBook.liked = false
                 }
                 currentLikedBook.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
                 likeId = currentLikedBook._id
             } else {
                 likesObject.total_likes -= 1
-                if (currentLikedBook.total_likes <= 0){
+                if (currentLikedBook.total_likes <= 0) {
                     likesObject.liked = false
                 }
                 likesObject.user_liked = currentLikedBook.user_liked.filter(e => e !== user._id);
@@ -153,53 +144,57 @@ export const BookDetails = ({ likess }) => {
 
         // SubmitReview(review, user, newBook, bookId, clearFiled)
 
-        const reviewedBookData = {}
+        if (clearFiled.value !== '') {
+            const reviewedBookData = {}
 
-        if (!(reviewedBookData.hasOwnProperty(user.username))) {
-            reviewedBookData[user.username] = [review,]
-            reviewedBookData['_id'] = uniqid()
-        } else {
-            reviewedBookData[user.username].push(review)
+            if (!(reviewedBookData.hasOwnProperty(user.username))) {
+                reviewedBookData[user.username] = [review,]
+                reviewedBookData['_id'] = uniqid()
+            } else {
+                reviewedBookData[user.username].push(review)
+            }
+
+            if (currentLikedBook) {
+                likeId = currentLikedBook._id
+                currentLikedBook.reviews.push(reviewedBookData)
+                bookService.likeUpdate(likeId, currentLikedBook)
+                    .then(res => {
+                        setLikes(res)
+                        editLikeHandler(likeId, res)
+                    })
+            } else {
+
+                currentLikedBook = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": false, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
+                currentLikedBook.reviews.push(reviewedBookData)
+                bookService.like(currentLikedBook)
+                    .then(res => {
+                        setLikes(res)
+                        addLikeHandler(res)
+                    })
+            }
+
+            clearFiled.value = ''
+            const currentDate = Date().split(' ')
+
+            const month = currentDate[1].toString()
+            const date = currentDate[2].toString()
+            const year = currentDate[3].toString()
+            const hour = currentDate[4].toString()
+
+            const final = {
+                month: month,
+                date: date,
+                year: year,
+                hour: hour,
+            }
+
+            setDate(state => [
+                ...state,
+                final,
+            ])
+
         }
 
-        if (currentLikedBook) {
-            likeId = currentLikedBook._id
-            currentLikedBook.reviews.push(reviewedBookData)
-            bookService.likeUpdate(likeId, currentLikedBook)
-                .then(res => {
-                    setLikes(res)
-                    editLikeHandler(likeId, res)
-                })
-        } else {
-
-            currentLikedBook = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": false, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
-            currentLikedBook.reviews.push(reviewedBookData)
-            bookService.like(currentLikedBook)
-                .then(res => {
-                    setLikes(res)
-                    addLikeHandler(res)
-                })
-        }
-
-        clearFiled.value = ''
-        const currentDate = Date().split(' ')
-
-        const month = currentDate[1].toString()
-        const date = currentDate[2].toString()
-        const year = currentDate[3].toString()
-        const hour = currentDate[4].toString()
-
-        const final = {
-            month: month,
-            date: date,
-            year: year,
-            hour: hour,
-        }
-
-        setDate(state => [
-            ...state,
-            final,
-        ])
 
 
 
@@ -294,10 +289,11 @@ export const BookDetails = ({ likess }) => {
                                 </div>
 
                             }
-                            <div style={{ width: "2rem", display: 'inline-block' }}>
-                                <Heart isActive={active} onClick={onLike} style={{ fill: likedByUser ? "#C5A992" : "transparent", stroke: likedByUser ? "#C5A992" : "#C5A992" }} />
+                            {user.accessToken &&
+                                <div style={{ width: "2rem", display: 'inline-block' }}>
+                                    <Heart isActive={active} onClick={onLike} style={{ fill: likedByUser ? "#C5A992" : "transparent", stroke: likedByUser ? "#C5A992" : "#C5A992" }} />
 
-                            </div>
+                                </div>}
                             {/* {user.accessToken && <Link to=""><i className={likedByUser ? "fa fa-heart" : "fa fa-heart-o"} id="heart" style={style} aria-hidden="true" onClick={onLike}></i></Link>} */}
 
                             {currentLikedBook
@@ -312,8 +308,8 @@ export const BookDetails = ({ likess }) => {
                             } */}
                             <div>
                                 {bookId.length <= 1 && current
-                                    ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} className="buttonEdit" style={{ padding: '20px 29px' }}>Edit</Link> <button onClick={onDeleteHandler} className="buttonEdit" style={{ padding: '31px 29px' }}>Delete</button> <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
-                                    : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="buttonEdit" style={{ padding: '20px 29px' }}>Edit</Link> <button onClick={onDeleteHandler} className="buttonEdit" style={{ padding: '31px 29px' }}>Delete</button> <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
+                                    ? user.email == current._ownerEmail ? <div>  <Link to={`/book-details/edit/${bookId}`} className="buttonEdit" style={{ padding: '20px 29px', color: 'white' }}>Edit</Link> <button onClick={onDeleteHandler} className="buttonEdit" style={{ padding: '31px 29px' }}>Delete</button> <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
+                                    : user._id == currentBook._ownerId ? <div> <Link to={`/book-details/edit/${bookId}`} className="buttonEdit" style={{ padding: '20px 29px', color: 'white' }}>Edit</Link> <button onClick={onDeleteHandler} className="buttonEdit" style={{ padding: '31px 29px' }}>Delete</button> <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> </div> : user.accessToken ? <button onClick={onReview} className="buttonEdit" style={{ padding: '31px 29px' }}>Leave a Review</button> : <Link to='/register'><span>Register here so you can like and comment.</span></Link>
                                 }
 
                                 {isActive && <form className="form-group mt-3" onSubmit={onSubmitReview} style={{ width: '50%', display: 'flex', justifyContent: 'center', marginTop: '5px', marginLeft: '25%' }}>
@@ -332,10 +328,10 @@ export const BookDetails = ({ likess }) => {
                                         </div>
                                         <div className="col-md-12">
                                             <input
-                                                className="btn btn-rounded btn-large btn-full"
+                                                className="buttonEdit"
                                                 type="submit"
                                                 defaultValue="Submit"
-                                                style={{ borderRadius: '25px' }}
+                                                style={{ borderRadius: '25px', height: '48px', width: '100%' }}
 
                                             />
                                         </div>
@@ -356,7 +352,7 @@ export const BookDetails = ({ likess }) => {
                 <div className="comment-list mt-4">
                     {/* {key={Object.keys(x)}} */}
 
-                    {currentLikedBook ?
+                    {currentLikedBook !== undefined && currentLikedBook.reviews.length > 0 ?
                         currentLikedBook.reviews.map(x => <Reviews key={x._id} book={x} user={user} day={day} dateHandler={dateHandler} />)
                         : <span>No Reviews</span>
                     }

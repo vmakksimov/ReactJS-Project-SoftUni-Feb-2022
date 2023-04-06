@@ -1,4 +1,4 @@
-export const Liked = (e, active, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler, currentHeart) => {
+export const Liked = (e, active, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler, filled, nonFilled) => {
 
     // if (e.target.className == nonFilledHeart && !likedByUser) {
 
@@ -16,7 +16,7 @@ export const Liked = (e, active, user, likedByUser, currentLikedBook, likeId, li
 
     if (!active && !likedByUser){
         console.log('active??')
-        currentHeart = 'false'
+      
         if (currentLikedBook) {
             currentLikedBook.total_likes += 1
             currentLikedBook.user_liked.push(user._id)
@@ -27,9 +27,9 @@ export const Liked = (e, active, user, likedByUser, currentLikedBook, likeId, li
             likesObject.liked = true
         }
     
-    } else if (active && likedByUser){
+    } else{
         console.log('hereeee')
-        currentHeart = 'true'
+      
         if (currentLikedBook) {
             currentLikedBook.total_likes -= 1
             if (currentLikedBook.total_likes <= 0){
@@ -92,6 +92,6 @@ export const Liked = (e, active, user, likedByUser, currentLikedBook, likeId, li
 
     // }
 
-    console.log(currentHeart)
-    return e, active, user, likedByUser, currentLikedBook, likeId, likesObject, currentHeart
+   
+    return e, active, user, likedByUser, currentLikedBook, likeId, likesObject
 }
