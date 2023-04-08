@@ -44,11 +44,8 @@ export const BookDetails = ({ likess }) => {
 
     }, [])
 
-
     const current = books.find(x => x._id === Number(bookId))
     const newBook = books.find(x => x._id == bookId)
-    // const isReviewed = likes.filter(x => console.log(x))
-    // console.log(likes)
     const dateHandler = () => {
         setDate([])
     }
@@ -83,7 +80,6 @@ export const BookDetails = ({ likess }) => {
         // Liked(e, active, user, likedByUser, currentLikedBook, likeId, likesObject, deleteLikeHandler, filled, nonFilled)
 
         if (!active && !likedByUser) {
-
             setActive(true)
             if (currentLikedBook) {
                 currentLikedBook.total_likes += 1
@@ -94,9 +90,7 @@ export const BookDetails = ({ likess }) => {
                 likesObject.user_liked.push(user._id)
                 likesObject.liked = true
             }
-
         } else {
-
             setActive(false)
             if (currentLikedBook) {
                 currentLikedBook.total_likes -= 1
@@ -114,8 +108,6 @@ export const BookDetails = ({ likess }) => {
                 likeId = likesObject._id
             }
         }
-
-
         if (!currentLikedBook) {
             bookService.like(likesObject)
                 .then(res => {
@@ -163,7 +155,6 @@ export const BookDetails = ({ likess }) => {
                         editLikeHandler(likeId, res)
                     })
             } else {
-
                 currentLikedBook = { "user_liked": [], 'book_id': bookId, "total_likes": 0, "liked": false, "reviews": [], "title": newBook['title'], "image": newBook['image'] }
                 currentLikedBook.reviews.push(reviewedBookData)
                 bookService.like(currentLikedBook)

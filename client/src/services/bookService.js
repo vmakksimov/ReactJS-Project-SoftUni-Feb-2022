@@ -12,9 +12,9 @@ const usersUrl = 'http://localhost:3030/jsonstore/users';
 // GET
 export const getInitialBooks = () => request.get(baseUrl)
 
-export const getBooks = () => request.get(secondUrl)
-
 export const getFromStore = (bookId) => request.get(`${baseUrl}/${bookId}`)
+
+export const getBooks = () => request.get(secondUrl)
 
 export const getFromData = (bookId) => request.get(`${secondUrl}/${bookId}`)
 
