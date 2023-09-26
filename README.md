@@ -34,5 +34,5 @@ This part of the platform is designed for non-registered users. These users have
 Built With
  - ReactJS
  - SoftUni Practise Server 
- - HTML + CSS Free tempplates + many modifications
+ - HTML + CSS
  - Hardcoded data with books & likes in the server / data directory for initial loading with content
