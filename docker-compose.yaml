@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+
+  book_service:
+    build:
+      context: ./server
+    volumes:
+      - ./server:/app
+    ports:
+      - "3030:3030"
+    
+    networks:
+      - backend
+
+  client_service:
+    build:
+      context: ./client
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    ports:
+      - "62:80"
+    environment:
+      - PORT=80
+   
+    networks:
+      - frontend
+
+networks:
+  backend:
+  frontend:
