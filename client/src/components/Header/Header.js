@@ -1,11 +1,30 @@
 import { Link } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import "./Header.css"
 import mainLogo from "../../main-logo.png"
 export const Header = () => {
 
     const { user } = useContext(AuthContext)
+    const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        const menuBtn = document.querySelector('.menu-btn');
+        const container = document.getElementById('container');
+
+        const handleMenuToggle = () => {
+            document.body.classList.toggle('pushy-open-right');
+            if (container) {
+                container.classList.toggle('push');
+            }
+        };
+
+        menuBtn?.addEventListener('click', handleMenuToggle);
+
+        return () => {
+            menuBtn?.removeEventListener('click', handleMenuToggle);
+        };
+    }, []);
 
     const onClick = () => {
 
@@ -38,6 +57,61 @@ export const Header = () => {
                 </div>
             </div>
             <div className="col-md-10">
+                <div className="container-side">
+                    <button class="menu-btn"><i class="fa fa-navicon"></i></button>
+                    <nav class="pushy pushy-right" data-focus="#first-link">
+                        <div class="pushy-content">
+                            <ul>
+                                <li className="dropbtn"><Link to="/" data-effect="Articles">HOME</Link></li>
+                                <li className="dropbtn"><Link to="/about" data-effect="Articles">
+                                    ABOUT
+                                </Link></li>
+                                {!user.accessToken
+
+                                    &&
+                                    <> <li className="dropbtn">
+                                        <Link to="/login" data-effect="Articles">
+                                            LOGIN
+                                        </Link>
+                                    </li>
+                                        <li className="dropbtn">
+                                            <Link to="/register" data-effect="Articles">
+                                                REGISTER
+                                            </Link>
+                                        </li></>
+                                }
+
+                                {user.accessToken
+                                    &&
+                                    <>
+                                        <li className="dropbtn">
+                                            <Link
+                                                to="/logout"
+                                                data-effect="Articles"
+                                            >
+                                                LOGOUT
+                                            </Link>
+                                        </li></>}
+                                <li class="pushy-link"><Link
+                                    to="/contact"
+                                    data-effect="Contact"
+                                >
+                                    CONTACT
+                                </Link></li>
+                                {/* Pushy Submenu */}
+                                <li className={`pushy-submenu ${isOpen ? 'pushy-submenu-open' : 'pushy-submenu-closed'}`}>
+                                    <button className="dropbtn" onClick={() => setIsOpen(!isOpen)}>BOOKSTORE</button>
+                                    <ul>
+                                        <li class="dropbtn"><Link to="/book-store">CATALOG</Link></li>
+                                        <li class="dropbtn"><Link to="/most-liked">MOST LIKED</Link></li>
+                                        {user.accessToken && <>
+                                            <li class="dropbtn"><Link to="/addbook" data-effect="Articles"> ADD NEW BOOK</Link></li></>}
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
                 <nav id="navbar">
                     <div className="main-menu stellarnav">
                         <ul className="menu-list">
@@ -116,7 +190,7 @@ export const Header = () => {
                                         </Link>
                                     </li>
 
-                                    <span>Hello, <Link to='/profile' style={{textDecoration: 'none'}}> <strong>{user.first_name}</strong></Link></span> </>}
+                                    <span>Hello, <Link to='/profile' style={{ textDecoration: 'none' }}> <strong>{user.first_name}</strong></Link></span> </>}
 
                         </ul>
                         <div className="hamburger">

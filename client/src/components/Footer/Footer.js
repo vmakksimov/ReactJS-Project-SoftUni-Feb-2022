@@ -12,7 +12,7 @@ export const Footer = () => {
                                 <div className="row">
                                     <div className="col-md-6">
                                         <p>
-                                            © 2023 All rights reserved. ReactJS Project SoftUni
+                                            © 2024 All rights reserved. ReactJS Project VM
 
                                         </p>
                                     </div>

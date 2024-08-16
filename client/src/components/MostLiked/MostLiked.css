@@ -5,10 +5,18 @@
 
 .table-container{
     max-width: 49%;
-    box-shadow: 2px 16px 20px 16px rgba(0,0,0,0.15);
-    background-color: #f9f8f3;
     padding: 25px 30px;
     margin: 5em auto;
     border-radius: 1.5em;
     width: 100%;
+}
+
+
+
+@media screen and (min-width: 1024px) {
+    .table-container{
+        background-color: #f9f8f3;
+        box-shadow: 2px 16px 20px 16px rgba(0,0,0,0.15);
+    }
+
 }

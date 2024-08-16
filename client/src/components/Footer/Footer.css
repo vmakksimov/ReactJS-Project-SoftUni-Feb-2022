@@ -2,9 +2,14 @@
 --------------------------------------------------------------*/
 footer#footer {
     
-    margin-top: 100px;
-   background-color: #EDEBE4;
+    
+    background-color: #EDEBE4;
     border-top: 1px solid #E0E0E0;
+    position: fixed;
+    position: min-content;
+    width: 100%;
+    bottom: 0px;
+    z-index: 100;
 }
 #footer .footer-item {
     margin-right: 100px;

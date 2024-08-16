@@ -14,7 +14,7 @@ export const MostLiked = () => {
         <div className="table-container">TOP 5 of Liked Books</div>
         <div className="table-container">
             {isLiked.length > 0 ? 
-        
+            <div>
             <table>
                 <thead>
                     <tr>
@@ -36,6 +36,7 @@ export const MostLiked = () => {
                 </tbody>
               
             </table>
+            </div>
         
             
             : <span>There are no liked books.</span>}

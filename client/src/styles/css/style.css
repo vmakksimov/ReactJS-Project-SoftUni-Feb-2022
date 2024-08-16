@@ -66,6 +66,13 @@ Version: 1.1
         --header-height-min   : 80px;
     }
 }
+
+@media screen and (max-width: 470px) {
+  .main-logo{
+      display: none;
+  }
+
+}
 /* Theme Colors */
 :root {
     --accent-color       : #C5A992;
