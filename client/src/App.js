@@ -4,7 +4,7 @@ import './styles/css/vendor.css'
 import { Header } from './components/Header/Header';
 import { Home } from './components/Home/Home';
 import { Footer } from './components/Footer/Footer';
-import { Routes, Route} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Register } from './components/Register/Register';
 import { Login } from './components/Login/Login';
 import { useState, useEffect } from 'react'
@@ -25,6 +25,7 @@ import { Error404 } from './components/Error/404';
 import { BookContext } from './context/BookContext';
 import { PrivateGuard } from './components/guards/PrivateGuard';
 import { BookOwner } from './components/guards/PrivateId';
+import NotFound from './components/Error/NotFound';
 
 function App() {
 
@@ -103,7 +104,7 @@ function App() {
                     <header id="header">
                         <div className="container">
                             <div className="row">
-                            <Header />
+                                <Header />
                             </div>
                         </div>
                     </header>
@@ -131,6 +132,8 @@ function App() {
                             <Route path='/book-store' element={<BookStore />} />
                             <Route path='/most-liked' element={<MostLiked />} />
                             <Route path='/404' element={<Error404 />} />
+                            {/* Fallback Route */}
+                            <Route path="*" element={<NotFound />} />
                         </Routes>
                         <Footer />
                     </main>
